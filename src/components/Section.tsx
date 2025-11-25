@@ -23,8 +23,8 @@ export default function Section({ id, className, delay = 0, title, subtitle, chi
       >
         {title ? (
           <div className="mb-6">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight">{title}</h2>
-            {subtitle ? <p className="mt-2 text-base/7 text-neutral-400">{subtitle}</p> : null}
+            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-white">{title}</h2>
+            {subtitle ? <p className="mt-2 text-base/7 text-neutral-600 dark:text-neutral-400">{subtitle}</p> : null}
           </div>
         ) : null}
         {children}
