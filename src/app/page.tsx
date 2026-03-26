@@ -13,45 +13,48 @@ const GitHubIcon = () => (
   </svg>
 );
 
-// Timeline: Evolution of LLM evaluation (from 02_results.tex fig:timeline_superinference_scaled)
+// Timeline: Evolution of LLM evaluation (from 02_results.tex Introduction)
 const timelineEvolution = `flowchart TD
   Bench["Static Benchmarks<br/>(MMLU, SuperGLUE)"]
   Human["Human-Centric<br/>Evaluation"]
-  Comp["Comparative<br/>Evaluation"]
-  Noise["Deviation- and<br/>Noise-Aware Metrics"]
-  Agent["Agentic LLM<br/>Architectures"]
-  Super["SuperInference<br/>Feedback-Augmented LLM Agent"]
+  Dynamic["Dynamic &amp; Adversarial<br/>Evaluation<br/>(HELM, PromptBench)"]
+  Comp["Comparative &amp;<br/>Pairwise Evaluation"]
+  Noise["Uncertainty, Calibration<br/>&amp; Information-Theoretic<br/>Metrics"]
+  Agent["Agentic LLM<br/>Architectures<br/>(CoT, ReAct, RAG)"]
+  Super["SuperInference<br/>Feedback-Augmented<br/>MCP Framework"]
   
-  Bench -->|evolution| Human
-  Human -->|evolution| Comp
-  Comp -->|evolution| Noise
-  Noise -->|evolution| Agent
-  Agent -->|evolution| Super
+  Bench -->|limitations| Human
+  Human -->|scalability gap| Dynamic
+  Dynamic -->|complementary| Comp
+  Comp -->|parallel strand| Noise
+  Noise -->|convergence| Agent
+  Agent -->|formalization| Super
   
   style Bench fill:#1e3a5f,color:#ffffff
   style Human fill:#2d5a3d,color:#ffffff
+  style Dynamic fill:#5a4a1e,color:#ffffff
   style Comp fill:#8b5a2b,color:#ffffff
   style Noise fill:#5a3d7a,color:#ffffff
   style Agent fill:#2d5a5a,color:#ffffff
   style Super fill:#8b2d2d,color:#ffffff
 `;
 
-// PRE Architecture: Event-driven PRE loop (from 03_method.tex fig:combined-arch)
+// PRE Architecture: Event-driven PRE loop (from 02_results.tex fig:combined-arch panel a)
 const preArchitecture = `flowchart TD
   Event["Event e_t<br/>(spike)"]
-  Planner["Planner<br/>(belief b_t)"]
-  Retriever["Retriever"]
+  Planner["Planner<br/>(policy π, belief b_t)"]
+  Retriever["Retriever<br/>(action space 𝒜)"]
   Memory["External Memory<br/>M_t"]
-  Executor["Executor"]
-  Critic["Critic<br/>(α, β)"]
+  Executor["Executor<br/>(action space 𝒜)"]
+  Critic["Critic<br/>(𝒵, α, β)"]
   
   Event -->|triggers| Planner
   Planner -->|query q_t| Retriever
   Retriever <-->|read/write| Memory
   Retriever -->|context m̃_t| Executor
   Executor -->|candidate a_t| Critic
-  Critic -->|approve/reject| Memory
-  Critic -.->|feedback| Planner
+  Critic -->|"c_t: approve/reject"| Memory
+  Critic -.->|"feedback o_{t+1}"| Planner
   
   style Event fill:#cc0000,stroke:#ff6666,stroke-width:3px,color:#ffffff
   style Planner fill:#1e3a5f,color:#ffffff
@@ -64,24 +67,26 @@ const preArchitecture = `flowchart TD
 // Event-driven PRE stages example (from 03_method.tex fig:event-driven-combined)
 const eventDrivenStages = `flowchart TD
   E0["Event e₀"]
-  Obs["Observation:<br/>Receive task o₀"]
-  Task["Q1: In a class of 50 students,<br/>40% are men. If 10 men leave.<br/>How many men remain?"]
+  Obs["Observation:<br/>Receive task x"]
+  Task["Task x: 50 students,<br/>40% are men. If 10 men leave,<br/>how many remain?"]
   
   E1["Event e₁"]
-  Plan["Planner decomposes<br/>task into subquestions"]
-  SQ1["SQ1: How many men<br/>were originally?"]
-  SQ2["SQ2: Given original number<br/>and 10 leave, how many remain?"]
+  Plan["Planner decomposes<br/>task into queries"]
+  SQ1["q₀: How many men<br/>originally? (50 × 0.4)"]
+  SQ2["q₁: After 10 leave,<br/>how many remain?"]
   
   E2["Event e₂"]
-  LM1["Language Model"]
-  SA1["SA1: 20 men"]
-  Crit1["Critic"]
+  Ret1["Retriever<br/>m̃₀ ~ C_η"]
+  Exec1["Executor → a₀"]
+  SA1["a₀ = 20 men"]
+  Crit1["Critic → c₀"]
   
-  LM2["Language Model"]
-  SA2["SA2: 10 men<br/>(20-10)"]
-  Crit2["Critic"]
+  Ret2["Retriever<br/>m̃₁ from M₁"]
+  Exec2["Executor → a₁"]
+  SA2["a₁ = 10 men<br/>(20 − 10)"]
+  Crit2["Critic → c₁"]
   
-  Mem["Memory M_{t+1}"]
+  Mem["Memory M_{t+1}<br/>= M_t ∪ {(q_t, a_t)}"]
   
   E0 -->|triggers| Obs
   Obs --> Task
@@ -89,40 +94,44 @@ const eventDrivenStages = `flowchart TD
   Plan --> SQ1
   Plan --> SQ2
   E2 -->|triggers| SQ2
-  SQ1 --> LM1
-  LM1 --> SA1
+  SQ1 --> Ret1
+  Ret1 --> Exec1
+  Exec1 --> SA1
   SA1 --> Crit1
-  SQ2 --> LM2
-  LM2 --> SA2
+  SQ2 --> Ret2
+  Ret2 --> Exec2
+  Exec2 --> SA2
   SA2 --> Crit2
-  Crit1 -->|store SQ1,SA1| Mem
-  Crit2 -->|store final result| Mem
-  Crit1 -.->|feedback o₁| Plan
+  Crit1 -->|"c₀ = approve"| Mem
+  Crit2 -->|"c₁ = approve"| Mem
+  Crit1 -.->|"if rejected: retry"| Plan
   
   style E0 fill:#cc0000,stroke:#ff6666,stroke-width:3px,color:#ffffff
   style E1 fill:#cc0000,stroke:#ff6666,stroke-width:3px,color:#ffffff
   style E2 fill:#cc0000,stroke:#ff6666,stroke-width:3px,color:#ffffff
   style Plan fill:#1e3a5f,color:#ffffff
   style Mem fill:#5a5a1e,color:#ffffff
-  style LM1 fill:#2d5a3d,color:#ffffff
-  style LM2 fill:#2d5a3d,color:#ffffff
+  style Ret1 fill:#8b5a2b,color:#ffffff
+  style Ret2 fill:#8b5a2b,color:#ffffff
+  style Exec1 fill:#2d5a3d,color:#ffffff
+  style Exec2 fill:#2d5a3d,color:#ffffff
   style Crit1 fill:#5a3d7a,color:#ffffff
   style Crit2 fill:#5a3d7a,color:#ffffff
 `;
 
-// Simple PRE loop (from 03_method.tex line 643-648)
+// Simple PRE loop (from Algorithm 1 in 03_method.tex)
 const preLoop = `flowchart TD
-  Planner["Planner"]
+  Planner["Planner<br/>(policy π)"]
   Retriever["Retriever"]
   Executor["Executor"]
-  Critic["Critic"]
-  Memory["Memory /<br/>Feedback"]
+  Critic["Critic<br/>(α, β)"]
+  Memory["Memory M_t"]
   
-  Planner -->|q_t| Retriever
-  Retriever -->|m̃_t| Executor
-  Executor -->|a_t| Critic
-  Critic -->|c_t| Memory
-  Memory -.->|feedback| Planner
+  Planner -->|"query q_t"| Retriever
+  Retriever -->|"context m̃_t"| Executor
+  Executor -->|"candidate a_t"| Critic
+  Critic -->|"c_t → update M_{t+1}"| Memory
+  Memory -.->|"observation o_{t+1}"| Planner
   
   style Planner fill:#1e3a5f,color:#ffffff
   style Retriever fill:#8b5a2b,color:#ffffff
@@ -131,55 +140,59 @@ const preLoop = `flowchart TD
   style Memory fill:#5a5a1e,color:#ffffff
 `;
 
-// Noisy retrieval and critic gating (from 03_method.tex fig:combined-arch panel b)
+// Noisy retrieval and critic gating (from 02_results.tex fig:combined-arch panel b)
 const noisyRetrieval = `flowchart TD
   Query["Planner query<br/>q_t"]
-  Channel["Retrieval channel<br/>C_η<br/>(noise η)"]
-  Context["Context<br/>m̃_t"]
+  Channel["Retrieval channel<br/>C_η"]
+  Context["Context<br/>m̃_t ~ C_η(m_t)"]
   Exec["Executor<br/>→ a_t"]
   Critic["Critic<br/>(α, β)"]
+  PPV["PPV:<br/>P(correct|approve)"]
   Memory["Memory<br/>M_{t+1}"]
   
   Query --> Channel
-  Channel -->|noise η| Context
+  Channel -->|"noise η, p(η)"| Context
   Context --> Exec
-  Exec -->|candidate a_t| Critic
-  Critic -->|approve| Memory
-  Critic -.->|reject| Query
+  Exec -->|"candidate a_t"| Critic
+  Critic --> PPV
+  PPV -->|"approve"| Memory
+  Critic -.->|"reject"| Query
   
   style Query fill:#1e3a5f,color:#ffffff
   style Channel fill:#8b5a2b,color:#ffffff
   style Context fill:#2d5a5a,color:#ffffff
   style Exec fill:#2d5a3d,color:#ffffff
   style Critic fill:#5a3d7a,color:#ffffff
+  style PPV fill:#5a3d7a,color:#ffffff
   style Memory fill:#5a5a1e,color:#ffffff
 `;
 
-// VS Code extension integration (from paper Section: Engineering components)
+// VS Code extension integration (from 03_method.tex Implementation section)
 const vscode = `flowchart TD
   UI["UI<br/>(Developer Interface)"]
   Extension["AMI VS Code<br/>Extension"]
-  Chat["Chat API<br/>(AMI MCP Client)"]
-  Backend["AMI MCP Server<br/>(Backend)"]
+  Client["AMI MCP Client<br/>(validation, retry,<br/>schema fidelity)"]
+  Server["AMI MCP Server<br/>(PRE loop, belief updates,<br/>memory gating, logging)"]
   Tools["Tools<br/>(MCP)"]
   Codebase["Codebase<br/>(Files)"]
-  Context["Context<br/>(Retrieved)"]
+  DABStep["DABStep<br/>(Benchmark)"]
   
   UI --> Extension
-  Extension --> Chat
-  Chat --> Backend
-  Backend --> Tools
-  Backend --> Codebase
-  Codebase --> Context
-  Context --> Chat
+  Extension --> Client
+  Client --> Server
+  Server --> Tools
+  Server --> Codebase
+  Server --> DABStep
+  Codebase -.->|"context"| Client
+  DABStep -.->|"ground-truth<br/>verifiers"| Server
   
   style UI fill:#1e3a5f,color:#ffffff
   style Extension fill:#8b5a2b,color:#ffffff
-  style Chat fill:#2d5a5a,color:#ffffff
-  style Backend fill:#2d5a3d,color:#ffffff
+  style Client fill:#2d5a5a,color:#ffffff
+  style Server fill:#2d5a3d,color:#ffffff
   style Tools fill:#5a3d7a,color:#ffffff
   style Codebase fill:#5a5a1e,color:#ffffff
-  style Context fill:#7a3d5a,color:#ffffff
+  style DABStep fill:#7a3d5a,color:#ffffff
 `;
 
 const basicLoop = preLoop;
@@ -201,12 +214,12 @@ const papers = [
   {
     id: 1,
     title: "SuperInference: Supervised Inference for Partially Observable Environments",
-    venue: "ArXiv, 2025",
+    venue: "ArXiv, 2026",
     doi: "https://doi.org/xx.xxxx/x.xxxxx.xxxx.xx.xxx",
     summary:
       "A feedback-augmented, information-theoretic, and open-source framework for iterative reasoning in large language models.",
-    authors: "Carlos Camacho González and Cristina Catalán-Torrecilla and Luis Tomas-Bolivar and Luis Llana",
-    year: "2025",
+    authors: "Carlos Camacho-González and Cristina Catalán-Torrecilla and Luis Llana and Alberto Núñez and Luis Tomás",
+    year: "2026",
     eprint: "XXXX.XXXXX",
     archivePrefix: "arXiv",
     primaryClass: "cs.AI",
@@ -224,7 +237,7 @@ const papers = [
   // {
   //   id: 2,
   //   title: "Validating Reasoning with Programmatic Checks",
-  //   venue: "ArXiv, 2025",
+  //   venue: "ArXiv, 2026",
   //   doi: "https://doi.org/10.1016/j.aprim.2020.09.002",
   //   summary:
   //     "Studies automatic validators for multi-step reasoning and their effect on accuracy and reproducibility.",
@@ -380,27 +393,30 @@ export default function Home() {
       <main className="space-y-24 sm:space-y-32 py-10 sm:py-16">
         <Section id="abstract">
           <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7 space-y-3">
-            <p>We introduce SuperInference, a feedback-augmented, open architecture for large-language-model (LLM) agents designed for complex programming and multi-step reasoning. This project is a collaboration between the Facultad de Informática at Universidad Complutense de Madrid (Department of Sistemas Informáticos y Computación), the Facultad de Ciencias Físicas (Department of Astrofísica) at Universidad Complutense de Madrid, and Red Hat (Emerging Partnerships &amp; Ecosystem Engineering). The system integrates an explicit planner, a task router, and an embedding-based memory, enabling the agent to iteratively refine its actions using execution feedback. We provide AMI (Agentic Multi-step Inference)—comprising the AMI VS Code extension, AMI MCP server, and AMI MCP client—for interactive experimentation, and evaluate on the DABStep benchmark for systematic assessment. We formalize the agent&apos;s operation as a partially observable decision process, yielding probabilistic and information-theoretic bounds that link retrieval quality, memory updates, and iteration budgets to success.</p>
-            <p>To assess SuperInference, we introduce metrics for semantic fidelity, calibration, and behavioral stability, applied to the DABStep benchmark. Across algorithmic reasoning, code debugging, and multi-step problem solving, SuperInference raises Gemini 2.5 Pro performance from 12.7% to 41.3%. By treating LLM reasoning as feedback-driven inference with measurable information gain, SuperInference advances both practical reliability and theoretical understanding of interactive AI agents.</p>
+            <p>We introduce SuperInference, a feedback-augmented, open-source architecture for large-language-model (LLM) agents designed for complex programming and multi-step reasoning. This project is a collaboration between the Departamento de Sistemas Informáticos y Computación and the Departamento de Física de la Tierra y Astrofísica at Universidad Complutense de Madrid, and Red Hat (Emerging Partnership Engineering, Ecosystem Engineering).</p>
+            <p>Existing LLM agents largely rely on single-shot prompting or heuristic, ad hoc prompt iteration. As a result, they often lack principled mechanisms for reasoning under uncertainty or for determining when additional interaction is beneficial—particularly in resource-constrained settings where retraining or architectural modification is infeasible. We frame LLM reasoning as feedback-driven inference with measurable information gain, enabling SuperInference to improve reliability and providing a theoretical account of iterative, multi-turn reasoning without modifying the underlying model.</p>
+            <p>The system integrates an explicit planner, a task router, and an embedding-based memory, enabling the agent to iteratively refine its actions using execution feedback. The approach is model-agnostic and requires no architectural changes. We provide AMI (Agentic Multi-step Inference)—comprising the AMI VS Code extension, AMI MCP server, and AMI MCP client—for interactive experimentation, and a formalization of the agent&apos;s operation as a partially observable decision process, yielding probabilistic and information-theoretic bounds that link retrieval quality, memory updates, and iteration budgets to success.</p>
+            <p>To assess SuperInference, we introduce metrics for semantic fidelity, calibration, and behavioral stability, applied to the DABStep framework. Across algorithmic reasoning, code debugging, and multi-step problem solving, SuperInference raises Gemini 2.5 Pro performance from 12.7% to 41.3%. All resources are released under open-source licenses and are publicly available through the project website and <a href="https://github.com/superinference" target="_blank" rel="noreferrer" className="underline hover:no-underline">GitHub organization</a>.</p>
           </div>
         </Section>
 
         <Section id="timeline" className="pt-4" title="Evolution of LLM Evaluation" subtitle="Timeline showing the progression leading to SuperInference (Fig. 1 from paper).">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div className="space-y-5 text-base/7 text-neutral-700 dark:text-neutral-300">
-              <p><strong>Motivation and Context.</strong> As large language models (LLMs) are deployed across scientific discovery, engineering, and decision-support domains, rigorous assessment of their reasoning, planning, and reliability has become increasingly important. Standard static benchmarks such as MMLU and SuperGLUE have been indispensable for tracking aggregate gains from scale and pretraining, yet they capture only fixed snapshots of capability and struggle to characterize multi-step reasoning, iterative planning, and evolving knowledge requirements.</p>
-              <p><strong>Limitations of Current Approaches.</strong> Surface-level metrics based on token- or sequence-level overlap (e.g., exact match, BLEU, ROUGE) fail to reflect semantic correctness, intermediate chain-of-thought, or the compositional planning demanded by many downstream applications. Human judgments remain essential for fluency and creativity but suffer from annotator bias, limited reproducibility, and poor scalability.</p>
-              <p><strong>Converging Research Threads.</strong> Recent methodological advances address parts of this gap by combining standardized evaluation with dynamic and adversarial probes. Large-scale frameworks such as HELM and PromptBench promote unified protocols that expose failure modes in multi-turn reasoning. A parallel research strand emphasizes uncertainty quantification and deviation-aware metrics, while LLM architectures evolve toward agentic systems with planning, tool use, memory, and iterative self-feedback.</p>
-              <p><strong>SuperInference Integration.</strong> Figure 1 illustrates these converging threads. Building on them, SuperInference integrates embedding-augmented memory, critic-based filtering, and information-theoretic evaluation within an agentic LLM architecture. The framework models retrieval noise, critic error rates, iteration budgets, and posterior uncertainty, providing a principled bridge between architectural design and evaluation rigor. This supports predictions of iterative reasoning convergence, clarifies when feedback improves performance, and yields metrics reflecting deployability concerns: robustness under retrieval noise, calibrated confidence, and per-step information gain.</p>
+              <p><strong>Motivation and Context.</strong> As large language models (LLMs) are deployed across scientific discovery, engineering, and decision-support domains, rigorous assessment of their reasoning, planning, and reliability has become increasingly important. MMLU and SuperGLUE are standard static benchmarks that have been indispensable for tracking aggregate gains from scale and pretraining. However, these benchmarks capture only static snapshots of capability and therefore struggle to characterize multi-step reasoning, iterative planning, and evolving knowledge requirements. Despite rapid scaling, even frontier LLMs achieve only incremental improvements on broad, multi-domain reasoning benchmarks, particularly when evaluated under static, single-shot protocols.</p>
+              <p><strong>Limitations of Current Approaches.</strong> Surface-level metrics based on token- or sequence-level overlap (e.g., exact match, BLEU, ROUGE) fail to reflect semantic correctness, intermediate chain-of-thought, or the compositional planning demanded by many downstream applications. Human judgments remain essential for fluency and creativity, but they suffer from annotator bias, limited reproducibility, and poor scalability. These limitations complicate their use as primary evaluation tools, motivating richer evaluation approaches to improve accuracy, robustness, calibration, and behavioral stability under ambiguity and noise.</p>
+              <p><strong>Converging Research Threads.</strong> Recent methodological advances address this problem by combining standardized evaluation with dynamic and adversarial probes. Large-scale frameworks such as HELM and PromptBench promote unified protocols that expose failure modes in multi-turn reasoning and adversarial conditions. Comparative and pairwise evaluations expose subtle qualitative differences between model behaviors that are often unclear from aggregated accuracy scores, while dynamic evaluation frameworks introduce evolving test conditions that better approximate deployment settings. A parallel line of research focuses on uncertainty quantification and deviation-aware metrics, using calibration techniques and information-theoretic measures such as entropy, mutual information, and expected information gain to quantify the value of additional evidence or reasoning steps. Meanwhile, LLM architectures are evolving toward agentic systems with planning, tool use, memory, and iterative self-feedback—from chain-of-thought prompting and self-consistency to agentic frameworks like ReAct that interleave reasoning and acting, tool-augmented models, and retrieval-augmented generation.</p>
+              <p><strong>SuperInference Integration.</strong> Figure 1 illustrates these converging threads. Building on them, SuperInference is a fully open-source Model Context Protocol (MCP) client/server framework integrating embedding-augmented memory, critic-based filtering, and information-theoretic evaluation within an agentic LLM architecture built on the Transformer foundation. The term <em>noisy decision process</em> formalizes the fact that an LLM agent&apos;s intermediate computations, retrieval operations, and critic assessments are stochastic and error-prone. Each reasoning step corresponds to a stochastic transition over latent beliefs, with transition probabilities modulated by retrieval imperfections, critic false positives and negatives, and model-internal variability. This framing enables analysis of multi-step reasoning using tools from partially observable decision processes and information theory, yielding provable bounds on convergence and expected information gain.</p>
             </div>
             <div>
               <Mermaid chart={timelineEvolution} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
-                "Static Benchmarks": "Early evaluation approaches using fixed datasets like MMLU and SuperGLUE that capture aggregate gains but struggle with multi-step reasoning.",
-                "Human-Centric Evaluation": "Evaluation methods emphasizing fluency and creativity, though limited by annotator bias and scalability.",
-                "Comparative Evaluation": "Pairwise evaluation placing model outputs side-by-side to reveal nuanced differences.",
-                "Deviation- and Noise-Aware Metrics": "Metrics that account for semantic divergence, calibration, and drift under noisy conditions.",
-                "Agentic LLM Architectures": "Systems integrating planning, tool use, memory, and iterative self-feedback.",
-                "SuperInference": "Feedback-augmented LLM agent integrating embedding-augmented memory, critic-based filtering, and information-theoretic evaluation.",
+                "Static Benchmarks": "MMLU and SuperGLUE: indispensable for tracking aggregate gains from scale and pretraining, but capture only static snapshots and struggle with multi-step reasoning, iterative planning, and evolving knowledge requirements.",
+                "Human-Centric Evaluation": "Human judgments remain essential for fluency and creativity, but suffer from annotator bias, limited reproducibility, and poor scalability, complicating their use as primary evaluation tools.",
+                "Dynamic & Adversarial Evaluation": "Large-scale frameworks such as HELM and PromptBench promote unified protocols that expose failure modes in multi-turn reasoning and adversarial conditions, introducing evolving test conditions that better approximate deployment settings.",
+                "Comparative & Pairwise Evaluation": "Comparative and pairwise evaluations expose subtle qualitative differences between model behaviors that are often unclear from aggregated accuracy scores, particularly for ambiguous or underspecified tasks.",
+                "Uncertainty, Calibration & Information-Theoretic Metrics": "Calibration techniques (temperature scaling, Bayesian binning, ensembles) and information-theoretic measures (entropy, mutual information, expected information gain) quantify the value of additional evidence or reasoning steps.",
+                "Agentic LLM Architectures": "Chain-of-thought prompting, self-consistency, ReAct (interleaving reasoning and acting), tool-augmented models, retrieval-augmented generation, and multi-agent frameworks that coordinate sub-tasks and maintain external memory.",
+                "SuperInference": "Fully open-source MCP client/server framework integrating embedding-augmented memory, critic-based filtering, and information-theoretic evaluation. Formalizes LLM reasoning as a noisy decision process with provable bounds on convergence and expected information gain.",
               }} />
               <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 1.</strong> Timeline showing the evolution of LLM evaluation and agentic architectures leading to SuperInference.</div>
             </div>
@@ -411,19 +427,19 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
               <Mermaid chart={basicLoop} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
-                Planner: "Maintains belief state b_t and fires events e_t when EIG ≥ τ. Generates queries q_t to decompose tasks into subgoals.",
-                Retriever: "Accesses external memory M_t with noisy retrieval channel C_η. Returns context m̃_t with success probability p(η).",
-                Executor: "Generates candidate actions a_t conditional on subgoals g_t and retrieved context m̃_t.",
-                Critic: "Evaluates candidates with error rates α (false positive) and β (false negative). Gates memory updates based on precision formula.",
-                "Memory / Feedback": "Stores critic-approved artifacts. Provides feedback o_{t+1} to planner for iterative refinement.",
+                "Planner (policy π)": "Implements the policy π. Maintains belief state b_t and proposes query q_t only when expected information gain exceeds threshold τ. When e_t=0, the system remains idle, reducing unnecessary computation.",
+                Retriever: "Part of action space 𝒜. Receives q_t and accesses External Memory M_t to obtain context m̃_t through noisy channel C_η. Read/write interface stores verified intermediate results for future use.",
+                Executor: "Part of action space 𝒜. Uses query q_t together with retrieved context m̃_t to produce a candidate action or subgoal a_t.",
+                "Critic (α, β)": "Implements observation function 𝒵 and reward R. Evaluates a_t and produces decision c_t ∈ {approve, reject} based on error probabilities (α,β). Critic's output forms observation o_{t+1} and contributes to reward r_t.",
+                "Memory M_t": "Stores critic-approved artifacts with provenance metadata. Updates: M_{t+1} = M_t ∪ {(q_t, a_t, metadata)} if approved, unchanged if rejected. Provides observation o_{t+1} to Planner for iterative refinement.",
               }} />
               <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 2.</strong> Event-driven PRE loop showing Planner → Retriever → Executor → Critic → Memory with feedback.</div>
               </div>
             <div className="space-y-5 text-base/7 text-neutral-700 dark:text-neutral-300">
-              <p><strong>POMDP Formulation.</strong> SuperInference formalizes the agent as a Partially Observable Markov Decision Process (POMDP) with noisy retrieval and verification channels. The state s_t encodes task progress and environment facts (e.g., ground-truth variables in a math problem, available tools, unresolved subgoals), but the agent cannot directly observe s_t. Instead, it maintains a belief state b_t, a probability distribution over all possible states, summarizing all past information from observations and actions.</p>
-              <p><strong>Event-Driven Architecture.</strong> Traditional reasoning systems operate step-by-step, executing computation at every time step. In contrast, SuperInference draws inspiration from spiking neural networks (SNNs), where discrete &quot;reasoning events&quot; play the role of spikes. The Planner remains silent most of the time and only &quot;fires&quot; when the system determines a reasoning step is necessary—when new information arrives or uncertainty exceeds a threshold. This event-driven approach achieves sparsity (computation only when needed) and adaptivity (events depend on uncertainty and information gain).</p>
-              <p><strong>PRE Loop Components.</strong> The architecture can be summarized as an event-driven cognitive loop: Planner → Retriever → Executor → Critic → Memory / Feedback. The Planner maintains belief state b_t and fires events e_t when Expected Information Gain (EIG) exceeds threshold τ. The Retriever accesses external memory M_t through a noisy channel C_η with noise parameter η. The Executor generates candidate actions a_t conditional on subgoals and retrieved context. The Critic evaluates candidates with error rates (α, β) and gates memory updates according to precision formulas, ensuring only high-confidence items are stored.</p>
-              <p><strong>Information-Theoretic Stopping.</strong> Reasoning halts when belief is sufficiently concentrated (max_s b_t(s) ≥ κ), marginal EIG falls below threshold (EIG_t ≤ ε), or budgets are exhausted. These criteria ensure a predictable trade-off between efficiency (few events) and solution quality.</p>
+              <p><strong>POMDP Formulation.</strong> SuperInference formalizes the multi-step reasoning task as a Partially Observable Markov Decision Process (POMDP) with noisy retrieval and verification channels, defined belief updates, learning objectives, and information-theoretic quantities. The hidden state space \(\mathcal{'{'}S{'}'}\) represents task progress, ground-truth variables, available tools, and unresolved subgoals that the agent cannot directly access. The action space \(\mathcal{'{'}A{'}'}\) encompasses planning queries, retrieval operations, and execution steps realized through the Planner, Retriever, and Executor modules. The observation space \(\mathcal{'{'}O{'}'}\) contains agent-visible feedback such as critic decisions, execution results, and retrieved context.</p>
+              <p><strong>Event-Driven Architecture.</strong> Traditional reasoning systems operate step-by-step, executing computation at every time step. In contrast, SuperInference draws inspiration from spiking neural networks (SNNs), where discrete &quot;reasoning events&quot; play the role of spikes. The Planner remains silent most of the time and only &quot;fires&quot; when the system determines a reasoning step is necessary—when new information arrives or uncertainty exceeds a threshold. When e_t=0, the system remains idle, reducing unnecessary computation. This event-driven approach achieves sparsity (computation only when needed) and adaptivity (events depend on uncertainty and information gain).</p>
+              <p><strong>PRE Loop Components.</strong> The architecture realizes an abstract POMDP whose components are mapped through the Planner-Retriever-Executor (PRE) loop with critic-gated memory. The Planner implements the policy π, maintaining belief state b_t and firing events e_t when Expected Information Gain (EIG) exceeds threshold τ. The Retriever and Executor realize the action space, accessing external memory M_t through a noisy channel C_η and generating candidate actions a_t. The Critic implements the observation function with error rates (α, β) and gates memory updates—approved items update memory while rejected items trigger feedback to the Planner for correction. The critic&apos;s output forms the observation o_&#123;t+1&#125; and contributes to reward r_t.</p>
+              <p><strong>Information-Theoretic Stopping.</strong> The agent should reason only when worthwhile—when new information would significantly reduce uncertainty. Reasoning halts when belief is sufficiently concentrated (max_s b_t(s) ≥ κ), when expected information gain falls below threshold (EIG_t ≤ ε, meaning further reasoning won&apos;t help), or when the step budget is exhausted. These criteria ensure a predictable trade-off between efficiency (few events) and solution quality.</p>
             </div>
           </div>
         </Section>
@@ -432,17 +448,17 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div className="lg:order-2">
               <Mermaid chart={deepAgent} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
-                "Event e_t (spike)": "Discrete reasoning events that trigger computation only when expected information gain exceeds threshold τ. Red spike visualization indicates event-driven activation.",
-                Planner: "Maintains belief state b_t about hidden reasoning state. Fires events e_t=1 only when EIG threshold is met. Generates queries q_t to decompose tasks.",
-                Retriever: "Accesses external memory M_t through noisy retrieval channel. Reads/writes memory with success probability p(η) where η controls retrieval reliability.",
-                "External Memory M_t": "Vector database storing critic-approved artifacts with provenance metadata. Only high-precision items (per Eq. PPV) are stored.",
-                Executor: "Generates candidate actions a_t conditional on planner subgoals g_t and retrieved context m̃_t. Uses specialized agents (Analyzer, Coder, Finalyzer, Debugger).",
-                Critic: "Binary noisy observation with false-positive rate α and false-negative rate β. Returns approve/reject decisions that gate memory updates and trigger belief updates.",
+                "Event e_t (spike)": "Discrete reasoning events that trigger computation only when expected information gain exceeds threshold τ. When e_t=0, the system remains idle, reducing unnecessary computation. Inspired by spiking neural networks.",
+                "Planner (policy π, belief b_t)": "Implements policy π. Maintains belief state b_t about the hidden reasoning state s_t. Proposes query q_t only when EIG ≥ τ. Discrete activation visualized as event e_t.",
+                "Retriever (action space 𝒜)": "Part of action space 𝒜. Receives q_t and accesses External Memory M_t to obtain context m̃_t. Read/write interface through noisy channel C_η with retrieval probability p(η).",
+                "External Memory M_t": "Critic-gated memory storing verified intermediate results with provenance metadata. Only high-PPV items are stored. Memory grows only when Critic approves: M_{t+1} = M_t ∪ {(q_t, a_t, metadata)}.",
+                "Executor (action space 𝒜)": "Part of action space 𝒜. Uses query q_t together with retrieved context m̃_t to produce candidate action or subgoal a_t.",
+                "Critic (𝒵, α, β)": "Implements observation function 𝒵 and reward R. Evaluates a_t, produces decision c_t ∈ {approve, reject} with error rates α (false approval) and β (false rejection). Output forms observation o_{t+1} and contributes to reward r_t.",
               }} />
               <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 3.</strong> Event-driven PRE architecture showing Planner → Retriever → Executor → Critic with Memory and feedback loops (from paper Fig. 2a).</div>
             </div>
             <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7 lg:order-1">
-              <p><strong>Event-Driven Efficiency.</strong> The combination of sparse Planner activation (red spikes e_t), noisy retrieval, and critic gating ensures that computation is concentrated only on informative events. This design achieves: (1) reduced number of unnecessary queries (sparse computation), (2) memory efficiency through only vetted candidates being stored, (3) multi-step reasoning capability where the system chains events to solve complex tasks, updating beliefs and memory iteratively, and (4) predictable performance through thresholds (τ, κ, ε) and critic error parameters (α, β) that allow controlling the trade-off between speed, accuracy, and memory usage.</p>
+              <p><strong>Event-Driven Efficiency.</strong> A key design feature is that the combination of sparse Planner activation (event e_t), noisy retrieval, and Critic gating ensures that computation is concentrated on informative events. This design achieves: (1) reduction of unnecessary queries (sparse computation), (2) memory efficiency, as only verified candidates are stored, (3) multi-step reasoning where the system chains events to solve complex tasks, updating beliefs and memory iteratively, and (4) predictable performance, as thresholds (τ, κ, ε) and critic error parameters (α, β) allow controlling the trade-off between speed, accuracy, and memory usage.</p>
               <p><strong>Belief State Updates.</strong> The Planner maintains a belief state b_t, a probability distribution over hidden reasoning states. When the agent takes an action a_t and receives observation o_{'{'}t+1{'}'}, the belief updates via: b_{'{'}t+1{'}'}(s&apos;) ∝ Z(o_{'{'}t+1{'}'}|s&apos;,a_t) Σ_s T(s&apos;|s,a_t) b_t(s), combining a prediction step (based on previous belief and transition model) with a correction step (using the observation model). This Bayesian update allows the agent to track uncertainty and make informed decisions about when to fire events.</p>
               <p><strong>Expected Information Gain (EIG).</strong> Events fire only when Expected Information Gain exceeds threshold τ. EIG measures the expected reduction in uncertainty: EIG_t = E[H(b_t) - H(b_{'{'}t+1{'}'})] over observations o_{'{'}t+1{'}'}, where H(·) denotes Shannon entropy. This information-theoretic approach ensures computation occurs only when new information is expected to reduce uncertainty, making the reasoning process both efficient and principled.</p>
             </div>
@@ -453,20 +469,21 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div>
               <Mermaid chart={embeddings} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
-                "Planner query q_t": "Query generated by planner to retrieve relevant context from memory. May be perfectly formed but retrieval introduces noise.",
-                "Retrieval channel C_η": "Noisy channel with parameter η controlling expected reliability. Lower η corresponds to cleaner, more accurate retrieval. Models approximate nearest neighbor search and imperfect summarization.",
-                "Context m̃_t": "Noisy retrieved evidence from memory. May be partial, corrupted, or slightly off-topic due to retrieval noise η.",
-                "Executor → a_t": "Generates candidate actions conditional on retrieved context. Actions are evaluated by the critic.",
-                "Critic (α, β)": "Evaluates candidates with false-positive rate α and false-negative rate β. Precision of approved items follows P(correct|approve) = (1-β)p' / [(1-β)p' + α(1-p')].",
-                "Memory M_{t+1}": "Only critic-approved artifacts are stored. Precision formula ensures memory quality. Rejected candidates trigger feedback loop for iterative refinement.",
+                "Planner query q_t": "Query generated by the Planner to retrieve relevant context from memory. Even if perfectly formed, the retrieval process introduces noise due to embedding misalignment or approximate search errors.",
+                "Retrieval channel C_η": "Corruption channel parameterized by noise level η. m̃_t ~ C_η(m_t) is probabilistically correlated with the true memory item m_t. Lower η yields more accurate retrieval; higher η introduces more errors.",
+                "Context m̃_t ~ C_η(m_t)": "Noisy retrieved evidence. The actual retrieved result (possibly corrupted) is probabilistically correlated with the true relevant memory entry. Models imperfect recall from approximate nearest neighbor search.",
+                "Executor → a_t": "Produces candidate action a_t conditional on query q_t and retrieved context m̃_t. The candidate is then evaluated by the Critic.",
+                "Critic (α, β)": "α = Pr(approve|incorrect) is the false approval rate; β = Pr(reject|correct) is the false rejection rate. PPV: P(correct|approve) = (1-β)p' / [(1-β)p' + α(1-p')]. Minimizing α and β ensures high-quality memory.",
+                "PPV: P(correct|approve)": "Positive predictive value: how confident we can be that an approved candidate is actually correct. A high PPV means Critic approvals are trustworthy, controlling memory quality.",
+                "Memory M_{t+1}": "Memory grows only when Critic approves. Rejected candidates leave no trace, preventing incorrect results from contaminating future reasoning steps. Mirrors spike-timing dependent plasticity (STDP).",
               }} />
               <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 4.</strong> Noisy retrieval channel C_η and critic gating mechanism showing how retrieval probability p(η) and critic errors (α,β) determine memory precision (from paper Fig. 2b).</div>
             </div>
             <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-              <p><strong>Noisy Channels Formalism.</strong> In SuperInference, both memory retrieval and candidate evaluation are treated as noisy channels, formalizing the idea that information is imperfect. This allows reasoning about reliability and errors, connecting to biological and information-theoretic analogies.</p>
-              <p><strong>Retrieval Channel.</strong> When the Planner emits a query q_t, the Retriever accesses external memory M_t and returns a candidate snippet m̃_t. However, this process is not perfect: the returned item may be noisy, partially relevant, or even off-topic. We model this with a corruption channel C_η controlled by noise parameter η, where Pr(relevant | q_t) = p(η). Even if the query is perfectly formed, real retrieval systems (like approximate nearest neighbor search or imperfect summarization) may return partial, corrupted, or slightly off-topic information.</p>
-              <p><strong>Critic Channel.</strong> The Critic evaluates candidate actions and outputs decisions c_t that can be either approve or reject, with error rates: α = Pr(c_t=approve | y_t=incorrect) (false positive rate) and β = Pr(c_t=reject | y_t=correct) (false negative rate). The precision of approved items—the probability that an approved candidate is actually correct—is given by P(correct|approve) = (1-β)p&apos; / [(1-β)p&apos; + α(1-p&apos;)], where p&apos; = Pr(y_t=correct) is the pre-critic probability of correctness.</p>
-              <p><strong>Critic-Gated Memory (STDP Analogy).</strong> Once the Critic evaluates a_t, memory M_t is updated only if the candidate is approved. This mirrors spike-timing dependent plasticity (STDP) in neuroscience: only well-timed and verified events produce lasting changes in memory. Failed or incorrect candidates are ignored, preventing corruption. By modeling retrieval and Critic decisions as noisy channels, we quantify uncertainty and reliability in reasoning, connect to information-theoretic principles, and provide a principled mechanism for gated memory updates.</p>
+              <p><strong>Noisy Channels Formalism.</strong> Both memory retrieval and candidate evaluation are imperfect—they can return wrong results or make incorrect judgments. We model these as <em>noisy channels</em> to formally reason about error propagation, connecting to information-theoretic principles.</p>
+              <p><strong>Retrieval Channel.</strong> When the Planner queries memory, the Retriever may return imperfect results due to embedding misalignment or approximate search errors. The retrieved context m̃_t ~ C_η(m_t) is probabilistically correlated with the true memory item m_t. Noise η reduces the retrieval probability p(η), modeling imperfect recall or approximation in memory access. Lower η yields more accurate retrieval; higher η introduces more errors.</p>
+              <p><strong>Critic Channel.</strong> The Critic can make two types of errors when evaluating a candidate: α = Pr(approve | incorrect) is the false approval rate—the probability of approving a wrong answer—and β = Pr(reject | correct) is the false rejection rate—the probability of rejecting a correct answer. The <em>positive predictive value</em> (PPV) of approved items is given by P(correct|approve) = (1-β)p&apos; / [(1-β)p&apos; + α(1-p&apos;)], where p&apos; is the prior probability that a candidate is correct. Minimizing α and β ensures high-quality memory; a high PPV means that when the Critic approves a candidate, we can be confident it is actually correct.</p>
+              <p><strong>Critic-Gated Memory Update.</strong> Memory grows only when the Critic approves: M_&#123;t+1&#125; = M_t ∪ &#123;(q_t, a_t, metadata)&#125; if approved, or M_&#123;t+1&#125; = M_t if rejected. This mirrors spike-timing dependent plasticity (STDP) in neuroscience: only well-timed and verified events produce lasting changes in memory. Rejected candidates leave no trace, preventing incorrect results from contaminating future reasoning steps.</p>
             </div>
           </div>
         </Section>
@@ -475,9 +492,9 @@ export default function Home() {
           <div className="space-y-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
               <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-                <p><strong>Competitive Performance.</strong> Figure 5 compares SuperInference with leading models on the DABStep benchmark (Hard Tasks dataset). Using Gemini 2.5-pro as the base model, SuperInference achieves competitive or stronger results, especially on hard tasks where iterative refinement offers substantial benefit. Submitted to the official DABStep leaderboard, the system obtained an overall 3rd place overall on hard data-scientist–oriented tasks.</p>
-                <p><strong>Evidence Accumulation.</strong> These results support our hypothesis that modeling reasoning as a partially observable process and accumulating evidence across rounds improves accuracy. The framework treats each attempt as a noisy evidence-bearing sample, transforming inference from a single-shot prediction to an accumulating reasoning process. Early attempts carry substantial informational value: models correct misconceptions, refine hypotheses, and approach the correct solution. Errors serve as informative signals rather than terminal failures.</p>
-                <p><strong>Fair Evaluation.</strong> All tasks with ground truth are included, ensuring fair comparison. The analysis accounts for True Positives, True Negatives, False Positives, and False Negatives, providing a complete picture of the framework&apos;s performance across all outcomes.</p>
+                <p><strong>Competitive Performance.</strong> Figure 5 compares SuperInference with leading models on the DABStep Hard Tasks dataset. The y-axis reports accuracy (higher is better), while the x-axis lists the state-of-the-art models. Using Gemini 2.5 Pro as the base model, SuperInference achieves substantially improved results, particularly on hard tasks where iterative refinement is most beneficial. Submitted to the official DABStep leaderboard, the system ranked third place on hard data-scientist–oriented tasks (as of December 2025). Results are shown in sorted order, with the best-performing models placed on the left.</p>
+                <p><strong>Evidence Accumulation.</strong> These results support our hypothesis that modeling reasoning as a partially observable process and accumulating evidence across rounds improves accuracy. Interpreting each attempt as a noisy, evidence-bearing sample transforms inference from a single-shot prediction into a structured evidence-accumulation process with diminishing returns. Performance gains are strongly concentrated in the first few refinement rounds—most successful tasks terminate within one to three iterations, after which success rates rapidly saturate.</p>
+                <p><strong>Fair Evaluation.</strong> All tasks with ground-truth labels are evaluated under identical conditions, ensuring comparability. The analysis accounts for True Positives, True Negatives, False Positives, and False Negatives, providing a complete picture of the framework&apos;s performance across all outcomes.</p>
               </div>
           <div>
                 <Image src="/plots/fig11_sota_leaderboard.png" alt="SuperInference vs state-of-the-art models on DABStep benchmark (Hard Tasks)" width={1200} height={800} className="w-full h-auto rounded-lg border border-white/10" />
@@ -491,17 +508,17 @@ export default function Home() {
                 <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 6.</strong> Efficiency analysis: time per round and information-gain efficiency.</div>
               </div>
               <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7 lg:order-1">
-                <p><strong>Time-Per-Round Analysis.</strong> Panel (a) shows that mean time per round increases with iteration count, reflecting the growing complexity of tasks that require more iterations. However, the success rate (indicated by bubble color) remains high across all rounds, suggesting that the additional computational investment yields consistent improvements. This pattern indicates that SuperInference effectively leverages multiple rounds of reasoning to improve accuracy on challenging tasks.</p>
-                <p><strong>EIG Efficiency Trends.</strong> Panel (b) shows Expected Information Gain (EIG) efficiency, measuring how effectively the framework gains information per unit time. The decreasing trend in EIG efficiency with more rounds indicates diminishing returns, as expected from information-theoretic principles: early rounds extract the most valuable information, while later rounds provide incremental refinements. This analysis informs optimal stopping criteria, balancing accuracy gains against computational costs.</p>
-                <p><strong>Efficiency–Accuracy Trade-offs.</strong> Additional rounds improve accuracy but increase computational cost. EIG per unit time decreases as iterations progress, consistent with information-theoretic predictions. These trade-offs guide adaptive stopping strategies that balance target accuracy against latency and compute constraints. The visualization includes all tasks with ground truth, providing a complete picture of efficiency dynamics across both successful and failed attempts.</p>
+                <p><strong>Time-Per-Round Analysis.</strong> Panel (a) shows the mean time per round given the number of rounds required to predict a solution. Bubble color denotes the success rate for tasks terminating in each round, while bubble size indicates the number of problems solved in that round. The mean time per round increases with iteration count, reflecting the increasing complexity of the tasks. The color gradient reflects a <em>selection effect</em>: tasks that terminate early (rounds 1–2) are inherently easier and therefore exhibit higher success rates (green), while tasks requiring more rounds (4+) are more complex and ultimately fail despite additional iterations (red). More rounds do not cause failure—instead, difficult tasks both require more rounds and are less likely to succeed.</p>
+                <p><strong>EIG Efficiency Trends.</strong> Panel (b) shows Expected Information Gain (EIG) efficiency, which decreases with the number of rounds—early rounds extract most of the available information, reaching correct predictions quickly. Both panels show that no problems were solved with 6 or 7 rounds; after the 4th round the agent was not able to correctly predict any problem, indicating a potential stopping rule at round 4. This analysis informs optimal stopping criteria, balancing accuracy gains against computational costs.</p>
+                <p><strong>Efficiency–Accuracy Trade-offs.</strong> Later iterations incur higher latency while contributing progressively less information. This behavior motivates adaptive stopping criteria that terminate refinement once expected information gain falls below a task-dependent threshold. The dashed line in panel (a) shows a linear trend fit to illustrate the increasing time cost. Each data point represents the mean over all tasks terminating at that round, with error bars indicating standard deviation.</p>
               </div>
             </div>
 
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
               <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-                <p><strong>Task Completion Dynamics.</strong> Panel (a) tracks task completion across rounds, showing that most tasks complete within the first few rounds, with a sharp drop-off in later rounds. The cumulative success and failure rates reveal how the framework&apos;s performance accumulates over time, with success rates increasing more rapidly than failure rates in early rounds. This pattern aligns with theoretical predictions: early rounds provide the most significant improvements, while later rounds offer diminishing returns.</p>
-                <p><strong>Code Complexity Analysis.</strong> Panel (b) investigates code refinement efficiency by correlating code length with success rate. The negative correlation suggests that longer code solutions are less likely to succeed, potentially indicating that successful solutions tend to be more concise and focused. This finding has practical implications for designing stopping criteria and guiding the refinement process toward simpler, more effective solutions.</p>
-                <p><strong>Multi-Metric Evaluation.</strong> SuperInference evaluates reasoning not only through accuracy but through a family of complementary and theoretically grounded metrics: semantic deviation, calibration error, behavioral drift, entropy reduction, and mutual information. These metrics reveal behavioral signatures—such as latent signal accumulation, oscillatory drift, retrieval sensitivity, or over-long code refinements—that static benchmarks systematically miss. This supports multi-dimensional, noise-aware evaluation pipelines for agentic LLMs.</p>
+                <p><strong>Task Completion Dynamics.</strong> Panel (a) shows the number of tasks terminating at each round together with cumulative success and failure rates. The left y-axis shows task count (bars), while the right y-axis shows cumulative rates (lines). Most tasks terminate within the first few iterations, with a pronounced peak at rounds 1–3, while both cumulative success and failure curves rapidly saturate thereafter. This behavior indicates that the majority of useful information is acquired early in the reasoning process, and supports the interpretation of SuperInference as an evidence-accumulating process with a natural stopping point, rather than an open-ended iterative loop.</p>
+                <p><strong>Code Complexity Analysis.</strong> Panel (b) relates final code length (x-axis) to task success rate (y-axis), with bubble size indicating task frequency. Shorter solutions are associated with higher success rates, whereas longer code refinements exhibit a monotonic decline in performance. This trend suggests that excessive refinement often reflects uncertainty or error accumulation, while concise updates are more reliable. Together, these results motivate efficiency-aware stopping strategies that balance accuracy gains against computational cost, and empirically validate the event-driven design principles underlying SuperInference.</p>
+                <p><strong>A Unified Multi-Metric Behavioral Lens.</strong> Beyond accuracy, SuperInference tracks belief evolution, task termination patterns, and EIG efficiency across rounds. In combination, these metrics reveal behavioral patterns—such as early termination for easy tasks, diminishing EIG with iteration depth, and inverse correlation between code length and success—that remain invisible under static, single-shot benchmarks. This supports multi-dimensional, noise-aware evaluation pipelines for agentic LLMs.</p>
               </div>
               <div>
                 <Image src="/plots/fig54_task_completion_code_efficiency.png" alt="Task completion dynamics and code-refinement efficiency" width={1200} height={800} className="w-full h-auto rounded-lg border border-white/10" />
@@ -515,26 +532,30 @@ export default function Home() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div>
               <Mermaid chart={feedback} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
-                "Event e₀": "Initial event triggering observation of task o₀. Red spike indicates discrete reasoning activation.",
-                "Observation: Receive task o₀": "Environment provides the task: 'In a class of 50 students, 40% are men. If 10 men leave. How many men remain?'",
-                "Event e₁": "Triggers planner to decompose task into subquestions SQ1 and SQ2.",
-                "Planner decomposes task": "Produces subquestions: SQ1 (how many men originally?) and SQ2 (how many remain after 10 leave?).",
-                "SQ1: How many men were originally?": "First subquestion requiring intermediate computation.",
-                "SQ2: Given original number and 10 leave, how many remain?": "Second subquestion that depends on SQ1 result.",
-                "Event e₂": "Triggers execution of SQ2 after SQ1 is resolved.",
-                "Language Model": "Generates candidate answers for each subquestion.",
-                "SA1: 20 men": "Answer to SQ1 computed as 40% of 50.",
-                "SA2: 10 men (20-10)": "Final answer computed using SA1 result.",
-                Critic: "Validates answers with error rates (α, β). SA1 approved with probability 1-β, rejected with β.",
-                "Memory M_{t+1}": "Stores approved answers (SQ1,SA1) and final result. Only critic-approved artifacts are persisted.",
+                "Event e₀": "Initial event. Agent receives task x. Initial belief b₀ = 0.3 (low confidence). EIG₀ = 0.8 is high, so reasoning is worthwhile.",
+                "Observation: Receive task x": "Environment provides task x: '50 students, 40% are men. If 10 men leave, how many remain?'",
+                "Event e₁": "Triggers Planner to decompose task into queries q₀ and q₁.",
+                "Planner decomposes task into queries": "Planner (policy π) generates planning queries: q₀ (how many men originally? — requires 50 × 0.4) and q₁ (after 10 leave, how many remain? — depends on q₀).",
+                "q₀: How many men originally? (50 × 0.4)": "First query requiring intermediate computation. Retriever checks memory M₀ (empty initially).",
+                "q₁: After 10 leave, how many remain?": "Second query dependent on q₀ result. Retriever fetches m̃₁ = 20 from M₁ via noisy channel C_η.",
+                "Event e₂": "Triggers execution of q₁ after q₀ is resolved and approved.",
+                "Retriever m̃₀ ~ C_η": "Retriever accesses memory through noisy channel. For q₀, memory is empty; for q₁, retrieves previously stored result.",
+                "Executor → a₀": "Executor computes candidate a₀ = 50 · 0.4 = 20 men.",
+                "a₀ = 20 men": "Candidate answer: 20 men originally. Evaluated by Critic with PPV ≈ 0.98.",
+                "Critic → c₀": "Critic evaluates a₀. c₀ = approve. Belief updates: b₁ = 0.6. EIG₁ = 0.4 > τ, so reasoning continues.",
+                "Retriever m̃₁ from M₁": "Retriever fetches verified result (20 men) from memory M₁ stored after first cycle.",
+                "Executor → a₁": "Executor computes candidate a₁ = 20 − 10 = 10 men using retrieved context.",
+                "a₁ = 10 men (20 − 10)": "Final answer: 10 men remain. Belief reaches b₂ = 0.95 ≥ κ (high confidence).",
+                "Critic → c₁": "Critic evaluates a₁. c₁ = approve. EIG₂ ≈ 0 < τ (nothing left to learn). Two stopping conditions met.",
+                "Memory M_{t+1} = M_t ∪ {(q_t, a_t)}": "Critic-gated memory. Stores approved (q₀, 20) and (q₁, 10). Rejected candidates would leave no trace. Agent returns: 10 men.",
               }} />
-              <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 8.</strong> Event-driven PRE stages showing complete flow with events e₀, e₁, e₂, execution chains for SQ1 and SQ2, critic validation, and memory updates (from paper Fig. 3a).</div>
+              <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 8.</strong> Event-driven PRE stages showing complete flow: task decomposition into queries q₀ and q₁, Retriever → Executor → Critic chains with belief updates (b₀=0.3 → b₁=0.6 → b₂=0.95), and critic-gated memory updates (from paper Fig. 3a).</div>
             </div>
             <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-              <p><strong>Worked Example: Multi-Step Math.</strong> The example demonstrates how the event-driven Planner-Retriever-Executor (PRE) loop operates on a multi-step reasoning task. The problem is: &quot;In a class of 50 students, 40% are men. If 10 men leave. How many men remain?&quot; The agent cannot directly access the final answer and must reason through intermediate steps while interacting with memory and a Critic.</p>
-              <p><strong>Event-Driven Activation.</strong> Events e_t represent discrete reasoning activations: e₀ triggers the Planner to observe the task o₀; e₁ triggers decomposition into subquestions SQ1 and SQ2; e₂ triggers execution for SQ2 after SQ1 has been resolved. This sparse, spike-like activation ensures computation occurs only when expected information gain is high, reducing unnecessary module usage.</p>
-              <p><strong>Execution Flow.</strong> The Planner decomposes the task into subquestions: SQ1 asks how many men were originally in the class, and SQ2 asks how many remain after 10 leave. The Retriever may supply prior knowledge m̃_t with probability p, modeling noisy retrieval. The Executor computes candidate answers: SA1 = 20 men (40% of 50), and SA2 = 10 men (via 20-10). The Critic validates answers with error rates (α, β): SA1 is approved with probability 1-β, rejected with β. Approved answers are stored in M_{'{'}t+1{'}'} for future retrieval.</p>
-              <p><strong>Belief Bookkeeping.</strong> Define S as the set containing s₂₀ and s_¬₂₀, representing whether the intermediate fact is 20. Initialize b₀(s₂₀) = 0.5. Each event observation updates the belief via the Bayesian update rule. A reliable Critic (small α, β) concentrates posterior mass on s₂₀, enabling the subsequent step. This example makes the abstract PRE framework concrete: the agent fires discrete reasoning events, retrieves or recalls context, computes candidate answers, checks them via a Critic, and updates memory iteratively.</p>
+              <p><strong>Worked Example: Multi-Step Math.</strong> The task is: &quot;50 students, 40% are men. If 10 men leave, how many remain?&quot; The agent receives the task with initial belief b₀ = 0.3 (low confidence). Expected information gain EIG₀ = 0.8 is high, so reasoning is worthwhile. The Planner decomposes the task into subquestions: q₀ (how many men originally? — requires computing 50 × 0.4) and q₁ (after 10 leave, how many remain? — requires q₀&apos;s answer).</p>
+              <p><strong>First PRE Cycle (t=0).</strong> The Retriever checks memory M₀ (empty initially). The Executor computes a₀ = 50 · 0.4 = 20 men. The Critic evaluates: c₀ = approve (with PPV ≈ 0.98). Memory updates: M₁ = M₀ ∪ &#123;(q₀, 20)&#125;. Belief rises to b₁ = 0.6, still below threshold κ = 0.9. Since EIG₁ = 0.4 &gt; τ, reasoning continues.</p>
+              <p><strong>Second PRE Cycle (t=1).</strong> The Retriever fetches m̃₁ = 20 from M₁ via the noisy channel C_η. The Executor computes a₁ = 20 − 10 = 10 men. The Critic evaluates: c₁ = approve. Memory updates: M₂ = M₁ ∪ &#123;(q₁, 10)&#125;. Belief reaches b₂ = 0.95 ≥ κ (high confidence), and EIG₂ ≈ 0 &lt; τ (nothing left to learn). Two stopping conditions are met—the agent returns: <strong>10 men</strong>.</p>
+              <p><strong>Key Observations.</strong> Belief b_t rises monotonically as evidence accumulates (30% → 60% → 95%). EIG_t falls as uncertainty is reduced (0.8 → 0.4 → 0). Memory stores only Critic-approved results, ensuring high precision. The agent stops after 2 cycles—efficient, not exhaustive. If c₀ had been &quot;reject&quot; (e.g., the Executor produced 25 instead of 20), the rejected candidate would <em>not</em> be stored in memory; the Planner would receive feedback, retry the query, and the Executor would attempt again.</p>
             </div>
           </div>
         </Section>
@@ -542,30 +563,30 @@ export default function Home() {
         <Section id="editor" title="AMI" subtitle="Agentic Multi-step Inference: VS Code extension, MCP server, and MCP client.">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div className="space-y-3 text-neutral-700 dark:text-neutral-300 text-base/7">
-              <p><strong>AMI (Agentic Multi-step Inference)</strong> is the integrated system comprising three components: the AMI VS Code extension, the AMI MCP server, and the AMI MCP client. Together, they provide a complete agentic development environment.</p>
-              <p>We chose the AMI VS Code extension as the primary interface because it meets developers where they work. The extension has access to open files, the active selection, and language servers, making it ideal for context gathering and precise edits. From a UX standpoint, the agent feels like an expert teammate: it can navigate to symbols, explain unfamiliar code, propose diffs, and run tests without forcing you to switch windows. Every action is visible in a panel with logs and a diff viewer so that review remains fast and safe.</p>
-              <p>The AMI MCP server houses tools behind typed interfaces, while the AMI MCP client ensures protocol fidelity and typed schema validation. This separation allows organizations to restrict which tools are available, add project‑specific actions, and audit usage centrally. For example, a company could expose internal documentation search, a deployment simulator, or security scanners only through AMI MCP, while keeping the editor client simple. The result is a pragmatic path to agentic development that respects privacy, governance, and team standards.</p>
+              <p><strong>AMI (Agentic Multi-step Inference)</strong> unifies planning, retrieval, execution, and verification into a single reasoning loop. SuperInference is implemented as three components: the <strong>MCP Server</strong> runs the PRE loop—planning, retrieval, execution, belief updates, and memory gating, logging all decisions for analysis; the <strong>MCP Client</strong> handles communication, validation, and retry logic, allowing runtime tuning of confidence thresholds and budgets; and the <strong>VS Code Extension</strong> provides the user interface for observing agent reasoning, previewing plans, and adjusting parameters during execution. The extension is publicly available at <a href="https://marketplace.visualstudio.com/items?itemName=superinference.ami-vscode" target="_blank" rel="noreferrer" className="underline hover:no-underline">Microsoft&apos;s VS Code Marketplace</a>.</p>
+              <p>We chose the AMI VS Code extension as the primary interface because it meets developers where they work. The extension has access to open files, the active selection, and language servers, making it ideal for context gathering and precise edits. From a UX standpoint, the agent feels like an expert teammate: it can navigate to symbols, explain unfamiliar code, propose diffs, and run tests without forcing you to switch windows. Every action is visible in a panel with logs and a diff viewer so that review remains fast and safe. We evaluate on DABStep, a benchmark with stepwise reasoning tasks and ground-truth verifiers, measuring per-step correctness, critic precision, and overall accuracy.</p>
+              <p>The MCP server houses tools behind typed interfaces, while the MCP client ensures protocol fidelity and typed schema validation. This separation allows organizations to restrict which tools are available, add project-specific actions, and audit usage centrally. Future work will expand the scope of SuperInference across architectures and deployment contexts, including systematic evaluation on diverse model families—from frontier multimodal systems to emerging lightweight models such as the Granite family, LLaMA variants, and Mistral models—to map out cost-accuracy trade-offs and identify optimal configuration regimes where feedback-driven refinement can compensate for reduced model capacity.</p>
             </div>
           <div>
-            <Mermaid chart={vscode} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{ UI: "Interface", Extension: "Add-on", "Chat API": "Messaging", Backend: "Orchestrator", Tools: "Utilities", Codebase: "Files", Context: "References" }} descriptions={{
-              UI: "Developer-facing interface inside the editor. Presents chat, diffs, logs, and navigation, keeping focus on code while exposing powerful retrieval and automation in a controlled, reviewable workflow that accelerates safe changes.",
-                Extension: "The AMI VS Code extension hosting the assistant. Bridges UI and backend tools, gathers context from language servers, and applies edits with explicit approvals, preserving project standards and safety constraints consistently.",
-                "Chat API": "Messaging layer enabling structured interactions through the AMI MCP client. Supports streaming responses, tool calls, and explanations, so users can understand reasoning, steer plans, and request changes without leaving their coding environment during active work.",
-                Backend: "AMI MCP server coordinator behind the scenes running validators, searches, and code operations. Exposes typed tools with auditing, rate limits, and policies, allowing organizations to manage capabilities while keeping clients lightweight and secure.",
-                Tools: "Operational actions such as grep, test, type-check, build, docker, or project tasks accessible through AMI MCP. Provide measurable outcomes that anchor agent decisions and verify progress continuously across steps with evidence.",
-              Codebase: "The repository of files and symbols. Supplies definitions, references, and examples the agent navigates and modifies, ensuring proposed changes reflect real code and established patterns within the project over time.",
-              Context: "Assembled knowledge passed to the model, blending retrieved snippets, summaries, and metadata. Keeps prompts compact and grounded so outputs remain accurate, actionable, and easy to review within constraints and budgets.",
+            <Mermaid chart={vscode} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{ UI: "Interface", Extension: "Extension", Client: "Client", Server: "Server", Tools: "Tools", Codebase: "Files", DABStep: "Benchmark" }} descriptions={{
+              UI: "Developer-facing interface inside the editor. Presents chat, diffs, logs, and navigation, keeping focus on code while exposing the PRE reasoning loop in a controlled, reviewable workflow.",
+              Extension: "AMI VS Code extension hosting the assistant. Publicly available at Microsoft's VS Code Marketplace. Bridges UI and MCP backend, gathers context from language servers, and applies edits with explicit approvals.",
+              Client: "AMI MCP Client: handles communication, validation, and retry logic. Ensures protocol fidelity and typed schema validation. Allows runtime tuning of confidence thresholds (κ), EIG thresholds (τ), and iteration budgets (N_max).",
+              Server: "AMI MCP Server: runs the complete PRE loop — planning, retrieval, execution, belief updates, and critic-gated memory. Logs all decisions for analysis. Exposes typed tools with auditing, rate limits, and policies.",
+              Tools: "Operational actions accessible through MCP: grep, test, type-check, build, docker, or project-specific tasks. Provide measurable outcomes that anchor agent decisions and verify progress across reasoning steps.",
+              Codebase: "The repository of files and symbols. Supplies definitions, references, and examples the agent navigates and modifies, providing context m̃_t for the Executor.",
+              DABStep: "DABStep benchmark integration for systematic evaluation. Provides stepwise reasoning tasks with ground-truth verifiers, measuring per-step correctness, critic precision, and overall accuracy.",
             }} />
-              <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 9.</strong> AMI architecture: UI ↔ VS Code extension ↔ MCP client ↔ MCP server ↔ tools and codebase.</div>
+              <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 9.</strong> AMI implementation architecture: UI → VS Code extension → MCP Client → MCP Server → tools, codebase, and DABStep benchmark.</div>
             </div>
           </div>
         </Section>
 
         <Section id="copy" title="How it Works" subtitle="Plan, act, observe, and loop with feedback.">
           <div className="mt-4 w-full space-y-3 text-neutral-700 dark:text-neutral-300 text-base/7">
-            <p><strong>Figure 1–5 references.</strong> The session narrative ties back to Figures 1–5: you start with the overview loop, follow the architecture flow, pull in embedding context, iterate through feedback, and act through AMI.</p>
-            <p>This section ties everything together from a developer’s perspective. A typical session starts with exploration: ask for an explanation of a file, jump to a symbol, or request a map of call sites. Once the task is clear, the agent drafts a plan that names the files it intends to change and the checks it will run. You can edit that plan like a checklist. When approved, the agent performs the smallest safe step, runs inexpensive validators, and reports back with logs and a preview diff. If results are good, it proceeds; if not, it explains what failed and proposes alternatives.</p>
-            <p>The key benefit is momentum without loss of control. You always see context, plan, and evidence, and you can pause or redirect the flow at any time. Because the loop prefers objective signals—compilers, tests, type systems—the agent’s suggestions converge toward correctness rather than style alone. Over time, the system builds a memory of accepted patterns and project conventions, reducing friction and helping new engineers onboard faster. The outcome is a smoother path from idea to change request, all inside the editor.</p>
+            <p><strong>From Theory to Practice.</strong> SuperInference provides a principled and empirically validated approach to improve LLM reasoning under partial observability. Combining a planner, embedding-augmented memory, and critic-based verification, SuperInference formalizes multi-step reasoning as a noisy decision process where retrieval, critic assessments, and model sampling jointly induce stochastic transitions over latent beliefs. Theoretical results connect iteration budgets, critic characteristics, and expected information gain. The framework is model-agnostic and requires no architectural changes.</p>
+            <p>A typical session starts with exploration: ask for an explanation of a file, jump to a symbol, or request a map of call sites. Once the task is clear, the agent drafts a plan that names the files it intends to change and the checks it will run. You can edit that plan like a checklist. When approved, the agent performs the smallest safe step, runs inexpensive validators, and reports back with logs and a preview diff. If results are good, it proceeds; if not, it explains what failed and proposes alternatives.</p>
+            <p>The key benefit is momentum without loss of control. You always see context, plan, and evidence, and you can pause or redirect the flow at any time. Because the loop prefers objective signals—compilers, tests, type systems—the agent&apos;s suggestions converge toward correctness rather than style alone. Across the DABStep Hard Tasks benchmark, this translates into a performance increase from 12.7% to 41.3% when applied to Gemini 2.5 Pro, with most gains achieved within the first three refinement rounds. Over time, the system builds a memory of accepted patterns and project conventions, reducing friction and helping new engineers onboard faster.</p>
           </div>
           <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
             {[
@@ -635,7 +656,7 @@ export default function Home() {
 
         <Section id="funding" title="Funding" subtitle="Research and innovation funding sources.">
           <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7">
-            <p>This project has received funding from the European Union&apos;s Horizon Europe research and innovation programme under grant agreement No 101093129.</p>
+            <p>This project has received funding from the European Union&apos;s Horizon Europe research and innovation programme under grant agreement No 101093129, the Spanish Ministry of Science with projects PID2023-149943OB-I00 and PID2021-122215NB-C31, and the Region of Madrid project TEC-2024/COM-235.</p>
           </div>
         </Section>
       </main>
