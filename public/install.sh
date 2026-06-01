@@ -32,11 +32,29 @@ case "$OS-$ARCH" in
     ;;
 esac
 
-echo "  Downloading $(bold "$BINARY")..."
-curl -fsSL "$BASE_URL/$BINARY" -o "$INSTALL_DIR/superinference"
-chmod +x "$INSTALL_DIR/superinference"
+TARGET="$INSTALL_DIR/superinference"
 
-echo "  $(green 'Installed') to $INSTALL_DIR/superinference"
+if [ -f "$TARGET" ]; then
+  ACTION="Updating"
+else
+  ACTION="Installing"
+fi
+
+echo "  $ACTION $(bold "$BINARY")..."
+
+TMP="$(mktemp)"
+trap 'rm -f "$TMP"' EXIT
+
+curl -fsSL "$BASE_URL/$BINARY" -o "$TMP"
+chmod +x "$TMP"
+mv -f "$TMP" "$TARGET"
+trap - EXIT
+
+if [ "$ACTION" = "Updating" ]; then
+  echo "  $(green 'Updated') $TARGET"
+else
+  echo "  $(green 'Installed') to $TARGET"
+fi
 echo ""
 
 # Check if INSTALL_DIR is in PATH

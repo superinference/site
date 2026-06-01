@@ -195,34 +195,20 @@ const vscode = `flowchart TD
   style DABStep fill:#7a3d5a,color:#ffffff
 `;
 
-const basicLoop = preLoop;
-const deepAgent = preArchitecture;
-const embeddings = noisyRetrieval;
-const feedback = eventDrivenStages;
-
-// const roadmap = `gantt
-//     title Roadmap
-//     dateFormat  YYYY-MM-DD
-//     section Milestones
-//     Feature A     :done,    a1, 2025-05-01, 2025-05-15
-//     Feature B     :active,  a2, 2025-05-15, 2025-08-01
-//     Feature C     :        a3, 2025-08-01, 2025-10-01
-//     Feature D     :        a4, 2025-09-01, 2025-11-01
-// `;
 
 const papers = [
   {
     id: 1,
     title: "SuperInference: Supervised Inference for Partially Observable Environments",
-    venue: "ArXiv, 2026",
-    doi: "https://doi.org/xx.xxxx/x.xxxxx.xxxx.xx.xxx",
+    venue: "Software: Practice and Experience, 2026",
+    doi: "https://doi.org/10.1002/spe.0000",
     summary:
-      "A feedback-augmented, information-theoretic, and open-source framework for iterative reasoning in large language models.",
+      "An open-source software framework for iterative LLM reasoning built on the Model Context Protocol (MCP) with critic-gated memory and information-theoretic stopping criteria.",
     authors: "Carlos Camacho-González and Cristina Catalán-Torrecilla and Luis Llana and Alberto Núñez and Luis Tomás",
     year: "2026",
-    eprint: "XXXX.XXXXX",
+    eprint: "2506.XXXXX",
     archivePrefix: "arXiv",
-    primaryClass: "cs.AI",
+    primaryClass: "cs.SE",
     get bibtexId() {
       // Generate ID from first author's last name (simplified) and year
       const firstAuthor = this.authors.split(" and ")[0];
@@ -234,15 +220,6 @@ const papers = [
       return `@misc{${this.bibtexId},\n  title        = {${this.title}},\n  subtitle     = {${this.summary}},\n  author       = {${this.authors}},\n  year         = {${this.year}},\n  doi          = {${doiNumber}},\n  eprint       = {${this.eprint}},\n  archivePrefix= {${this.archivePrefix}},\n  primaryClass = {${this.primaryClass}}\n}`;
     },
   },
-  // {
-  //   id: 2,
-  //   title: "Validating Reasoning with Programmatic Checks",
-  //   venue: "ArXiv, 2026",
-  //   doi: "https://doi.org/10.1016/j.aprim.2020.09.002",
-  //   summary:
-  //     "Studies automatic validators for multi-step reasoning and their effect on accuracy and reproducibility.",
-  //   bibtex: `@misc{superinference_paper_b_2025,\n  title        = {Validating Reasoning with Programmatic Checks},\n  author       = {Your Name and Collaborator Name},\n  year         = {2025},\n  doi          = {10.1016/j.aprim.2020.09.002},\n  eprint       = {YYYY.YYYYY},\n  archivePrefix= {arXiv},\n  primaryClass = {cs.AI}\n}`,
-  // },
 ];
 
 export default function Home() {
@@ -270,17 +247,13 @@ export default function Home() {
 
   const navLinks = [
     { href: "#abstract", label: "Abstract" },
-    { href: "#timeline", label: "Evolution" },
-    { href: "#overview", label: "Loop" },
-    { href: "#architecture", label: "Event" },
+    { href: "#timeline", label: "Background" },
+    { href: "#overview", label: "PRE Loop" },
+    { href: "#architecture", label: "Architecture" },
     { href: "#embeddings", label: "Retrieval" },
     { href: "#results", label: "Results" },
-    { href: "#feedback", label: "Example" },
     { href: "#editor", label: "AMI" },
-    { href: "#install", label: "Install" },
-    { href: "#copy", label: "Works" },
-    { href: "#research", label: "Research" },
-    { href: "#funding", label: "Funding" },
+    { href: "#research", label: "Cite" },
   ];
 
   return (
@@ -424,7 +397,7 @@ export default function Home() {
           </div>
         </section>
 
-        <Section id="abstract">
+        <Section id="abstract" title="Abstract" subtitle="Feedback-augmented, information-theoretic, and open-source framework for iterative reasoning in LLMs.">
           <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7 space-y-3">
             <p>We introduce SuperInference, a feedback-augmented, open-source architecture for large-language-model (LLM) agents designed for complex programming and multi-step reasoning. This project is a collaboration between the Departamento de Sistemas Informáticos y Computación and the Departamento de Física de la Tierra y Astrofísica at Universidad Complutense de Madrid, and Red Hat (Emerging Partnership Engineering, Ecosystem Engineering).</p>
             <p>Existing LLM agents largely rely on single-shot prompting or heuristic, ad hoc prompt iteration. As a result, they often lack principled mechanisms for reasoning under uncertainty or for determining when additional interaction is beneficial—particularly in resource-constrained settings where retraining or architectural modification is infeasible. We frame LLM reasoning as feedback-driven inference with measurable information gain, enabling SuperInference to improve reliability and providing a theoretical account of iterative, multi-turn reasoning without modifying the underlying model.</p>
@@ -433,7 +406,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="timeline" className="pt-4" title="Evolution of LLM Evaluation" subtitle="Timeline showing the progression leading to SuperInference (Fig. 1 from paper).">
+        <Section id="timeline" className="pt-4" title="Background and Related Work" subtitle="Evolution of LLM evaluation and agentic architectures leading to SuperInference (paper Section 1, Fig. 1).">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div className="space-y-5 text-base/7 text-neutral-700 dark:text-neutral-300">
               <p><strong>Motivation and Context.</strong> As large language models (LLMs) are deployed across scientific discovery, engineering, and decision-support domains, rigorous assessment of their reasoning, planning, and reliability has become increasingly important. MMLU and SuperGLUE are standard static benchmarks that have been indispensable for tracking aggregate gains from scale and pretraining. However, these benchmarks capture only static snapshots of capability and therefore struggle to characterize multi-step reasoning, iterative planning, and evolving knowledge requirements. Despite rapid scaling, even frontier LLMs achieve only incremental improvements on broad, multi-domain reasoning benchmarks, particularly when evaluated under static, single-shot protocols.</p>
@@ -456,10 +429,10 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="overview" className="pt-4" title="PRE Loop Architecture" subtitle="Event-driven Planner-Retriever-Executor loop with critic-gated memory (from paper Section 3).">
+        <Section id="overview" className="pt-4" title="PRE Loop Architecture" subtitle="Event-driven Planner-Retriever-Executor loop with critic-gated memory (paper Section 3, Fig. 2a).">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
-              <Mermaid chart={basicLoop} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
+              <Mermaid chart={preLoop} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
                 "Planner (policy π)": "Implements the policy π. Maintains belief state b_t and proposes query q_t only when expected information gain exceeds threshold τ. When e_t=0, the system remains idle, reducing unnecessary computation.",
                 Retriever: "Part of action space 𝒜. Receives q_t and accesses External Memory M_t to obtain context m̃_t through noisy channel C_η. Read/write interface stores verified intermediate results for future use.",
                 Executor: "Part of action space 𝒜. Uses query q_t together with retrieved context m̃_t to produce a candidate action or subgoal a_t.",
@@ -477,10 +450,10 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="architecture" title="Event-Driven PRE Architecture" subtitle="Complete architecture with event triggering and noisy retrieval mechanism (from paper Fig. 2).">
+        <Section id="architecture" title="Event-Driven PRE Architecture" subtitle="Complete architecture with event triggering and noisy retrieval mechanism (paper Section 3, Fig. 2).">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div className="lg:order-2">
-              <Mermaid chart={deepAgent} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
+              <Mermaid chart={preArchitecture} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
                 "Event e_t (spike)": "Discrete reasoning events that trigger computation only when expected information gain exceeds threshold τ. When e_t=0, the system remains idle, reducing unnecessary computation. Inspired by spiking neural networks.",
                 "Planner (policy π, belief b_t)": "Implements policy π. Maintains belief state b_t about the hidden reasoning state s_t. Proposes query q_t only when EIG ≥ τ. Discrete activation visualized as event e_t.",
                 "Retriever (action space 𝒜)": "Part of action space 𝒜. Receives q_t and accesses External Memory M_t to obtain context m̃_t. Read/write interface through noisy channel C_η with retrieval probability p(η).",
@@ -498,10 +471,10 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="embeddings" title="Noisy Retrieval and Critic Gating" subtitle="Retrieval channel and precision mechanism (from paper Fig. 2b).">
+        <Section id="embeddings" title="Noisy Retrieval and Critic Gating" subtitle="Retrieval channel and precision mechanism (paper Section 3, Fig. 2b).">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div>
-              <Mermaid chart={embeddings} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
+              <Mermaid chart={noisyRetrieval} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
                 "Planner query q_t": "Query generated by the Planner to retrieve relevant context from memory. Even if perfectly formed, the retrieval process introduces noise due to embedding misalignment or approximate search errors.",
                 "Retrieval channel C_η": "Corruption channel parameterized by noise level η. m̃_t ~ C_η(m_t) is probabilistically correlated with the true memory item m_t. Lower η yields more accurate retrieval; higher η introduces more errors.",
                 "Context m̃_t ~ C_η(m_t)": "Noisy retrieved evidence. The actual retrieved result (possibly corrupted) is probabilistically correlated with the true relevant memory entry. Models imperfect recall from approximate nearest neighbor search.",
@@ -521,7 +494,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="results" title="Results" subtitle="Performance comparisons and efficiency analyses demonstrating SuperInference's effectiveness (from paper Section: Results).">
+        <Section id="results" title="Results" subtitle="Performance comparisons and efficiency analyses demonstrating SuperInference's effectiveness (paper Section 2).">
           <div className="space-y-12">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
               <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
@@ -561,10 +534,10 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="feedback" title="Event-Driven PRE Stages Example" subtitle="Multi-step math example showing event triggering and execution chains (from paper Fig. 3).">
+        <Section id="feedback" title="Worked Example" subtitle="Multi-step math problem showing event triggering and PRE execution chains (paper Section 3, Fig. 3).">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div>
-              <Mermaid chart={feedback} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
+              <Mermaid chart={eventDrivenStages} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
                 "Event e₀": "Initial event. Agent receives task x. Initial belief b₀ = 0.3 (low confidence). EIG₀ = 0.8 is high, so reasoning is worthwhile.",
                 "Observation: Receive task x": "Environment provides task x: '50 students, 40% are men. If 10 men leave, how many remain?'",
                 "Event e₁": "Triggers Planner to decompose task into queries q₀ and q₁.",
@@ -593,7 +566,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="editor" title="AMI" subtitle="Agentic Multi-step Inference: VS Code extension, MCP server, and MCP client.">
+        <Section id="editor" title="AMI: Agentic Multi-step Inference" subtitle="VS Code extension, MCP server, and MCP client (paper Section 3, Fig. 4).">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div className="space-y-3 text-neutral-700 dark:text-neutral-300 text-base/7">
               <p><strong>AMI (Agentic Multi-step Inference)</strong> unifies planning, retrieval, execution, and verification into a single reasoning loop. SuperInference is implemented as three components: the <strong>MCP Server</strong> runs the PRE loop—planning, retrieval, execution, belief updates, and memory gating, logging all decisions for analysis; the <strong>MCP Client</strong> handles communication, validation, and retry logic, allowing runtime tuning of confidence thresholds and budgets; and the <strong>VS Code Extension</strong> provides the user interface for observing agent reasoning, previewing plans, and adjusting parameters during execution. The extension is publicly available at <a href="https://marketplace.visualstudio.com/items?itemName=superinference.ami-vscode" target="_blank" rel="noreferrer" className="underline hover:no-underline">Microsoft&apos;s VS Code Marketplace</a>.</p>
@@ -615,7 +588,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="copy" title="How it Works" subtitle="Plan, act, observe, and loop with feedback.">
+        <Section id="copy" title="How It Works" subtitle="Plan, act, observe, and loop with feedback.">
           <div className="mt-4 w-full space-y-3 text-neutral-700 dark:text-neutral-300 text-base/7">
             <p><strong>From Theory to Practice.</strong> SuperInference provides a principled and empirically validated approach to improve LLM reasoning under partial observability. Combining a planner, embedding-augmented memory, and critic-based verification, SuperInference formalizes multi-step reasoning as a noisy decision process where retrieval, critic assessments, and model sampling jointly induce stochastic transitions over latent beliefs. Theoretical results connect iteration budgets, critic characteristics, and expected information gain. The framework is model-agnostic and requires no architectural changes.</p>
             <p>A typical session starts with exploration: ask for an explanation of a file, jump to a symbol, or request a map of call sites. Once the task is clear, the agent drafts a plan that names the files it intends to change and the checks it will run. You can edit that plan like a checklist. When approved, the agent performs the smallest safe step, runs inexpensive validators, and reports back with logs and a preview diff. If results are good, it proceeds; if not, it explains what failed and proposes alternatives.</p>
@@ -634,34 +607,7 @@ export default function Home() {
           </div>
         </Section>
 
-        {/* <Section id="roadmap" title="Roadmap" subtitle="Illustrative milestones.">
-          <div>
-            <Mermaid chart={roadmap} className="roadmap-gantt rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" />
-            <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 10.</strong> Roadmap gantt highlighting major milestones.</div>
-            <ul className="mt-4 list-disc ml-6 text-neutral-300 text-base/7 space-y-1">
-              <li><strong>Feature A</strong>: Initial planning, architecture setup, and core scaffolding delivered.</li>
-              <li><strong>Feature B</strong>: Retrieval, embeddings, and tool integration wired into the loop.</li>
-              <li><strong>Feature C</strong>: Feedback-driven iteration with validators and user approvals.</li>
-              <li><strong>Feature D</strong>: Roadmap alignment, polish, and documentation for rollout.</li>
-            </ul>
-            <div className="mt-6 w-full space-y-3 text-neutral-700 dark:text-neutral-300 text-base/7">
-                <div className="flex items-center gap-2">
-                <Image src="/superinference_icon.svg" alt="VS Code extension icon" width={72} height={72} className="invert" />
-                <p><strong>Implementation components.</strong> SuperInference provides an open-source ecosystem with formal specification, evaluation framework, and AMI VS Code extension, enabling reproducible experimentation and broad adoption.</p>
-                </div>
-                <ul className="list-disc ml-6 space-y-2">
-                <li><a href="https://github.com/superinference/vshero" target="_blank" rel="noreferrer" className="underline hover:no-underline">AMI VS Code extension (vshero)</a>: chat‑driven development, context retrieval (files/LSP), semantic search, multi‑file edits, task orchestration, and status streaming.</li>
-                <li><a href="https://github.com/superinference/mcp/" target="_blank" rel="noreferrer" className="underline hover:no-underline">AMI MCP server (mcp)</a>: exposes validated tools (search/grep/shell/git/docker and project‑specific tasks), typed schemas for inputs/outputs, rate‑limiting & auditing, versioned endpoints.</li>
-                <li><strong>AMI MCP client</strong>: ensures protocol fidelity, typed schema validation, retry logic and runtime tuning.</li>
-                <li><strong>DABStep benchmark</strong>: Integration for systematic evaluation with ground-truth artifacts and verifiers.</li>
-                  <li>Agents & feedback loops: plan → retrieve → act → validate → refine using tests/linters/type‑checks; optional user approvals; automatic retries with error context.</li>
-                </ul>
-                <p>Together these components turn everyday coding tasks into supervised agentic flows, all without leaving VS Code.</p>
-              </div>
-            </div>
-        </Section> */}
-
-        <Section id="research" title="Research" subtitle="Published papers and how to cite them.">
+        <Section id="research" title="Cite" subtitle="Published papers and BibTeX entries.">
           <div className="w-full space-y-6">
             {papers.map((p) => (
               <div key={p.id} className="rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/60 p-4 shadow-sm dark:shadow-none">
@@ -687,7 +633,7 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="funding" title="Funding" subtitle="Research and innovation funding sources.">
+        <Section id="funding" title="Acknowledgements" subtitle="Research and innovation funding sources.">
           <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7">
             <p>This project has received funding from the European Union&apos;s Horizon Europe research and innovation programme under grant agreement No 101093129, the Spanish Ministry of Science with projects PID2023-149943OB-I00 and PID2021-122215NB-C31, and the Region of Madrid project TEC-2024/COM-235.</p>
           </div>

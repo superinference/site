@@ -164,8 +164,6 @@ export default function Mermaid({ chart, className, animate = true, highlights =
       return null;
     }
 
-    const clickableCountBefore = root.querySelectorAll("[data-clickable='true']").length;
-
     const nodeEls = Array.from(
       root.querySelectorAll(
         "g.node, g.state, g.stateGroup, g[class*='state'], g[class*='start'], g[class*='end'], g[class*='choice'], .state, .stateGroup"
@@ -202,7 +200,6 @@ export default function Mermaid({ chart, className, animate = true, highlights =
       markClickable(edgeLabel as Element, edgeText);
     });
 
-    const clickableCountAfter = root.querySelectorAll("[data-clickable='true']").length;
   }, [svg, highlights, descriptions, modalOpen]);
 
   useEffect(() => {

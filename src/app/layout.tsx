@@ -24,18 +24,18 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SuperInference",
-  description: "SuperInference — a stylized single-page showcasing architecture and animated diagrams.",
-  metadataBase: new URL("https://example.com"),
+  description: "SuperInference — an open-source framework for iterative LLM reasoning with critic-gated memory and information-theoretic stopping criteria.",
+  metadataBase: new URL("https://www.superinference.org"),
   openGraph: {
     title: "SuperInference",
-    description: "Architecture, embeddings, and feedback loops visualized.",
-    url: "https://example.com",
+    description: "An open-source framework for iterative LLM reasoning with critic-gated memory and information-theoretic stopping criteria.",
+    url: "https://www.superinference.org",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "SuperInference",
-    description: "Architecture, embeddings, and feedback loops visualized.",
+    description: "An open-source framework for iterative LLM reasoning with critic-gated memory and information-theoretic stopping criteria.",
     images: ["/og.png"],
   },
   icons: {
