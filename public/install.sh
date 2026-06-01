@@ -52,6 +52,11 @@ chmod +x "$TMP"
 mv -f "$TMP" "$TARGET"
 trap - EXIT
 
+# macOS: remove quarantine flag so Gatekeeper doesn't kill the binary
+if [ "$OS" = "darwin" ]; then
+  xattr -d com.apple.quarantine "$TARGET" 2>/dev/null || true
+fi
+
 if [ "$ACTION" = "Updating" ]; then
   echo "  $(green 'Updated') $TARGET"
 else
