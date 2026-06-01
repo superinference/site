@@ -21,7 +21,9 @@ OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 
 case "$OS-$ARCH" in
-  linux-x86_64)  BINARY="superinference-cli-linux-x64" ;;
+  linux-x86_64)   BINARY="superinference-cli-linux-x64" ;;
+  darwin-arm64)   BINARY="superinference-cli-darwin-arm64" ;;
+  darwin-x86_64)  BINARY="superinference-cli-darwin-arm64" ;; # Rosetta 2
   *)
     echo "  No prebuilt binary for $OS-$ARCH."
     echo "  Install via npm instead:"
