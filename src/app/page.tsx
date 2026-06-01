@@ -277,6 +277,7 @@ export default function Home() {
     { href: "#results", label: "Results" },
     { href: "#feedback", label: "Example" },
     { href: "#editor", label: "AMI" },
+    { href: "#install", label: "Install" },
     { href: "#copy", label: "Works" },
     { href: "#research", label: "Research" },
     { href: "#funding", label: "Funding" },
@@ -580,6 +581,45 @@ export default function Home() {
               <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 9.</strong> AMI implementation architecture: UI → VS Code extension → MCP Client → MCP Server → tools, codebase, and DABStep benchmark.</div>
             </div>
           </div>
+        </Section>
+
+        <Section id="install" title="Install" subtitle="Get SuperInference for your environment.">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            <MotionCard title="VS Code Extension" delay={0}>
+              <p className="text-neutral-600 dark:text-neutral-300 text-sm/6 mb-4">Install AMI directly from the VS Code Marketplace or download the VSIX.</p>
+              <div className="space-y-2">
+                <a href="https://marketplace.visualstudio.com/items?itemName=superinference.ami-vscode" target="_blank" rel="noreferrer" className="block text-sm text-blue-600 dark:text-blue-400 hover:underline">VS Code Marketplace</a>
+                <a href="https://github.com/superinference/site/releases/latest/download/superinference.ami-vscode.vsix" className="block text-sm text-blue-600 dark:text-blue-400 hover:underline">Download VSIX</a>
+                <div className="mt-3 rounded bg-neutral-100 dark:bg-neutral-950/80 border border-neutral-200 dark:border-white/10 p-2">
+                  <code className="text-xs text-neutral-800 dark:text-neutral-200">code --install-extension superinference.ami-vscode.vsix</code>
+                </div>
+              </div>
+            </MotionCard>
+            <MotionCard title="CLI" delay={0.1}>
+              <p className="text-neutral-600 dark:text-neutral-300 text-sm/6 mb-4">Standalone binary for Linux x64 or install via npm.</p>
+              <div className="space-y-2">
+                <a href="https://github.com/superinference/site/releases/latest/download/superinference-cli-linux-x64" className="block text-sm text-blue-600 dark:text-blue-400 hover:underline">Download Linux x64 binary</a>
+                <div className="mt-3 rounded bg-neutral-100 dark:bg-neutral-950/80 border border-neutral-200 dark:border-white/10 p-2 space-y-1">
+                  <code className="text-xs text-neutral-800 dark:text-neutral-200 block">chmod +x superinference-cli-linux-x64</code>
+                  <code className="text-xs text-neutral-800 dark:text-neutral-200 block">./superinference-cli-linux-x64 --help</code>
+                </div>
+                <p className="text-xs text-neutral-500 dark:text-neutral-400 mt-2">Or via npm:</p>
+                <div className="rounded bg-neutral-100 dark:bg-neutral-950/80 border border-neutral-200 dark:border-white/10 p-2">
+                  <code className="text-xs text-neutral-800 dark:text-neutral-200">npm install -g @superinference/cli</code>
+                </div>
+              </div>
+            </MotionCard>
+            <MotionCard title="OpenClaw Plugin" delay={0.2}>
+              <p className="text-neutral-600 dark:text-neutral-300 text-sm/6 mb-4">AI code assistant plugin for OpenClaw.</p>
+              <div className="space-y-2">
+                <a href="https://github.com/superinference/site/releases/latest/download/openclaw-plugin-superinference.tgz" className="block text-sm text-blue-600 dark:text-blue-400 hover:underline">Download plugin</a>
+                <div className="mt-3 rounded bg-neutral-100 dark:bg-neutral-950/80 border border-neutral-200 dark:border-white/10 p-2">
+                  <code className="text-xs text-neutral-800 dark:text-neutral-200">npm install openclaw-plugin-superinference.tgz</code>
+                </div>
+              </div>
+            </MotionCard>
+          </div>
+          <p className="mt-6 text-sm text-neutral-500 dark:text-neutral-400 text-center">All releases available at <a href="https://github.com/superinference/site/releases" target="_blank" rel="noreferrer" className="underline hover:no-underline">github.com/superinference/site/releases</a></p>
         </Section>
 
         <Section id="copy" title="How it Works" subtitle="Plan, act, observe, and loop with feedback.">
