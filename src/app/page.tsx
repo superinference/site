@@ -21,7 +21,7 @@ const timelineEvolution = `flowchart TD
   Comp["Comparative &amp;<br/>Pairwise Evaluation"]
   Noise["Uncertainty, Calibration<br/>&amp; Information-Theoretic<br/>Metrics"]
   Agent["Agentic LLM<br/>Architectures<br/>(CoT, ReAct, RAG)"]
-  Super["SuperInference<br/>Feedback-Augmented<br/>MCP Framework"]
+  Super["SuperInference<br/>Feedback-Augmented<br/>Reasoning Framework"]
   
   Bench -->|limitations| Human
   Human -->|scalability gap| Dynamic
@@ -167,29 +167,34 @@ const noisyRetrieval = `flowchart TD
   style Memory fill:#5a5a1e,color:#ffffff
 `;
 
-// VS Code extension integration (from 03_method.tex Implementation section)
+// AMI architecture (multi-frontend TypeScript engine)
 const vscode = `flowchart TD
   UI["UI<br/>(Developer Interface)"]
-  Extension["AMI VS Code<br/>Extension"]
-  Client["AMI MCP Client<br/>(validation, retry,<br/>schema fidelity)"]
-  Server["AMI MCP Server<br/>(PRE loop, belief updates,<br/>memory gating, logging)"]
-  Tools["Tools<br/>(MCP)"]
+  VSCode["VS Code<br/>Extension"]
+  CLI["CLI<br/>(Terminal REPL)"]
+  OpenClaw["OpenClaw<br/>Plugin"]
+  Engine["Core Engine<br/>(TypeScript, PRE loop,<br/>belief updates, memory)"]
+  Tools["15 Built-in Tools<br/>(file ops, search,<br/>execution, web)"]
   Codebase["Codebase<br/>(Files)"]
   DABStep["DABStep<br/>(Benchmark)"]
-  
-  UI --> Extension
-  Extension --> Client
-  Client --> Server
-  Server --> Tools
-  Server --> Codebase
-  Server --> DABStep
-  Codebase -.->|"context"| Client
-  DABStep -.->|"ground-truth<br/>verifiers"| Server
-  
+
+  UI --> VSCode
+  UI --> CLI
+  UI --> OpenClaw
+  VSCode --> Engine
+  CLI --> Engine
+  OpenClaw --> Engine
+  Engine --> Tools
+  Engine --> Codebase
+  Engine --> DABStep
+  Codebase -.->|"context"| Engine
+  DABStep -.->|"ground-truth<br/>verifiers"| Engine
+
   style UI fill:#1e3a5f,color:#ffffff
-  style Extension fill:#8b5a2b,color:#ffffff
-  style Client fill:#2d5a5a,color:#ffffff
-  style Server fill:#2d5a3d,color:#ffffff
+  style VSCode fill:#8b5a2b,color:#ffffff
+  style CLI fill:#8b5a2b,color:#ffffff
+  style OpenClaw fill:#8b5a2b,color:#ffffff
+  style Engine fill:#2d5a3d,color:#ffffff
   style Tools fill:#5a3d7a,color:#ffffff
   style Codebase fill:#5a5a1e,color:#ffffff
   style DABStep fill:#7a3d5a,color:#ffffff
@@ -203,7 +208,7 @@ const papers = [
     venue: "Software: Practice and Experience, 2026",
     doi: "https://doi.org/10.1002/spe.0000",
     summary:
-      "An open-source software framework for iterative LLM reasoning built on the Model Context Protocol (MCP) with critic-gated memory and information-theoretic stopping criteria.",
+      "An open-source software framework for iterative LLM reasoning with critic-gated memory and information-theoretic stopping criteria, available as a VS Code extension and CLI, with an OpenClaw plugin in development.",
     authors: "Carlos Camacho-González and Cristina Catalán-Torrecilla and Luis Llana and Alberto Núñez and Luis Tomás",
     year: "2026",
     eprint: "2506.XXXXX",
@@ -390,10 +395,10 @@ export default function Home() {
               <div className="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">CLI Binary</div>
               <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Linux x64</div>
             </a>
-            <a href="https://github.com/superinference/site/releases/latest" target="_blank" rel="noreferrer" className="group rounded-lg border border-neutral-200 dark:border-neutral-800 p-4 hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
-              <div className="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">OpenClaw Plugin</div>
-              <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">All releases</div>
-            </a>
+            <span className="group rounded-lg border border-neutral-200 dark:border-neutral-800 p-4 opacity-60 cursor-default">
+              <div className="text-sm font-semibold text-neutral-900 dark:text-white transition-colors">OpenClaw Plugin</div>
+              <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Coming soon</div>
+            </span>
           </div>
         </section>
 
@@ -401,7 +406,7 @@ export default function Home() {
           <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7 space-y-3">
             <p>We introduce SuperInference, a feedback-augmented, open-source architecture for large-language-model (LLM) agents designed for complex programming and multi-step reasoning. This project is a collaboration between the Departamento de Sistemas Informáticos y Computación and the Departamento de Física de la Tierra y Astrofísica at Universidad Complutense de Madrid, and Red Hat (Emerging Partnership Engineering, Ecosystem Engineering).</p>
             <p>Existing LLM agents largely rely on single-shot prompting or heuristic, ad hoc prompt iteration. As a result, they often lack principled mechanisms for reasoning under uncertainty or for determining when additional interaction is beneficial—particularly in resource-constrained settings where retraining or architectural modification is infeasible. We frame LLM reasoning as feedback-driven inference with measurable information gain, enabling SuperInference to improve reliability and providing a theoretical account of iterative, multi-turn reasoning without modifying the underlying model.</p>
-            <p>The system integrates an explicit planner, a task router, and an embedding-based memory, enabling the agent to iteratively refine its actions using execution feedback. The approach is model-agnostic and requires no architectural changes. We provide AMI (Agentic Multi-step Inference)—comprising the AMI VS Code extension, AMI MCP server, and AMI MCP client—for interactive experimentation, and a formalization of the agent&apos;s operation as a partially observable decision process, yielding probabilistic and information-theoretic bounds that link retrieval quality, memory updates, and iteration budgets to success.</p>
+            <p>The system integrates an explicit planner, a task router, and an embedding-based memory, enabling the agent to iteratively refine its actions using execution feedback. The approach is model-agnostic and requires no architectural changes. We provide AMI (Agentic Multi-step Inference)—available as a VS Code extension and a terminal CLI, with an OpenClaw plugin in development—for interactive experimentation, and a formalization of the agent&apos;s operation as a partially observable decision process, yielding probabilistic and information-theoretic bounds that link retrieval quality, memory updates, and iteration budgets to success.</p>
             <p>To assess SuperInference, we introduce metrics for semantic fidelity, calibration, and behavioral stability, applied to the DABStep framework. Across algorithmic reasoning, code debugging, and multi-step problem solving, SuperInference raises Gemini 2.5 Pro performance from 12.7% to 41.3%. All resources are released under open-source licenses and are publicly available through the project website and <a href="https://github.com/superinference" target="_blank" rel="noreferrer" className="underline hover:no-underline">GitHub organization</a>.</p>
           </div>
         </Section>
@@ -412,7 +417,7 @@ export default function Home() {
               <p><strong>Motivation and Context.</strong> As large language models (LLMs) are deployed across scientific discovery, engineering, and decision-support domains, rigorous assessment of their reasoning, planning, and reliability has become increasingly important. MMLU and SuperGLUE are standard static benchmarks that have been indispensable for tracking aggregate gains from scale and pretraining. However, these benchmarks capture only static snapshots of capability and therefore struggle to characterize multi-step reasoning, iterative planning, and evolving knowledge requirements. Despite rapid scaling, even frontier LLMs achieve only incremental improvements on broad, multi-domain reasoning benchmarks, particularly when evaluated under static, single-shot protocols.</p>
               <p><strong>Limitations of Current Approaches.</strong> Surface-level metrics based on token- or sequence-level overlap (e.g., exact match, BLEU, ROUGE) fail to reflect semantic correctness, intermediate chain-of-thought, or the compositional planning demanded by many downstream applications. Human judgments remain essential for fluency and creativity, but they suffer from annotator bias, limited reproducibility, and poor scalability. These limitations complicate their use as primary evaluation tools, motivating richer evaluation approaches to improve accuracy, robustness, calibration, and behavioral stability under ambiguity and noise.</p>
               <p><strong>Converging Research Threads.</strong> Recent methodological advances address this problem by combining standardized evaluation with dynamic and adversarial probes. Large-scale frameworks such as HELM and PromptBench promote unified protocols that expose failure modes in multi-turn reasoning and adversarial conditions. Comparative and pairwise evaluations expose subtle qualitative differences between model behaviors that are often unclear from aggregated accuracy scores, while dynamic evaluation frameworks introduce evolving test conditions that better approximate deployment settings. A parallel line of research focuses on uncertainty quantification and deviation-aware metrics, using calibration techniques and information-theoretic measures such as entropy, mutual information, and expected information gain to quantify the value of additional evidence or reasoning steps. Meanwhile, LLM architectures are evolving toward agentic systems with planning, tool use, memory, and iterative self-feedback—from chain-of-thought prompting and self-consistency to agentic frameworks like ReAct that interleave reasoning and acting, tool-augmented models, and retrieval-augmented generation.</p>
-              <p><strong>SuperInference Integration.</strong> Figure 1 illustrates these converging threads. Building on them, SuperInference is a fully open-source Model Context Protocol (MCP) client/server framework integrating embedding-augmented memory, critic-based filtering, and information-theoretic evaluation within an agentic LLM architecture built on the Transformer foundation. The term <em>noisy decision process</em> formalizes the fact that an LLM agent&apos;s intermediate computations, retrieval operations, and critic assessments are stochastic and error-prone. Each reasoning step corresponds to a stochastic transition over latent beliefs, with transition probabilities modulated by retrieval imperfections, critic false positives and negatives, and model-internal variability. This framing enables analysis of multi-step reasoning using tools from partially observable decision processes and information theory, yielding provable bounds on convergence and expected information gain.</p>
+              <p><strong>SuperInference Integration.</strong> Figure 1 illustrates these converging threads. Building on them, SuperInference is a fully open-source framework integrating embedding-augmented memory, critic-based filtering, and information-theoretic evaluation within an agentic LLM architecture built on the Transformer foundation. The term <em>noisy decision process</em> formalizes the fact that an LLM agent&apos;s intermediate computations, retrieval operations, and critic assessments are stochastic and error-prone. Each reasoning step corresponds to a stochastic transition over latent beliefs, with transition probabilities modulated by retrieval imperfections, critic false positives and negatives, and model-internal variability. This framing enables analysis of multi-step reasoning using tools from partially observable decision processes and information theory, yielding provable bounds on convergence and expected information gain.</p>
             </div>
             <div>
               <Mermaid chart={timelineEvolution} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{}} descriptions={{
@@ -422,7 +427,7 @@ export default function Home() {
                 "Comparative & Pairwise Evaluation": "Comparative and pairwise evaluations expose subtle qualitative differences between model behaviors that are often unclear from aggregated accuracy scores, particularly for ambiguous or underspecified tasks.",
                 "Uncertainty, Calibration & Information-Theoretic Metrics": "Calibration techniques (temperature scaling, Bayesian binning, ensembles) and information-theoretic measures (entropy, mutual information, expected information gain) quantify the value of additional evidence or reasoning steps.",
                 "Agentic LLM Architectures": "Chain-of-thought prompting, self-consistency, ReAct (interleaving reasoning and acting), tool-augmented models, retrieval-augmented generation, and multi-agent frameworks that coordinate sub-tasks and maintain external memory.",
-                "SuperInference": "Fully open-source MCP client/server framework integrating embedding-augmented memory, critic-based filtering, and information-theoretic evaluation. Formalizes LLM reasoning as a noisy decision process with provable bounds on convergence and expected information gain.",
+                "SuperInference": "Fully open-source framework integrating embedding-augmented memory, critic-based filtering, and information-theoretic evaluation. Formalizes LLM reasoning as a noisy decision process with provable bounds on convergence and expected information gain.",
               }} />
               <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 1.</strong> Timeline showing the evolution of LLM evaluation and agentic architectures leading to SuperInference.</div>
             </div>
@@ -566,24 +571,25 @@ export default function Home() {
           </div>
         </Section>
 
-        <Section id="editor" title="AMI: Agentic Multi-step Inference" subtitle="VS Code extension, MCP server, and MCP client (paper Section 3, Fig. 4).">
+        <Section id="editor" title="AMI: Agentic Multi-step Inference" subtitle="VS Code extension (Marketplace), terminal CLI (releases), and OpenClaw plugin (in development).">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
             <div className="space-y-3 text-neutral-700 dark:text-neutral-300 text-base/7">
-              <p><strong>AMI (Agentic Multi-step Inference)</strong> unifies planning, retrieval, execution, and verification into a single reasoning loop. SuperInference is implemented as three components: the <strong>MCP Server</strong> runs the PRE loop—planning, retrieval, execution, belief updates, and memory gating, logging all decisions for analysis; the <strong>MCP Client</strong> handles communication, validation, and retry logic, allowing runtime tuning of confidence thresholds and budgets; and the <strong>VS Code Extension</strong> provides the user interface for observing agent reasoning, previewing plans, and adjusting parameters during execution. The extension is publicly available at <a href="https://marketplace.visualstudio.com/items?itemName=superinference.ami-vscode" target="_blank" rel="noreferrer" className="underline hover:no-underline">Microsoft&apos;s VS Code Marketplace</a>.</p>
-              <p>We chose the AMI VS Code extension as the primary interface because it meets developers where they work. The extension has access to open files, the active selection, and language servers, making it ideal for context gathering and precise edits. From a UX standpoint, the agent feels like an expert teammate: it can navigate to symbols, explain unfamiliar code, propose diffs, and run tests without forcing you to switch windows. Every action is visible in a panel with logs and a diff viewer so that review remains fast and safe. We evaluate on DABStep, a benchmark with stepwise reasoning tasks and ground-truth verifiers, measuring per-step correctness, critic precision, and overall accuracy.</p>
-              <p>The MCP server houses tools behind typed interfaces, while the MCP client ensures protocol fidelity and typed schema validation. This separation allows organizations to restrict which tools are available, add project-specific actions, and audit usage centrally. Future work will expand the scope of SuperInference across architectures and deployment contexts, including systematic evaluation on diverse model families—from frontier multimodal systems to emerging lightweight models such as the Granite family, LLaMA variants, and Mistral models—to map out cost-accuracy trade-offs and identify optimal configuration regimes where feedback-driven refinement can compensate for reduced model capacity.</p>
+              <p><strong>AMI (Agentic Multi-step Inference)</strong> unifies planning, retrieval, execution, and verification into a single reasoning loop. The framework is built around a shared <strong>TypeScript engine</strong> that implements the PRE loop—planning, retrieval, execution, belief updates, and critic-gated memory—with 15 built-in tools and multi-provider LLM support (OpenAI, Anthropic, Google, DeepSeek, Ollama, OpenRouter). AMI is available through multiple frontends: a <strong>VS Code extension</strong> publicly available at <a href="https://marketplace.visualstudio.com/items?itemName=superinference.ami-vscode" target="_blank" rel="noreferrer" className="underline hover:no-underline">Microsoft&apos;s VS Code Marketplace</a>, a <strong>terminal CLI</strong> distributed via the <a href="https://github.com/superinference/site/releases/latest" target="_blank" rel="noreferrer" className="underline hover:no-underline">project releases</a>, and an <strong>OpenClaw plugin</strong> currently in development. The initial implementation used for the benchmark evaluation described in the paper is available in a separate branch of the repository.</p>
+              <p>The VS Code extension meets developers where they work. It has access to open files, the active selection, and language servers, making it ideal for context gathering and precise edits. The terminal CLI provides a lightweight REPL interface for scripting and headless workflows. The OpenClaw plugin (in development) will integrate SuperInference tools into OpenClaw agents. From a UX standpoint, the agent feels like an expert teammate: it can navigate to symbols, explain unfamiliar code, propose diffs, and run tests without forcing you to switch windows. Every action is visible in a panel with logs and a diff viewer so that review remains fast and safe. We evaluate on DABStep, a benchmark with stepwise reasoning tasks and ground-truth verifiers, measuring per-step correctness, critic precision, and overall accuracy.</p>
+              <p>The engine houses tools behind typed interfaces with a permission system that classifies operations as safe, unsafe, or blocked. This architecture allows organizations to restrict which tools are available, add project-specific actions, and audit usage centrally. Future work will expand the scope of SuperInference across architectures and deployment contexts, including systematic evaluation on diverse model families—from frontier multimodal systems to emerging lightweight models such as the Granite family, LLaMA variants, and Mistral models—to map out cost-accuracy trade-offs and identify optimal configuration regimes where feedback-driven refinement can compensate for reduced model capacity.</p>
             </div>
           <div>
-            <Mermaid chart={vscode} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{ UI: "Interface", Extension: "Extension", Client: "Client", Server: "Server", Tools: "Tools", Codebase: "Files", DABStep: "Benchmark" }} descriptions={{
-              UI: "Developer-facing interface inside the editor. Presents chat, diffs, logs, and navigation, keeping focus on code while exposing the PRE reasoning loop in a controlled, reviewable workflow.",
-              Extension: "AMI VS Code extension hosting the assistant. Publicly available at Microsoft's VS Code Marketplace. Bridges UI and MCP backend, gathers context from language servers, and applies edits with explicit approvals.",
-              Client: "AMI MCP Client: handles communication, validation, and retry logic. Ensures protocol fidelity and typed schema validation. Allows runtime tuning of confidence thresholds (κ), EIG thresholds (τ), and iteration budgets (N_max).",
-              Server: "AMI MCP Server: runs the complete PRE loop — planning, retrieval, execution, belief updates, and critic-gated memory. Logs all decisions for analysis. Exposes typed tools with auditing, rate limits, and policies.",
-              Tools: "Operational actions accessible through MCP: grep, test, type-check, build, docker, or project-specific tasks. Provide measurable outcomes that anchor agent decisions and verify progress across reasoning steps.",
+            <Mermaid chart={vscode} className="rounded-xl border border-white/10 bg-neutral-900/60 p-4 overflow-x-auto" highlights={{ UI: "Interface", VSCode: "VS Code", CLI: "CLI", OpenClaw: "OpenClaw", Engine: "Engine", Tools: "Tools", Codebase: "Files", DABStep: "Benchmark" }} descriptions={{
+              UI: "Developer-facing interface. Presents chat, diffs, logs, and navigation, keeping focus on code while exposing the PRE reasoning loop in a controlled, reviewable workflow.",
+              VSCode: "AMI VS Code extension hosting the assistant. Publicly available at Microsoft's VS Code Marketplace. Gathers context from language servers and applies edits with explicit approvals.",
+              CLI: "Terminal REPL interface for scripting and headless workflows. Supports session management, persona switching, and all 15 built-in tools.",
+              OpenClaw: "OpenClaw plugin (in development) that wraps all SuperInference tools for integration with OpenClaw agents. Will include workspace symbol indexing and memory auto-loading.",
+              Engine: "Core TypeScript engine: runs the complete PRE loop — planning, retrieval, execution, belief updates, and critic-gated memory. Supports multiple LLM providers (OpenAI, Anthropic, Google, DeepSeek, Ollama, OpenRouter). Logs all decisions for analysis.",
+              Tools: "15 built-in tools: file operations (read, write, edit, multi-edit), code search (grep, glob, search-symbols), execution (bash, list-dir), web (fetch, search), interaction (ask-user, task, tool-search), and notebook editing.",
               Codebase: "The repository of files and symbols. Supplies definitions, references, and examples the agent navigates and modifies, providing context m̃_t for the Executor.",
               DABStep: "DABStep benchmark integration for systematic evaluation. Provides stepwise reasoning tasks with ground-truth verifiers, measuring per-step correctness, critic precision, and overall accuracy.",
             }} />
-              <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 9.</strong> AMI implementation architecture: UI → VS Code extension → MCP Client → MCP Server → tools, codebase, and DABStep benchmark.</div>
+              <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 9.</strong> AMI implementation architecture: UI → frontends (VS Code, CLI, OpenClaw) → Core Engine → tools, codebase, and DABStep benchmark.</div>
             </div>
           </div>
         </Section>
