@@ -37,7 +37,15 @@ esac
 
 # ── Clean up ALL existing installations ──────────────────────────
 TARGET="$INSTALL_DIR/ami"
+LEGACY="$INSTALL_DIR/superinference"
 CLEANED=0
+
+# 0. Always remove legacy binary in the same INSTALL_DIR
+if [ -f "$LEGACY" ]; then
+  echo "  $(yellow 'Removing legacy') $LEGACY"
+  rm -f "$LEGACY" 2>/dev/null || true
+  CLEANED=$((CLEANED + 1))
+fi
 
 # 1. Find every 'ami' or legacy 'superinference' binary in PATH
 for bin_name in ami superinference; do
