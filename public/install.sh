@@ -10,7 +10,7 @@ dim()   { printf "\033[2m%s\033[0m" "$*"; }
 yellow(){ printf "\033[33m%s\033[0m" "$*"; }
 
 echo ""
-echo "  $(bold 'SuperInference') installer"
+echo "  $(bold 'Si:AMI') installer"
 echo "  $(dim 'https://www.superinference.org')"
 echo ""
 
@@ -22,9 +22,9 @@ OS=$(uname -s | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 
 case "$OS-$ARCH" in
-  linux-x86_64)   BINARY="superinference-cli-linux-x64" ;;
-  darwin-arm64)   BINARY="superinference-cli-darwin-arm64" ;;
-  darwin-x86_64)  BINARY="superinference-cli-darwin-arm64" ;; # Rosetta 2
+  linux-x86_64)   BINARY="ami-cli-linux-x64" ;;
+  darwin-arm64)   BINARY="ami-cli-darwin-arm64" ;;
+  darwin-x86_64)  BINARY="ami-cli-darwin-arm64" ;; # Rosetta 2
   *)
     echo "  No prebuilt binary for $OS-$ARCH."
     echo "  Install via npm instead:"
@@ -36,21 +36,24 @@ case "$OS-$ARCH" in
 esac
 
 # ── Clean up ALL existing installations ──────────────────────────
-TARGET="$INSTALL_DIR/superinference"
+TARGET="$INSTALL_DIR/ami"
 CLEANED=0
 
-# 1. Find every 'superinference' binary in PATH
-while IFS= read -r existing; do
-  [ -z "$existing" ] && continue
-  # Skip the target location — we'll overwrite it anyway
-  [ "$existing" = "$TARGET" ] && continue
-  echo "  $(yellow 'Removing stale') $existing"
-  rm -f "$existing" 2>/dev/null || true
-  CLEANED=$((CLEANED + 1))
-done < <(which -a superinference 2>/dev/null || true)
+# 1. Find every 'ami' or legacy 'superinference' binary in PATH
+for bin_name in ami superinference; do
+  while IFS= read -r existing; do
+    [ -z "$existing" ] && continue
+    [ "$existing" = "$TARGET" ] && continue
+    echo "  $(yellow 'Removing stale') $existing"
+    rm -f "$existing" 2>/dev/null || true
+    CLEANED=$((CLEANED + 1))
+  done < <(which -a "$bin_name" 2>/dev/null || true)
+done
 
-# 2. Check common alternative locations
+# 2. Check common alternative locations (legacy + current)
 for alt in \
+  /usr/local/bin/ami \
+  "$HOME/.local/bin/superinference" \
   /usr/local/bin/superinference \
   "$HOME/.superinference/bin/superinference" \
   "$HOME/bin/superinference" \
@@ -73,7 +76,7 @@ if command -v npm >/dev/null 2>&1; then
   fi
 fi
 
-# 4. Remove dead symlinks pointing to superinference
+# 4. Remove dead symlinks
 if [ -L "$TARGET" ]; then
   echo "  $(yellow 'Removing symlink') $TARGET"
   rm -f "$TARGET"
@@ -122,7 +125,7 @@ if ! echo "$PATH" | tr ':' '\n' | grep -qx "$INSTALL_DIR"; then
 fi
 
 echo "  $(dim 'Get started:')"
-echo "    superinference --help"
+echo "    ami --help"
 echo ""
 
 # Offer VS Code extension
