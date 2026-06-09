@@ -28,7 +28,7 @@ export default function CopyButton({ text, className, label = "Copy" }: CopyButt
       title={copied ? "Copied" : label}
       onClick={handleCopy}
       className={
-        "inline-flex items-center justify-center rounded-md border border-white/10 bg-black/30 hover:bg-black/50 text-neutral-200 hover:text-white transition-colors px-2 py-1 text-xs " +
+        "inline-flex items-center justify-center rounded-md border border-neutral-300 dark:border-white/10 bg-neutral-200 dark:bg-black/30 hover:bg-neutral-300 dark:hover:bg-black/50 text-neutral-600 dark:text-neutral-200 hover:text-neutral-900 dark:hover:text-white transition-colors px-2 py-1 text-xs " +
         (className ?? "")
       }
     >

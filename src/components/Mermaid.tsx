@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState, useCallback } from "react";
 import mermaid from "mermaid";
 import { motion } from "framer-motion";
 import tippy, { Instance as TippyInstance } from "tippy.js";
@@ -14,6 +14,36 @@ export type MermaidProps = {
   descriptions?: Record<string, string>;
 };
 
+const darkTheme = {
+  background: "transparent",
+  primaryColor: "#111827",
+  primaryBorderColor: "#94a3b8",
+  primaryTextColor: "#e5e7eb",
+  lineColor: "#cbd5e1",
+  secondaryColor: "#0b1220",
+  tertiaryColor: "#111827",
+  clusterBkg: "#0f172a80",
+  clusterBorderColor: "#64748b",
+  edgeLabelBackground: "#111827",
+};
+
+const lightTheme = {
+  background: "transparent",
+  primaryColor: "#f1f5f9",
+  primaryBorderColor: "#475569",
+  primaryTextColor: "#1e293b",
+  lineColor: "#334155",
+  secondaryColor: "#e2e8f0",
+  tertiaryColor: "#f8fafc",
+  clusterBkg: "#f1f5f980",
+  clusterBorderColor: "#94a3b8",
+  edgeLabelBackground: "#ffffff",
+};
+
+function isDarkMode() {
+  return document.documentElement.classList.contains("dark");
+}
+
 export default function Mermaid({ chart, className, animate = true, highlights = {}, descriptions = {} }: MermaidProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const wrapperRef = useRef<HTMLDivElement>(null);
@@ -22,24 +52,32 @@ export default function Mermaid({ chart, className, animate = true, highlights =
   const [modalOpen, setModalOpen] = useState(false);
   const [modalContent, setModalContent] = useState<{ title: string; description: string } | null>(null);
   const tippiesRef = useRef<TippyInstance[]>([]);
+  const [dark, setDark] = useState(true);
+  const renderCountRef = useRef(0);
 
   useEffect(() => {
+    setDark(isDarkMode());
+
+    const observer = new MutationObserver(() => {
+      setDark(isDarkMode());
+    });
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["class"],
+    });
+    return () => observer.disconnect();
+  }, []);
+
+  const initAndRender = useCallback(async () => {
+    const themeVars = dark ? darkTheme : lightTheme;
+    renderCountRef.current += 1;
+    const renderId = `m-${id}-${renderCountRef.current}`;
+
     mermaid.initialize({
       startOnLoad: false,
       theme: "base",
       securityLevel: "loose",
-      themeVariables: {
-        background: "transparent",
-        primaryColor: "#111827",
-        primaryBorderColor: "#94a3b8",
-        primaryTextColor: "#e5e7eb",
-        lineColor: "#cbd5e1",
-        secondaryColor: "#0b1220",
-        tertiaryColor: "#111827",
-        clusterBkg: "#0f172a80",
-        clusterBorderColor: "#64748b",
-        edgeLabelBackground: "#111827",
-      },
+      themeVariables: themeVars,
       flowchart: {
         htmlLabels: true,
         curve: "basis",
@@ -58,23 +96,18 @@ export default function Mermaid({ chart, className, animate = true, highlights =
       fontFamily:
         'Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Cantarell, Noto Sans, "Helvetica Neue", Arial, "Apple Color Emoji", "Segoe UI Emoji"',
     });
-  }, []);
+
+    try {
+      const { svg } = await mermaid.render(renderId, chart);
+      setSvg(svg);
+    } catch (e) {
+      setSvg(`<pre style='color:#f87171'>Mermaid error: ${String(e)}</pre>`);
+    }
+  }, [chart, id, dark]);
 
   useEffect(() => {
-    let cancelled = false;
-    async function render() {
-      try {
-        const { svg } = await mermaid.render(`m-${id}`, chart);
-        if (!cancelled) setSvg(svg);
-      } catch (e) {
-        if (!cancelled) setSvg(`<pre style='color:#f87171'>Mermaid error: ${String(e)}</pre>`);
-      }
-    }
-    render();
-    return () => {
-      cancelled = true;
-    };
-  }, [chart, id]);
+    initAndRender();
+  }, [initAndRender]);
 
   // Style, tooltips, and markers
   useEffect(() => {
@@ -271,17 +304,17 @@ export default function Mermaid({ chart, className, animate = true, highlights =
           onClick={() => setModalOpen(false)}
         >
           <div
-            className="max-w-lg w-[90%] rounded-lg border border-white/10 bg-neutral-900/95 p-5 shadow-xl"
+            className="max-w-lg w-[90%] rounded-lg border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/95 p-5 shadow-xl"
             onClick={(e) => e.stopPropagation()}
           >
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h3 className="text-lg font-semibold text-white">{modalContent.title}</h3>
-                <p className="mt-2 text-sm text-neutral-300 whitespace-pre-wrap">{modalContent.description}</p>
+                <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">{modalContent.title}</h3>
+                <p className="mt-2 text-sm text-neutral-600 dark:text-neutral-300 whitespace-pre-wrap">{modalContent.description}</p>
               </div>
               <button
                 aria-label="Close"
-                className="shrink-0 rounded-md px-2 py-1 text-sm text-neutral-300 hover:text-white hover:bg-white/10"
+                className="shrink-0 rounded-md px-2 py-1 text-sm text-neutral-500 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white hover:bg-neutral-100 dark:hover:bg-white/10"
                 onClick={() => setModalOpen(false)}
               >
                 ✕
@@ -292,4 +325,4 @@ export default function Mermaid({ chart, className, animate = true, highlights =
       ) : null}
     </motion.div>
   );
-} 
+}

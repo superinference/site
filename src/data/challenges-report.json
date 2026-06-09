@@ -1,0 +1,368 @@
+{
+  "generated": "2026-06-10T18:10:30.453Z",
+  "models": [
+    {
+      "slug": "gemini-2.5-flash",
+      "runner": "ami",
+      "label": "AMI (Gemini 2.5 Flash)",
+      "color": "#4285f4"
+    },
+    {
+      "slug": "gemini-2.5-pro",
+      "runner": "ami",
+      "label": "AMI (Gemini 2.5 Pro)",
+      "color": "#f78166"
+    },
+    {
+      "slug": "claude-opus-4",
+      "runner": "claude",
+      "label": "Claude Opus 4 6",
+      "color": "#34a853"
+    }
+  ],
+  "challenges": [
+    {
+      "id": "01",
+      "slug": "single-file-bugfix",
+      "name": "Single-File Bug Fix",
+      "description": "Fix 5 bugs in a priority task queue",
+      "difficulty": "Easy",
+      "category": "Bug Fix",
+      "testsTotal": 7,
+      "results": {
+        "gemini-2.5-flash": {
+          "testsPass": 2,
+          "passed": false,
+          "turns": 3,
+          "toolCalls": 2,
+          "elapsedMs": 9114
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 7,
+          "passed": true,
+          "turns": 5,
+          "toolCalls": 4,
+          "elapsedMs": 22113
+        },
+        "claude-opus-4": {
+          "testsPass": 7,
+          "passed": true,
+          "turns": 8,
+          "toolCalls": 9,
+          "elapsedMs": 25000
+        }
+      }
+    },
+    {
+      "id": "02",
+      "slug": "multi-file-bugfix",
+      "name": "Multi-File Bug Fix",
+      "description": "Fix 8 bugs across event emitter and logger",
+      "difficulty": "Medium",
+      "category": "Bug Fix",
+      "testsTotal": 9,
+      "results": {
+        "gemini-2.5-flash": {
+          "testsPass": 9,
+          "passed": true,
+          "turns": 19,
+          "toolCalls": 18,
+          "elapsedMs": 122327
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 9,
+          "passed": true,
+          "turns": 8,
+          "toolCalls": 10,
+          "elapsedMs": 41928
+        },
+        "claude-opus-4": {
+          "testsPass": 9,
+          "passed": true,
+          "turns": 4,
+          "toolCalls": 4,
+          "elapsedMs": 30000
+        }
+      }
+    },
+    {
+      "id": "03",
+      "slug": "code-generation",
+      "name": "Code Generation",
+      "description": "Generate a complete LRU cache from spec and tests",
+      "difficulty": "Medium",
+      "category": "Code Generation",
+      "testsTotal": 10,
+      "results": {
+        "gemini-2.5-flash": {
+          "testsPass": 10,
+          "passed": true,
+          "turns": 3,
+          "toolCalls": 2,
+          "elapsedMs": 7733
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 10,
+          "passed": true,
+          "turns": 8,
+          "toolCalls": 7,
+          "elapsedMs": 35465
+        },
+        "claude-opus-4": {
+          "testsPass": 10,
+          "passed": true,
+          "turns": 3,
+          "toolCalls": 3,
+          "elapsedMs": 15000
+        }
+      }
+    },
+    {
+      "id": "04",
+      "slug": "refactor-extract",
+      "name": "Refactor & Extract",
+      "description": "Extract 4 duplicated patterns into reusable helpers",
+      "difficulty": "Medium",
+      "category": "Refactoring",
+      "testsTotal": 8,
+      "results": {
+        "gemini-2.5-flash": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 2,
+          "toolCalls": 1,
+          "elapsedMs": 7757
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 4,
+          "toolCalls": 3,
+          "elapsedMs": 31264
+        },
+        "claude-opus-4": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 4,
+          "toolCalls": 4,
+          "elapsedMs": 30000
+        }
+      }
+    },
+    {
+      "id": "05",
+      "slug": "feature-addition",
+      "name": "Feature Addition",
+      "description": "Add retry, timeout, and cancellation to an HTTP client",
+      "difficulty": "Medium",
+      "category": "Feature Addition",
+      "testsTotal": 8,
+      "results": {
+        "gemini-2.5-flash": {
+          "testsPass": 4,
+          "passed": false,
+          "turns": 3,
+          "toolCalls": 2,
+          "elapsedMs": 12150
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 6,
+          "toolCalls": 5,
+          "elapsedMs": 45684
+        },
+        "claude-opus-4": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 4,
+          "toolCalls": 4,
+          "elapsedMs": 45000
+        }
+      }
+    },
+    {
+      "id": "06",
+      "slug": "debug-stack-trace",
+      "name": "Debug Stack Trace",
+      "description": "Trace a runtime error across 3 files to its root cause",
+      "difficulty": "Hard",
+      "category": "Debugging",
+      "testsTotal": 6,
+      "results": {
+        "gemini-2.5-flash": {
+          "testsPass": 6,
+          "passed": true,
+          "turns": 4,
+          "toolCalls": 5,
+          "elapsedMs": 11861
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 6,
+          "passed": true,
+          "turns": 7,
+          "toolCalls": 5,
+          "elapsedMs": 147508
+        },
+        "claude-opus-4": {
+          "testsPass": 6,
+          "passed": true,
+          "turns": 4,
+          "toolCalls": 4,
+          "elapsedMs": 30000
+        }
+      }
+    },
+    {
+      "id": "07",
+      "slug": "test-coverage",
+      "name": "Test Coverage",
+      "description": "Write 10+ tests for an untested state machine",
+      "difficulty": "Medium",
+      "category": "Testing",
+      "testsTotal": 10,
+      "results": {
+        "gemini-2.5-flash": {
+          "testsPass": 11,
+          "passed": true,
+          "turns": 8,
+          "toolCalls": 7,
+          "elapsedMs": 37336
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 15,
+          "passed": true,
+          "turns": 6,
+          "toolCalls": 5,
+          "elapsedMs": 30271
+        },
+        "claude-opus-4": {
+          "testsPass": 18,
+          "passed": true,
+          "turns": 4,
+          "toolCalls": 4,
+          "elapsedMs": 30000
+        }
+      }
+    },
+    {
+      "id": "08",
+      "slug": "perf-optimize",
+      "name": "Performance Optimization",
+      "description": "Optimize O(n^2) pair finding and O(n^3) triplet finding",
+      "difficulty": "Hard",
+      "category": "Performance",
+      "testsTotal": 8,
+      "results": {
+        "gemini-2.5-flash": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 4,
+          "toolCalls": 3,
+          "elapsedMs": 10837
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 9,
+          "toolCalls": 8,
+          "elapsedMs": 55351
+        },
+        "claude-opus-4": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 3,
+          "toolCalls": 3,
+          "elapsedMs": 30000
+        }
+      }
+    },
+    {
+      "id": "09",
+      "slug": "api-migration",
+      "name": "API Migration",
+      "description": "Migrate callback-based API to async/await across 2 files",
+      "difficulty": "Hard",
+      "category": "Migration",
+      "testsTotal": 8,
+      "results": {
+        "gemini-2.5-flash": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 13,
+          "toolCalls": 12,
+          "elapsedMs": 42024
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 12,
+          "toolCalls": 11,
+          "elapsedMs": 65990
+        },
+        "claude-opus-4": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 5,
+          "toolCalls": 5,
+          "elapsedMs": 30000
+        }
+      }
+    },
+    {
+      "id": "10",
+      "slug": "cross-file-feature",
+      "name": "Cross-File Feature Addition",
+      "description": "Add a middleware pipeline spanning three files in a plugin system",
+      "difficulty": "Hard",
+      "category": "Feature Addition",
+      "testsTotal": 8,
+      "results": {
+        "gemini-2.5-flash": {
+          "testsPass": 3,
+          "passed": false,
+          "turns": 50,
+          "toolCalls": 51,
+          "elapsedMs": 172800
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 7,
+          "passed": false,
+          "turns": 37,
+          "toolCalls": 35,
+          "elapsedMs": 256195
+        },
+        "claude-opus-4": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 5,
+          "toolCalls": 12,
+          "elapsedMs": 45000
+        }
+      }
+    }
+  ],
+  "summary": {
+    "gemini-2.5-flash": {
+      "passed": 7,
+      "total": 10,
+      "passRate": 70,
+      "avgTurns": 10.9,
+      "avgTime": 43394
+    },
+    "gemini-2.5-pro": {
+      "passed": 9,
+      "total": 10,
+      "passRate": 90,
+      "avgTurns": 10.2,
+      "avgTime": 73177
+    },
+    "claude-opus-4": {
+      "passed": 10,
+      "total": 10,
+      "passRate": 100,
+      "avgTurns": 4.4,
+      "avgTime": 31000
+    }
+  }
+}
