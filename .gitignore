@@ -13,6 +13,8 @@
 # testing
 /coverage
 
+.superinference/
+
 # next.js
 /.next/
 /out/

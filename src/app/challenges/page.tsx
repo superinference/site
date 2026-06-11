@@ -37,6 +37,7 @@ type Summary = {
   passed: number;
   total: number;
   passRate: number;
+  weightedScore: number;
   avgTurns: number;
   avgTime: number;
 };
@@ -124,10 +125,14 @@ function CircularGauge({ value, size = 160, stroke = 12 }: { value: number; size
 /* ------------------------------------------------------------------ */
 
 export default function ChallengesPage() {
-  // Compute overall pass rate across all models
-  const totalPassed = Object.values(summary).reduce((a, s) => a + s.passed, 0);
-  const totalChallenges = Object.values(summary).reduce((a, s) => a + s.total, 0);
+  // Compute overall pass rate and weighted score across all models
+  const allSummaries = Object.values(summary);
+  const totalPassed = allSummaries.reduce((a, s) => a + s.passed, 0);
+  const totalChallenges = allSummaries.reduce((a, s) => a + s.total, 0);
   const overallRate = totalChallenges > 0 ? Math.round((totalPassed / totalChallenges) * 100) : 0;
+  const overallWeighted = allSummaries.length > 0
+    ? Math.round(allSummaries.reduce((a, s) => a + (s.weightedScore ?? s.passRate), 0) / allSummaries.length)
+    : 0;
 
   return (
     <main className="space-y-24 sm:space-y-32 py-10 sm:py-16">
@@ -140,6 +145,7 @@ export default function ChallengesPage() {
         <div className="flex flex-col items-center mb-12">
           <CircularGauge value={overallRate} />
           <p className="mt-3 text-sm text-neutral-600 dark:text-neutral-400">Overall Pass Rate</p>
+          <p className="mt-1 text-xs text-neutral-500 dark:text-neutral-500">Weighted score: {overallWeighted}%</p>
         </div>
 
         {/* ---------- Model summary cards ---------- */}
@@ -148,10 +154,11 @@ export default function ChallengesPage() {
             const s = summary[m.slug];
             if (!s) return null;
             const pct = s.passRate;
+            const ws = s.weightedScore ?? pct;
             return (
               <div
                 key={m.slug}
-                className="flex-1 bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-white/5 rounded-xl p-5"
+                className="flex-1 bg-white dark:bg-neutral-900/60 border border-neutral-200 dark:border-white/10 rounded-xl p-5"
               >
                 <div className="flex items-center gap-2 mb-3">
                   <span
@@ -166,7 +173,7 @@ export default function ChallengesPage() {
                   </span>
                   <span className="text-sm text-neutral-600 dark:text-neutral-400">{pct}% pass rate</span>
                 </div>
-                {/* progress bar */}
+                {/* progress bar — pass rate */}
                 <div className="h-2 rounded-full bg-neutral-200 dark:bg-white/5 overflow-hidden">
                   <div
                     className="h-full rounded-full"
@@ -176,11 +183,12 @@ export default function ChallengesPage() {
                     }}
                   />
                 </div>
-                <div className="flex justify-between mt-2 text-xs text-neutral-500">
+                <div className="flex justify-between mt-2 text-xs text-neutral-600 dark:text-neutral-500">
                   <span>{s.passed} passed</span>
                   <span>{s.total - s.passed} failed</span>
                 </div>
-                <div className="flex gap-4 mt-3 text-xs text-neutral-500">
+                <div className="flex gap-4 mt-3 text-xs text-neutral-600 dark:text-neutral-500">
+                  <span>Weighted: {ws}%</span>
                   <span>Avg turns: {s.avgTurns}</span>
                   <span>Avg time: {formatTime(s.avgTime)}</span>
                 </div>
@@ -190,10 +198,10 @@ export default function ChallengesPage() {
         </div>
 
         {/* ---------- Challenge table ---------- */}
-        <div className="overflow-x-auto rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/50">
+        <div className="overflow-x-auto rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/60">
           <table className="w-full text-sm text-left">
             <thead>
-              <tr className="border-b border-neutral-200 dark:border-white/10 text-neutral-600 dark:text-neutral-400 text-xs uppercase tracking-wider">
+              <tr className="border-b border-neutral-200 dark:border-white/10 text-neutral-600 dark:text-neutral-300 text-xs uppercase tracking-wider">
                 <th className="px-4 py-3 font-medium">#</th>
                 <th className="px-4 py-3 font-medium">Challenge</th>
                 <th className="px-4 py-3 font-medium">Difficulty</th>
@@ -219,7 +227,7 @@ export default function ChallengesPage() {
                   {/* name + description */}
                   <td className="px-4 py-3">
                     <div className="text-neutral-900 dark:text-white font-medium">{ch.name}</div>
-                    <div className="text-xs text-neutral-500 mt-0.5">{ch.description}</div>
+                    <div className="text-xs text-neutral-600 dark:text-neutral-400 mt-0.5">{ch.description}</div>
                   </td>
 
                   {/* difficulty badge */}
@@ -271,12 +279,12 @@ export default function ChallengesPage() {
                             >
                               {res.passed ? "Pass" : "Fail"}
                             </span>
-                            <span className="text-xs text-neutral-500">
+                            <span className="text-xs text-neutral-600 dark:text-neutral-500">
                               {res.testsPass}/{ch.testsTotal}
                             </span>
                           </div>
                           {/* turns + time */}
-                          <div className="text-[11px] text-neutral-600">
+                          <div className="text-[11px] text-neutral-600 dark:text-neutral-500">
                             {res.turns} turns &middot; {formatTime(res.elapsedMs)}
                           </div>
                         </div>

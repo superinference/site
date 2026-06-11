@@ -1,23 +1,29 @@
 {
-  "generated": "2026-06-10T18:10:30.453Z",
+  "generated": "2026-06-11T13:10:41.965103+00:00",
   "models": [
+    {
+      "slug": "frito",
+      "runner": "ami",
+      "label": "AMI Frito",
+      "color": "#4285f4"
+    },
     {
       "slug": "gemini-2.5-flash",
       "runner": "ami",
       "label": "AMI (Gemini 2.5 Flash)",
-      "color": "#4285f4"
+      "color": "#f78166"
     },
     {
       "slug": "gemini-2.5-pro",
       "runner": "ami",
       "label": "AMI (Gemini 2.5 Pro)",
-      "color": "#f78166"
+      "color": "#34a853"
     },
     {
       "slug": "claude-opus-4",
       "runner": "claude",
-      "label": "Claude Opus 4 6",
-      "color": "#34a853"
+      "label": "Claude Opus 4.6",
+      "color": "#ab47bc"
     }
   ],
   "challenges": [
@@ -30,19 +36,26 @@
       "category": "Bug Fix",
       "testsTotal": 7,
       "results": {
+        "frito": {
+          "testsPass": 7,
+          "passed": true,
+          "turns": 14,
+          "toolCalls": 8,
+          "elapsedMs": 180882
+        },
         "gemini-2.5-flash": {
-          "testsPass": 2,
+          "testsPass": 6,
           "passed": false,
-          "turns": 3,
-          "toolCalls": 2,
-          "elapsedMs": 9114
+          "turns": 5,
+          "toolCalls": 6,
+          "elapsedMs": 313387
         },
         "gemini-2.5-pro": {
           "testsPass": 7,
           "passed": true,
-          "turns": 5,
-          "toolCalls": 4,
-          "elapsedMs": 22113
+          "turns": 7,
+          "toolCalls": 6,
+          "elapsedMs": 43000
         },
         "claude-opus-4": {
           "testsPass": 7,
@@ -62,19 +75,26 @@
       "category": "Bug Fix",
       "testsTotal": 9,
       "results": {
+        "frito": {
+          "testsPass": 9,
+          "passed": true,
+          "turns": 18,
+          "toolCalls": 12,
+          "elapsedMs": 331919
+        },
         "gemini-2.5-flash": {
           "testsPass": 9,
           "passed": true,
-          "turns": 19,
+          "turns": 17,
           "toolCalls": 18,
-          "elapsedMs": 122327
+          "elapsedMs": 72521
         },
         "gemini-2.5-pro": {
           "testsPass": 9,
           "passed": true,
-          "turns": 8,
+          "turns": 9,
           "toolCalls": 10,
-          "elapsedMs": 41928
+          "elapsedMs": 48712
         },
         "claude-opus-4": {
           "testsPass": 9,
@@ -94,19 +114,26 @@
       "category": "Code Generation",
       "testsTotal": 10,
       "results": {
+        "frito": {
+          "testsPass": 10,
+          "passed": true,
+          "turns": 10,
+          "toolCalls": 3,
+          "elapsedMs": 49698
+        },
         "gemini-2.5-flash": {
           "testsPass": 10,
           "passed": true,
-          "turns": 3,
-          "toolCalls": 2,
-          "elapsedMs": 7733
+          "turns": 6,
+          "toolCalls": 5,
+          "elapsedMs": 19034
         },
         "gemini-2.5-pro": {
           "testsPass": 10,
           "passed": true,
-          "turns": 8,
-          "toolCalls": 7,
-          "elapsedMs": 35465
+          "turns": 4,
+          "toolCalls": 3,
+          "elapsedMs": 16729
         },
         "claude-opus-4": {
           "testsPass": 10,
@@ -126,26 +153,33 @@
       "category": "Refactoring",
       "testsTotal": 8,
       "results": {
+        "frito": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 29,
+          "toolCalls": 23,
+          "elapsedMs": 1025956
+        },
         "gemini-2.5-flash": {
           "testsPass": 8,
           "passed": true,
-          "turns": 2,
-          "toolCalls": 1,
-          "elapsedMs": 7757
+          "turns": 8,
+          "toolCalls": 7,
+          "elapsedMs": 23889
         },
         "gemini-2.5-pro": {
           "testsPass": 8,
           "passed": true,
-          "turns": 4,
-          "toolCalls": 3,
-          "elapsedMs": 31264
+          "turns": 5,
+          "toolCalls": 4,
+          "elapsedMs": 38825
         },
         "claude-opus-4": {
           "testsPass": 8,
           "passed": true,
-          "turns": 4,
-          "toolCalls": 4,
-          "elapsedMs": 30000
+          "turns": 0,
+          "toolCalls": 0,
+          "elapsedMs": 128264
         }
       }
     },
@@ -158,19 +192,26 @@
       "category": "Feature Addition",
       "testsTotal": 8,
       "results": {
-        "gemini-2.5-flash": {
-          "testsPass": 4,
-          "passed": false,
-          "turns": 3,
-          "toolCalls": 2,
-          "elapsedMs": 12150
-        },
-        "gemini-2.5-pro": {
+        "frito": {
           "testsPass": 8,
           "passed": true,
-          "turns": 6,
-          "toolCalls": 5,
-          "elapsedMs": 45684
+          "turns": 14,
+          "toolCalls": 8,
+          "elapsedMs": 192917
+        },
+        "gemini-2.5-flash": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 8,
+          "toolCalls": 7,
+          "elapsedMs": 33527
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 4,
+          "passed": false,
+          "turns": 50,
+          "toolCalls": 50,
+          "elapsedMs": 379753
         },
         "claude-opus-4": {
           "testsPass": 8,
@@ -190,26 +231,33 @@
       "category": "Debugging",
       "testsTotal": 6,
       "results": {
+        "frito": {
+          "testsPass": 6,
+          "passed": true,
+          "turns": 10,
+          "toolCalls": 5,
+          "elapsedMs": 48814
+        },
         "gemini-2.5-flash": {
           "testsPass": 6,
           "passed": true,
           "turns": 4,
           "toolCalls": 5,
-          "elapsedMs": 11861
+          "elapsedMs": 6974
         },
         "gemini-2.5-pro": {
           "testsPass": 6,
           "passed": true,
           "turns": 7,
-          "toolCalls": 5,
-          "elapsedMs": 147508
+          "toolCalls": 7,
+          "elapsedMs": 87622
         },
         "claude-opus-4": {
           "testsPass": 6,
           "passed": true,
-          "turns": 4,
-          "toolCalls": 4,
-          "elapsedMs": 30000
+          "turns": 0,
+          "toolCalls": 0,
+          "elapsedMs": 20447
         }
       }
     },
@@ -222,26 +270,33 @@
       "category": "Testing",
       "testsTotal": 10,
       "results": {
+        "frito": {
+          "testsPass": 28,
+          "passed": true,
+          "turns": 10,
+          "toolCalls": 3,
+          "elapsedMs": 52951
+        },
         "gemini-2.5-flash": {
           "testsPass": 11,
           "passed": true,
-          "turns": 8,
-          "toolCalls": 7,
-          "elapsedMs": 37336
-        },
-        "gemini-2.5-pro": {
-          "testsPass": 15,
-          "passed": true,
-          "turns": 6,
-          "toolCalls": 5,
-          "elapsedMs": 30271
+          "turns": 4,
+          "toolCalls": 3,
+          "elapsedMs": 12463
         },
         "claude-opus-4": {
-          "testsPass": 18,
+          "testsPass": 17,
+          "passed": true,
+          "turns": 0,
+          "toolCalls": 0,
+          "elapsedMs": 56212
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 13,
           "passed": true,
           "turns": 4,
-          "toolCalls": 4,
-          "elapsedMs": 30000
+          "toolCalls": 3,
+          "elapsedMs": 20181
         }
       }
     },
@@ -254,26 +309,33 @@
       "category": "Performance",
       "testsTotal": 8,
       "results": {
+        "frito": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 11,
+          "toolCalls": 5,
+          "elapsedMs": 113703
+        },
         "gemini-2.5-flash": {
           "testsPass": 8,
           "passed": true,
-          "turns": 4,
-          "toolCalls": 3,
-          "elapsedMs": 10837
+          "turns": 6,
+          "toolCalls": 5,
+          "elapsedMs": 18145
         },
         "gemini-2.5-pro": {
           "testsPass": 8,
           "passed": true,
-          "turns": 9,
-          "toolCalls": 8,
-          "elapsedMs": 55351
+          "turns": 6,
+          "toolCalls": 5,
+          "elapsedMs": 26483
         },
         "claude-opus-4": {
           "testsPass": 8,
           "passed": true,
-          "turns": 3,
-          "toolCalls": 3,
-          "elapsedMs": 30000
+          "turns": 0,
+          "toolCalls": 0,
+          "elapsedMs": 27515
         }
       }
     },
@@ -286,19 +348,26 @@
       "category": "Migration",
       "testsTotal": 8,
       "results": {
+        "frito": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 16,
+          "toolCalls": 12,
+          "elapsedMs": 249180
+        },
         "gemini-2.5-flash": {
           "testsPass": 8,
           "passed": true,
-          "turns": 13,
-          "toolCalls": 12,
-          "elapsedMs": 42024
+          "turns": 12,
+          "toolCalls": 11,
+          "elapsedMs": 39234
         },
         "gemini-2.5-pro": {
           "testsPass": 8,
           "passed": true,
           "turns": 12,
-          "toolCalls": 11,
-          "elapsedMs": 65990
+          "toolCalls": 12,
+          "elapsedMs": 47699
         },
         "claude-opus-4": {
           "testsPass": 8,
@@ -318,19 +387,26 @@
       "category": "Feature Addition",
       "testsTotal": 8,
       "results": {
-        "gemini-2.5-flash": {
-          "testsPass": 3,
-          "passed": false,
-          "turns": 50,
-          "toolCalls": 51,
-          "elapsedMs": 172800
+        "frito": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 14,
+          "toolCalls": 12,
+          "elapsedMs": 182201
         },
-        "gemini-2.5-pro": {
+        "gemini-2.5-flash": {
           "testsPass": 7,
           "passed": false,
-          "turns": 37,
-          "toolCalls": 35,
-          "elapsedMs": 256195
+          "turns": 34,
+          "toolCalls": 33,
+          "elapsedMs": 133965
+        },
+        "gemini-2.5-pro": {
+          "testsPass": 8,
+          "passed": true,
+          "turns": 11,
+          "toolCalls": 10,
+          "elapsedMs": 58143
         },
         "claude-opus-4": {
           "testsPass": 8,
@@ -343,26 +419,37 @@
     }
   ],
   "summary": {
-    "gemini-2.5-flash": {
-      "passed": 7,
+    "frito": {
+      "passed": 10,
       "total": 10,
-      "passRate": 70,
-      "avgTurns": 10.9,
-      "avgTime": 43394
+      "passRate": 100,
+      "weightedScore": 100.0,
+      "avgTurns": 14.6,
+      "avgTime": 242822
+    },
+    "gemini-2.5-flash": {
+      "passed": 8,
+      "total": 10,
+      "passRate": 80,
+      "weightedScore": 82.6,
+      "avgTurns": 10.4,
+      "avgTime": 67314
     },
     "gemini-2.5-pro": {
       "passed": 9,
       "total": 10,
       "passRate": 90,
-      "avgTurns": 10.2,
-      "avgTime": 73177
+      "weightedScore": 91.3,
+      "avgTurns": 11.5,
+      "avgTime": 76715
     },
     "claude-opus-4": {
       "passed": 10,
       "total": 10,
       "passRate": 100,
-      "avgTurns": 4.4,
-      "avgTime": 31000
+      "weightedScore": 100.0,
+      "avgTurns": 2.9,
+      "avgTime": 42244
     }
   }
 }
