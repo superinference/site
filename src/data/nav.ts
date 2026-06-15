@@ -3,21 +3,17 @@ export type NavLink = {
   label: string;
 };
 
-export const mainNavLinks: NavLink[] = [
-  { href: "/abstract/", label: "Abstract" },
-  { href: "/background/", label: "Background" },
-  { href: "/pre-loop/", label: "PRE Loop" },
-  { href: "/architecture/", label: "Architecture" },
-  { href: "/retrieval/", label: "Retrieval" },
-  { href: "/results/", label: "Results" },
-  { href: "/challenges/", label: "Challenges" },
-  { href: "/ami/", label: "AMI" },
-  { href: "/cite/", label: "Cite" },
-  { href: "/acknowledgements/", label: "Funding" },
+export const mainNavItems: NavLink[] = [
   { href: "/docs/", label: "Docs" },
+  { href: "/openshell/", label: "OpenShell" },
+  { href: "/asdlc/", label: "ASDLC" },
+  { href: "/challenges/", label: "Challenges" },
+  { href: "/abstract/", label: "Research" },
 ];
 
-export const docsTocSections = [
+export type TocItem = { href: string; label: string };
+
+export const docsToc: TocItem[] = [
   { href: "#install", label: "Installation" },
   { href: "#quickstart", label: "Quick Start" },
   { href: "#cli", label: "CLI Reference" },
@@ -33,4 +29,43 @@ export const docsTocSections = [
   { href: "#security", label: "Security" },
   { href: "#vscode", label: "VS Code Extension" },
   { href: "#troubleshooting", label: "Troubleshooting" },
+];
+
+export const openshellToc: TocItem[] = [
+  { href: "#openshell", label: "Overview" },
+  { href: "#quickstart", label: "Quick Start" },
+  { href: "#architecture", label: "Image Architecture" },
+  { href: "#detached", label: "Detached Execution" },
+  { href: "#multi-provider", label: "Multi-Provider" },
+  { href: "#enterprise", label: "Air-Gapped" },
+  { href: "#containerfile", label: "Containerfile" },
+  { href: "#security", label: "Security Model" },
+  { href: "#advantages", label: "Why AMI" },
+  { href: "#use-cases", label: "Use Cases" },
+];
+
+export const researchToc: TocItem[] = [
+  { href: "#abstract", label: "Abstract" },
+  { href: "#background", label: "Background" },
+  { href: "#pre-loop", label: "PRE Loop" },
+  { href: "#architecture", label: "Architecture" },
+  { href: "#retrieval", label: "Retrieval" },
+  { href: "#results", label: "Formal Results" },
+  { href: "#benchmarks", label: "Benchmarks" },
+  { href: "#worked-example", label: "Worked Example" },
+  { href: "#cite", label: "Cite" },
+  { href: "#funding", label: "Funding" },
+];
+
+export const asdlcToc: TocItem[] = [
+  { href: "#overview", label: "Overview" },
+  { href: "#phases", label: "SDLC Phases" },
+  { href: "#engine", label: "Decision Engine" },
+  { href: "#integration", label: "Integration" },
+];
+
+export const challengesToc: TocItem[] = [
+  { href: "#overview", label: "Overview" },
+  { href: "#models", label: "Model Summary" },
+  { href: "#results", label: "Challenge Results" },
 ];

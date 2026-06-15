@@ -178,3 +178,145 @@ export const vscodeChart = `flowchart TD
   style Codebase fill:#5a5a1e,color:#ffffff
   style DABStep fill:#7a3d5a,color:#ffffff
 `;
+
+export const asdlcOverview = `flowchart TD
+  Plan["Plan<br/>(Spec & Design)"]
+  Code["Code<br/>(Implementation)"]
+  Review["Review<br/>(Agent + Human)"]
+  Test["Test<br/>(Verification)"]
+  Deploy["Deploy<br/>(CI/CD)"]
+  Monitor["Monitor<br/>(Feedback)"]
+
+  Plan -->|"decompose"| Code
+  Code -->|"submit"| Review
+  Review -->|"validate"| Test
+  Test -->|"release"| Deploy
+  Deploy -->|"observe"| Monitor
+  Monitor -->|"iterate"| Plan
+
+  style Plan fill:#1e3a5f,color:#ffffff
+  style Code fill:#2d5a3d,color:#ffffff
+  style Review fill:#5a3d7a,color:#ffffff
+  style Test fill:#8b5a2b,color:#ffffff
+  style Deploy fill:#2d5a5a,color:#ffffff
+  style Monitor fill:#8b2d2d,color:#ffffff
+`;
+
+export const asdlcBeliefFlow = `flowchart LR
+  Start["Task Received<br/>b₀ = 0.25"]
+  Explore["Explore Codebase<br/>b₁ = 0.35"]
+  Plan["Plan Approach<br/>b₂ = 0.45"]
+  Impl["Implement<br/>b₃ = 0.55"]
+  TestFail["Tests Fail<br/>b₄ = 0.40"]
+  Fix["Fix &amp; Retry<br/>b₅ = 0.60"]
+  TestPass["Tests Pass<br/>b₆ = 0.85"]
+  Done["EIG &lt; 0.01<br/>b₇ = 0.92 STOP"]
+
+  Start --> Explore
+  Explore --> Plan
+  Plan --> Impl
+  Impl --> TestFail
+  TestFail -->|"critic rejects"| Fix
+  Fix --> TestPass
+  TestPass --> Done
+
+  style Start fill:#8b2d2d,color:#ffffff
+  style Explore fill:#8b5a2b,color:#ffffff
+  style Plan fill:#5a5a1e,color:#ffffff
+  style Impl fill:#2d5a3d,color:#ffffff
+  style TestFail fill:#8b2d2d,color:#ffffff
+  style Fix fill:#8b5a2b,color:#ffffff
+  style TestPass fill:#2d5a5a,color:#ffffff
+  style Done fill:#1e3a5f,color:#ffffff
+`;
+
+export const asdlcPipeline = `flowchart TD
+  Trigger["Git Push / PR"]
+  GHA["CI Pipeline<br/>(GitHub Actions)"]
+  Pull["Pull OpenShell<br/>Container Image"]
+  PlanAgent["Plan Agent<br/>(analyze diff, scope)"]
+  CodeAgents["Code Agents<br/>(parallel worktrees)"]
+  ReviewAgent["Review Agent<br/>(code-review skill)"]
+  TestAgent["Test Agent<br/>(run suite, verify)"]
+  FRITO["FRITO Router<br/>(13 providers,<br/>cost-optimized)"]
+  Output["Structured Output<br/>(JSONL, exit codes)"]
+  Merge["Merge / Deploy"]
+
+  Trigger --> GHA
+  GHA --> Pull
+  Pull --> PlanAgent
+  PlanAgent --> CodeAgents
+  CodeAgents --> ReviewAgent
+  ReviewAgent --> TestAgent
+  TestAgent --> Output
+  Output -->|"exit 0"| Merge
+  PlanAgent -.-> FRITO
+  CodeAgents -.-> FRITO
+  ReviewAgent -.-> FRITO
+  TestAgent -.-> FRITO
+
+  style Trigger fill:#1e3a5f,color:#ffffff
+  style GHA fill:#2d5a5a,color:#ffffff
+  style Pull fill:#5a5a1e,color:#ffffff
+  style PlanAgent fill:#1e3a5f,color:#ffffff
+  style CodeAgents fill:#2d5a3d,color:#ffffff
+  style ReviewAgent fill:#5a3d7a,color:#ffffff
+  style TestAgent fill:#8b5a2b,color:#ffffff
+  style FRITO fill:#8b2d2d,color:#ffffff
+  style Output fill:#2d5a5a,color:#ffffff
+  style Merge fill:#2d5a3d,color:#ffffff
+`;
+
+export const openshellArchChart = `flowchart TD
+  Base["openshell-base<br/>(UBI 10-minimal, 150-200 MB)<br/>ca-certs, curl, git, jq"]
+  AMI["openshell-ami<br/>(+AMI binary, ~200-250 MB)<br/>Apache 2.0, baked in"]
+  Claude["openshell-claude<br/>(+Node.js, ~350-400 MB)<br/>proprietary, runtime install"]
+  Codex["openshell-codex<br/>(+Node.js, ~350-400 MB)<br/>Apache 2.0, baked in"]
+  ADK["openshell-adk<br/>(+Python, ~300-350 MB)<br/>Apache 2.0, baked in"]
+
+  Base --> AMI
+  Base --> Claude
+  Base --> Codex
+  Base --> ADK
+
+  style Base fill:#1e3a5f,color:#ffffff
+  style AMI fill:#8b2d2d,color:#ffffff
+  style Claude fill:#5a3d7a,color:#ffffff
+  style Codex fill:#2d5a3d,color:#ffffff
+  style ADK fill:#8b5a2b,color:#ffffff
+`;
+
+export const openshellFlowChart = `flowchart TD
+  User["Developer / Operator"]
+  OpenShell["OpenShell CLI<br/>or Kubernetes"]
+  Registry["ghcr.io/superinference<br/>/openshell-ami"]
+  Container["Sandbox Container"]
+  Entry["Entrypoint<br/>(entrypoint.sh)"]
+  Probe["Startup Probe<br/>(/tmp/agent-ready)"]
+  AMI["AMI Detached Mode<br/>(--prompt, --yolo,<br/>--output-format jsonl)"]
+  FRITO["FRITO<br/>(13 LLM providers)"]
+  Tools["37 Built-in Tools<br/>(file, shell, search,<br/>web, MCP, workflow)"]
+  Output["Structured Output<br/>(JSONL stream,<br/>exit codes, audit log)"]
+
+  User -->|"task prompt"| OpenShell
+  OpenShell -->|"pull image"| Registry
+  Registry --> Container
+  Container --> Entry
+  Entry --> Probe
+  Entry --> AMI
+  AMI --> FRITO
+  AMI --> Tools
+  AMI --> Output
+  Output -.->|"results"| User
+
+  style User fill:#1e3a5f,color:#ffffff
+  style OpenShell fill:#2d5a5a,color:#ffffff
+  style Registry fill:#5a5a1e,color:#ffffff
+  style Container fill:#8b5a2b,color:#ffffff
+  style Entry fill:#2d5a3d,color:#ffffff
+  style Probe fill:#2d5a3d,color:#ffffff
+  style AMI fill:#8b2d2d,color:#ffffff
+  style FRITO fill:#5a3d7a,color:#ffffff
+  style Tools fill:#5a3d7a,color:#ffffff
+  style Output fill:#1e3a5f,color:#ffffff
+`;

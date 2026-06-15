@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -26,18 +27,18 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SuperInference",
-  description: "SuperInference — an open-source framework for iterative LLM reasoning with critic-gated memory and information-theoretic stopping criteria.",
+  description: "AMI — an open-source AI coding agent. Terminal and editor. Model-agnostic. Free.",
   metadataBase: new URL("https://www.superinference.org"),
   openGraph: {
     title: "SuperInference",
-    description: "An open-source framework for iterative LLM reasoning with critic-gated memory and information-theoretic stopping criteria.",
+    description: "AMI — an open-source AI coding agent. Terminal and editor. Model-agnostic. Free.",
     url: "https://www.superinference.org",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "SuperInference",
-    description: "An open-source framework for iterative LLM reasoning with critic-gated memory and information-theoretic stopping criteria.",
+    description: "AMI — an open-source AI coding agent. Terminal and editor. Model-agnostic. Free.",
     images: ["/og.png"],
   },
   icons: {
@@ -54,6 +55,15 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className="scroll-smooth dark">
+      <head>
+        <Script src="https://www.googletagmanager.com/gtag/js?id=G-P6HFTRRZ5K" strategy="afterInteractive" />
+        <Script id="gtag-init" strategy="afterInteractive">
+          {`window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-P6HFTRRZ5K');`}
+        </Script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-white dark:bg-neutral-950 bg-[radial-gradient(1200px_600px_at_50%_-20%,rgba(59,130,246,0.15),transparent),radial-gradient(800px_400px_at_90%_10%,rgba(236,72,153,0.12),transparent),radial-gradient(1000px_500px_at_10%_10%,rgba(34,197,94,0.12),transparent)] dark:bg-[radial-gradient(1200px_600px_at_50%_-20%,rgba(59,130,246,0.15),transparent),radial-gradient(800px_400px_at_90%_10%,rgba(236,72,153,0.12),transparent),radial-gradient(1000px_500px_at_10%_10%,rgba(34,197,94,0.12),transparent)]`}
       >

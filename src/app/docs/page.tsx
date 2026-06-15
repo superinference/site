@@ -3,28 +3,12 @@
 import CodeBlock from "@/components/CodeBlock";
 import DocSection from "@/components/DocSection";
 import DocSubSection from "@/components/DocSubSection";
-import { docsTocSections } from "@/data/nav";
+import PageLayout from "@/components/PageLayout";
+import { docsToc } from "@/data/nav";
 
 export default function DocsPage() {
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-      <div className="lg:grid lg:grid-cols-[220px_1fr] lg:gap-12">
-        {/* Sidebar TOC */}
-        <aside className="hidden lg:block">
-          <nav className="sticky top-24 space-y-1">
-            <div className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">On this page</div>
-            {docsTocSections.map((s) => (
-              <a key={s.href} href={s.href} className="block text-sm text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white py-1 transition-colors">{s.label}</a>
-            ))}
-          </nav>
-        </aside>
-
-        {/* Main content */}
-        <main className="space-y-12 min-w-0">
-          <div>
-            <h1 className="text-4xl font-bold tracking-tight text-neutral-900 dark:text-white">Documentation</h1>
-            <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-400">AMI CLI, FRITO cost-optimization, providers, and configuration reference.</p>
-          </div>
+    <PageLayout title="Documentation" subtitle="AMI CLI, FRITO cost-optimization, providers, and configuration reference." toc={docsToc}>
 
           {/* ── Installation ── */}
           <DocSection id="install" title="Installation">
@@ -663,8 +647,6 @@ ls -la ~/.ami/frito.json
             </DocSubSection>
           </DocSection>
 
-        </main>
-      </div>
-    </div>
+    </PageLayout>
   );
 }

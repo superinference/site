@@ -1,7 +1,7 @@
 #!/bin/bash
 set -euo pipefail
 
-REPO="superinference/site"
+REPO="superinference/releases"
 BASE_URL="https://github.com/$REPO/releases/latest/download"
 
 bold()  { printf "\033[1m%s\033[0m" "$*"; }
