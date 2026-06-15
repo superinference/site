@@ -12,6 +12,7 @@ export const mainNavLinks: NavLink[] = [
   { href: "/results/", label: "Results" },
   { href: "/challenges/", label: "Challenges" },
   { href: "/ami/", label: "AMI" },
+  { href: "/openshell/", label: "OpenShell" },
   { href: "/cite/", label: "Cite" },
   { href: "/acknowledgements/", label: "Funding" },
   { href: "/docs/", label: "Docs" },

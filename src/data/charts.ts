@@ -178,3 +178,57 @@ export const vscodeChart = `flowchart TD
   style Codebase fill:#5a5a1e,color:#ffffff
   style DABStep fill:#7a3d5a,color:#ffffff
 `;
+
+export const openshellArchChart = `flowchart TD
+  Base["openshell-base<br/>(UBI 10-minimal, 150-200 MB)<br/>ca-certs, curl, git, jq"]
+  AMI["openshell-ami<br/>(+AMI binary, ~200-250 MB)<br/>Apache 2.0, baked in"]
+  Claude["openshell-claude<br/>(+Node.js, ~350-400 MB)<br/>proprietary, runtime install"]
+  Codex["openshell-codex<br/>(+Node.js, ~350-400 MB)<br/>Apache 2.0, baked in"]
+  ADK["openshell-adk<br/>(+Python, ~300-350 MB)<br/>Apache 2.0, baked in"]
+
+  Base --> AMI
+  Base --> Claude
+  Base --> Codex
+  Base --> ADK
+
+  style Base fill:#1e3a5f,color:#ffffff
+  style AMI fill:#8b2d2d,color:#ffffff
+  style Claude fill:#5a3d7a,color:#ffffff
+  style Codex fill:#2d5a3d,color:#ffffff
+  style ADK fill:#8b5a2b,color:#ffffff
+`;
+
+export const openshellFlowChart = `flowchart TD
+  User["Developer / Operator"]
+  OpenShell["OpenShell CLI<br/>or Kubernetes"]
+  Registry["ghcr.io/superinference<br/>/openshell-ami"]
+  Container["Sandbox Container"]
+  Entry["Entrypoint<br/>(entrypoint.sh)"]
+  Probe["Startup Probe<br/>(/tmp/agent-ready)"]
+  AMI["AMI Detached Mode<br/>(--prompt, --yolo,<br/>--output-format jsonl)"]
+  FRITO["FRITO<br/>(13 LLM providers)"]
+  Tools["37 Built-in Tools<br/>(file, shell, search,<br/>web, MCP, workflow)"]
+  Output["Structured Output<br/>(JSONL stream,<br/>exit codes, audit log)"]
+
+  User -->|"task prompt"| OpenShell
+  OpenShell -->|"pull image"| Registry
+  Registry --> Container
+  Container --> Entry
+  Entry --> Probe
+  Entry --> AMI
+  AMI --> FRITO
+  AMI --> Tools
+  AMI --> Output
+  Output -.->|"results"| User
+
+  style User fill:#1e3a5f,color:#ffffff
+  style OpenShell fill:#2d5a5a,color:#ffffff
+  style Registry fill:#5a5a1e,color:#ffffff
+  style Container fill:#8b5a2b,color:#ffffff
+  style Entry fill:#2d5a3d,color:#ffffff
+  style Probe fill:#2d5a3d,color:#ffffff
+  style AMI fill:#8b2d2d,color:#ffffff
+  style FRITO fill:#5a3d7a,color:#ffffff
+  style Tools fill:#5a3d7a,color:#ffffff
+  style Output fill:#1e3a5f,color:#ffffff
+`;
