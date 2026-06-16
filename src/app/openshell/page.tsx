@@ -15,7 +15,7 @@ export default function OpenShellPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
             <p><strong>OpenShell</strong> provides sandboxed container environments for AI coding agents. AMI integrates as a <strong>validated flavor image</strong> — a minimal, UBI-based container with the AMI binary baked in at build time. Because AMI is licensed under Apache 2.0, the binary can be redistributed directly in the image with zero licensing risk, unlike proprietary agents that require runtime installation from vendor CDNs on every boot.</p>
-            <p>The <code className="text-sm bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> image runs exclusively in <strong>detached mode</strong> — no REPL, no TUI, no human in the loop. The operator or sandbox gateway passes a task prompt, AMI executes autonomously with structured JSONL output, and exits with a semantic status code. This makes it ideal for platform-managed deployments, CI/CD pipelines, and air-gapped enterprise environments.</p>
+            <p>The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> image runs exclusively in <strong>detached mode</strong> — no REPL, no TUI, no human in the loop. The operator or sandbox gateway passes a task prompt, AMI executes autonomously with structured JSONL output, and exits with a semantic status code. This makes it ideal for platform-managed deployments, CI/CD pipelines, and air-gapped enterprise environments.</p>
             <p>AMI is the only agent in the OpenShell ecosystem that supports <strong>multi-provider LLM routing</strong> via FRITO (Free-tier Retrieval & Inference Token Ops). A single image works with any model backend — Anthropic, OpenAI, Google, DeepSeek, Ollama, vLLM, or any OpenAI-compatible endpoint — making it the universal agent flavor for heterogeneous infrastructure.</p>
           </div>
           <div>
@@ -126,15 +126,15 @@ spec:
             <p>AMI has the <strong>smallest footprint</strong> of any flavor because it ships as a single compiled binary — no Node.js, no Python, no npm packages needed in the container. The result is an image roughly <strong>12x smaller</strong> than the upstream monolith.</p>
             <div className="rounded-lg border border-neutral-200 dark:border-white/10 overflow-hidden">
               <table className="w-full text-sm">
-                <thead className="bg-neutral-100 dark:bg-neutral-800/60">
-                  <tr>
-                    <th className="px-4 py-2 text-left font-medium text-neutral-700 dark:text-neutral-300">Image</th>
-                    <th className="px-4 py-2 text-left font-medium text-neutral-700 dark:text-neutral-300">Size</th>
-                    <th className="px-4 py-2 text-left font-medium text-neutral-700 dark:text-neutral-300">Cold Start</th>
-                    <th className="px-4 py-2 text-left font-medium text-neutral-700 dark:text-neutral-300">License</th>
+                <thead>
+                  <tr className="border-b border-neutral-200 dark:border-neutral-800">
+                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">Image</th>
+                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">Size</th>
+                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">Cold Start</th>
+                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">License</th>
                   </tr>
                 </thead>
-                <tbody className="divide-y divide-neutral-200 dark:divide-neutral-800">
+                <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800/50">
                   <tr>
                     <td className="px-4 py-2 font-mono text-xs">upstream monolith</td>
                     <td className="px-4 py-2">2.81 GB</td>
@@ -180,14 +180,14 @@ spec:
             <div className="space-y-3">
               <div className="flex gap-3">
                 <div className="shrink-0 w-8 h-8 rounded-lg bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center text-sm font-semibold text-neutral-700 dark:text-neutral-300">1</div>
-                <div><strong className="text-neutral-900 dark:text-white">Task prompt</strong> — passed via <code className="text-sm bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded">--prompt</code> or <code className="text-sm bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded">AGENT_PROMPT</code> env var</div>
+                <div><strong className="text-neutral-900 dark:text-white">Task prompt</strong> — passed via <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">--prompt</code> or <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">AGENT_PROMPT</code> env var</div>
               </div>
               <div className="flex gap-3">
                 <div className="shrink-0 w-8 h-8 rounded-lg bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center text-sm font-semibold text-neutral-700 dark:text-neutral-300">2</div>
-                <div><strong className="text-neutral-900 dark:text-white">Autonomous execution</strong> — <code className="text-sm bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded">--yolo</code> bypasses permission prompts for full autonomy within sandbox policy</div>
+                <div><strong className="text-neutral-900 dark:text-white">Autonomous execution</strong> — <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">--yolo</code> bypasses permission prompts for full autonomy within sandbox policy</div>
               </div>
               <div className="flex gap-3">
-                <div className="shrink-0 w-8 h-8 rounded-lg bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded flex items-center justify-center text-sm font-semibold text-neutral-700 dark:text-neutral-300">3</div>
+                <div className="shrink-0 w-8 h-8 rounded-lg bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center text-sm font-semibold text-neutral-700 dark:text-neutral-300">3</div>
                 <div><strong className="text-neutral-900 dark:text-white">Structured output</strong> — JSONL stream with execution traces, tool calls, file changes, and audit events</div>
               </div>
               <div className="flex gap-3">
@@ -196,7 +196,7 @@ spec:
               </div>
               <div className="flex gap-3">
                 <div className="shrink-0 w-8 h-8 rounded-lg bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center text-sm font-semibold text-neutral-700 dark:text-neutral-300">5</div>
-                <div><strong className="text-neutral-900 dark:text-white">Audit logging</strong> — complete JSONL audit trail at <code className="text-sm bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded">~/.superinference/audit.jsonl</code></div>
+                <div><strong className="text-neutral-900 dark:text-white">Audit logging</strong> — complete JSONL audit trail at <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">~/.superinference/audit.jsonl</code></div>
               </div>
             </div>
           </div>
@@ -222,7 +222,7 @@ ami --prompt "Continue the migration" --resume latest`} />
       {/* FRITO Multi-Provider */}
       <Section id="multi-provider" title="Multi-Provider LLM Routing" subtitle="One image, any LLM backend. FRITO routes across 13 providers with automatic fallback.">
         <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-          <p>Every other agent in the OpenShell ecosystem is locked to a single LLM provider: <code className="text-sm bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-claude</code> needs Anthropic, <code className="text-sm bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-codex</code> needs OpenAI, <code className="text-sm bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-adk</code> needs Google. AMI&apos;s <strong>FRITO</strong> (Free-tier Retrieval & Inference Token Ops) makes <code className="text-sm bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> the <strong>universal agent flavor</strong> — it works with whatever model endpoint the infrastructure provides.</p>
+          <p>Every other agent in the OpenShell ecosystem is locked to a single LLM provider: <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-claude</code> needs Anthropic, <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-codex</code> needs OpenAI, <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-adk</code> needs Google. AMI&apos;s <strong>FRITO</strong> (Free-tier Retrieval & Inference Token Ops) makes <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> the <strong>universal agent flavor</strong> — it works with whatever model endpoint the infrastructure provides.</p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-6">
             <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-4 bg-neutral-50 dark:bg-neutral-900/60">
               <h4 className="font-semibold text-neutral-900 dark:text-white mb-2">Cloud Providers</h4>
@@ -338,14 +338,14 @@ CMD ["ami"]`} />
           <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
             <p>The Containerfile follows the <strong>Agent Runtime Contract (ARC)</strong> conventions defined by the OpenShell proposal:</p>
             <ul className="list-disc pl-5 space-y-2 text-sm">
-              <li><code className="bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">sandbox</code> user with home at <code className="bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox</code></li>
-              <li><code className="bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">supervisor</code> non-login user for the OpenShell supervisor process</li>
-              <li>Policy at <code className="bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/etc/openshell/policy.yaml</code></li>
-              <li>Startup probe marker at <code className="bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/tmp/agent-ready</code></li>
+              <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">sandbox</code> user with home at <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox</code></li>
+              <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">supervisor</code> non-login user for the OpenShell supervisor process</li>
+              <li>Policy at <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/etc/openshell/policy.yaml</code></li>
+              <li>Startup probe marker at <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/tmp/agent-ready</code></li>
               <li>OCI labels for kagenti operator discovery</li>
-              <li><code className="bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">BASE_IMAGE</code> build arg for base swapping</li>
+              <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">BASE_IMAGE</code> build arg for base swapping</li>
             </ul>
-            <p>The <code className="text-sm bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded">BASE_IMAGE</code> arg allows swapping the base for different distributions — UBI for Red Hat validated builds, Ubuntu for upstream OpenShell Community contributions, or a custom base for specialized environments.</p>
+            <p>The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">BASE_IMAGE</code> arg allows swapping the base for different distributions — UBI for Red Hat validated builds, Ubuntu for upstream OpenShell Community contributions, or a custom base for specialized environments.</p>
           </div>
         </div>
       </Section>
@@ -358,7 +358,7 @@ CMD ["ami"]`} />
               <h4 className="font-semibold text-neutral-900 dark:text-white mb-3">Outer Layer: OpenShell Sandbox Policy</h4>
               <ul className="space-y-2 text-sm">
                 <li><strong>Container isolation</strong> — non-root user, restricted mounts, network policy</li>
-                <li><strong>Filesystem confinement</strong> — writes limited to <code className="bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox</code> and <code className="bg-neutral-200 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/tmp</code></li>
+                <li><strong>Filesystem confinement</strong> — writes limited to <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox</code> and <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/tmp</code></li>
                 <li><strong>Resource limits</strong> — CPU, memory, disk quotas enforced by cgroup</li>
                 <li><strong>Network controls</strong> — outbound filtered, inbound blocked by default</li>
                 <li><strong>SPIFFE/mTLS</strong> — sidecar-injected identity certificates</li>
@@ -375,7 +375,7 @@ CMD ["ami"]`} />
               </ul>
             </div>
           </div>
-          <p className="text-sm text-neutral-600 dark:text-neutral-400">Even when running with <code className="bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">--yolo</code> (full autonomy), AMI&apos;s hardline security rules remain active — fork bombs, <code className="bg-neutral-200 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">rm -rf /</code>, and 19 other destructive patterns are unconditionally blocked regardless of permission mode. The OpenShell sandbox provides the infrastructure-level boundary on top of this.</p>
+          <p className="text-sm text-neutral-600 dark:text-neutral-400">Even when running with <code className="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">--yolo</code> (full autonomy), AMI&apos;s hardline security rules remain active — fork bombs, <code className="bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded text-xs">rm -rf /</code>, and 19 other destructive patterns are unconditionally blocked regardless of permission mode. The OpenShell sandbox provides the infrastructure-level boundary on top of this.</p>
         </div>
       </Section>
 

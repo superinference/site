@@ -19,15 +19,16 @@ export default function Section({ id, className, delay = 0, title, subtitle, chi
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, amount: 0.3 }}
         transition={{ duration: 0.6, ease: "easeOut", delay }}
-        className="max-w-6xl mx-auto px-4 sm:px-6"
       >
         {title ? (
-          <div className="mb-6">
-            <h2 className="text-3xl sm:text-4xl font-semibold tracking-tight text-neutral-900 dark:text-white">{title}</h2>
+          <div className="mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">
+            <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white">{title}</h2>
             {subtitle ? <p className="mt-2 text-base/7 text-neutral-600 dark:text-neutral-400">{subtitle}</p> : null}
           </div>
         ) : null}
-        {children}
+        <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
+          {children}
+        </div>
       </motion.div>
     </section>
   );
