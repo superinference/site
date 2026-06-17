@@ -1,4 +1,4 @@
-import CopyButton from "@/components/CopyButton";
+import CodeBlock from "@/components/CodeBlock";
 import { papers } from "@/data/papers";
 
 export default function Cite() {
@@ -19,11 +19,8 @@ export default function Cite() {
               </div>
             </div>
             <p className="mt-3 text-neutral-700 dark:text-neutral-300 text-base/7">{p.summary}</p>
-            <div className="mt-3 relative">
-              <div className="absolute right-2 top-2 z-10">
-                <CopyButton text={p.bibtex} label="Copy BibTeX" />
-              </div>
-              <pre className="rounded bg-neutral-100 dark:bg-neutral-950/80 border border-neutral-200 dark:border-white/10 p-3 pr-10 text-[11px] text-neutral-800 dark:text-neutral-200 overflow-x-auto"><code>{p.bibtex}</code></pre>
+            <div className="mt-3">
+              <CodeBlock lang="bibtex" code={p.bibtex} />
             </div>
           </div>
         ))}

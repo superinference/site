@@ -21,18 +21,18 @@ export default function Integration() {
           <div className="overflow-x-auto">
             <table className="w-full text-sm border-collapse">
               <thead>
-                <tr className="border-b border-neutral-200 dark:border-neutral-700">
+                <tr className="border-b border-neutral-200 dark:border-neutral-800">
                   <th className="text-left py-2 pr-4 font-semibold text-neutral-900 dark:text-white">Code</th>
                   <th className="text-left py-2 pr-4 font-semibold text-neutral-900 dark:text-white">Meaning</th>
                   <th className="text-left py-2 font-semibold text-neutral-900 dark:text-white">Pipeline Action</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800">
-                <tr><td className="py-2 pr-4 font-mono">0</td><td className="py-2 pr-4">Task completed successfully</td><td className="py-2">Proceed to next stage / merge</td></tr>
-                <tr><td className="py-2 pr-4 font-mono">1</td><td className="py-2 pr-4">Partial completion</td><td className="py-2">Flag for human review</td></tr>
-                <tr><td className="py-2 pr-4 font-mono">2</td><td className="py-2 pr-4">Task failed</td><td className="py-2">Block pipeline, alert team</td></tr>
-                <tr><td className="py-2 pr-4 font-mono">3</td><td className="py-2 pr-4">Internal error</td><td className="py-2">Retry or escalate</td></tr>
-                <tr><td className="py-2 pr-4 font-mono">4</td><td className="py-2 pr-4">Timeout</td><td className="py-2">Increase budget or decompose task</td></tr>
+              <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800/50">
+                <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">0</td><td className="py-2 pr-4">Task completed successfully</td><td className="py-2">Proceed to next stage / merge</td></tr>
+                <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">1</td><td className="py-2 pr-4">Partial completion</td><td className="py-2">Flag for human review</td></tr>
+                <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">2</td><td className="py-2 pr-4">Task failed</td><td className="py-2">Block pipeline, alert team</td></tr>
+                <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">3</td><td className="py-2 pr-4">Internal error</td><td className="py-2">Retry or escalate</td></tr>
+                <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">4</td><td className="py-2 pr-4">Timeout</td><td className="py-2">Increase budget or decompose task</td></tr>
               </tbody>
             </table>
           </div>

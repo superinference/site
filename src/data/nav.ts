@@ -4,6 +4,7 @@ export type NavLink = {
 };
 
 export const mainNavItems: NavLink[] = [
+  { href: "/", label: "Main" },
   { href: "/docs/", label: "Docs" },
   { href: "/openshell/", label: "OpenShell" },
   { href: "/asdlc/", label: "ASDLC" },
@@ -70,4 +71,12 @@ export const challengesToc: TocItem[] = [
   { href: "#models", label: "Model Summary" },
   { href: "#results", label: "Challenge Results" },
   { href: "#container-evaluation", label: "Container Evaluation" },
+];
+
+export const homeToc: TocItem[] = [
+  { href: "#install", label: "Install" },
+  { href: "#features", label: "Features" },
+  { href: "#how-it-works", label: "How It Works" },
+  { href: "#architecture", label: "Architecture" },
+  { href: "#demo", label: "Demo" },
 ];

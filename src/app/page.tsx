@@ -4,21 +4,17 @@ import CopyButton from "@/components/CopyButton";
 import Asciinema from "@/components/Asciinema";
 import MotionCard from "@/components/MotionCard";
 import Mermaid from "@/components/Mermaid";
+import PageLayout from "@/components/PageLayout";
 import { CLIDownloadCount, VSCodeDownloadCount } from "@/components/DownloadCount";
 import { vscodeChart } from "@/data/charts";
+import { homeToc } from "@/data/nav";
 
 export default function Home() {
   return (
-    <main className="max-w-4xl mx-auto px-4 sm:px-6 py-16 sm:py-24">
-      {/* Hero */}
-      <div className="text-center space-y-4">
-        <h1 className="text-5xl sm:text-6xl font-bold tracking-tight text-neutral-900 dark:text-white">AMI</h1>
-        <p className="text-sm sm:text-base font-medium tracking-wide text-neutral-500 dark:text-neutral-400">Agentic Multi-step Inference</p>
-        <p className="text-lg sm:text-xl text-neutral-600 dark:text-neutral-400 max-w-xl mx-auto">An open-source AI coding agent that runs in your terminal and editor. Model-agnostic. Free.</p>
-      </div>
+    <PageLayout title="AMI" subtitle="An open-source AI coding agent that runs in your terminal and editor. Model-agnostic. Free." toc={homeToc} titleClassName="text-5xl sm:text-6xl font-bold tracking-tight text-neutral-900 dark:text-white">
 
       {/* Install */}
-      <div className="mt-10 max-w-2xl mx-auto">
+      <div id="install" className="scroll-mt-20">
         <div className="relative rounded-xl bg-neutral-100 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 p-5 shadow-lg">
           <div className="absolute top-3 right-3">
             <CopyButton text="curl -fsSL https://www.superinference.org/install.sh | bash" label="Copy" />
@@ -28,7 +24,7 @@ export default function Home() {
       </div>
 
       {/* Download links */}
-      <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 gap-3 max-w-lg mx-auto text-center">
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-center">
         <a href="https://marketplace.visualstudio.com/items?itemName=superinference.ami-vscode" target="_blank" rel="noreferrer" className="group rounded-lg border border-neutral-200 dark:border-neutral-800 px-4 py-3 hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
           <div className="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">VS Code Extension</div>
           <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">Marketplace</div>
@@ -42,7 +38,7 @@ export default function Home() {
       </div>
 
       {/* What AMI does */}
-      <div className="mt-16 grid grid-cols-1 sm:grid-cols-2 gap-4">
+      <div id="features" className="scroll-mt-20 grid grid-cols-1 sm:grid-cols-2 gap-4">
         {[
           { title: "Terminal & editor", desc: "Interactive REPL in your terminal or VS Code side panel. Full access to your codebase, tools, and environment." },
           { title: "Any model, free tiers", desc: "Works with OpenAI, Anthropic, Google, Groq, Mistral, and any OpenAI-compatible API. FRITO routes through free providers automatically." },
@@ -57,7 +53,7 @@ export default function Home() {
       </div>
 
       {/* How It Works */}
-      <div id="how-it-works" className="mt-20">
+      <div id="how-it-works" className="scroll-mt-20">
         <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">How It Works</h2>
         <p className="mt-2 text-neutral-600 dark:text-neutral-400">Plan, act, observe, and loop with feedback.</p>
         <p className="mt-4 text-neutral-700 dark:text-neutral-300 text-base/7">A typical session starts with exploration: ask for an explanation of a file, jump to a symbol, or request a map of call sites. Once the task is clear, the agent drafts a plan that names the files it intends to change and the checks it will run. When approved, the agent performs the smallest safe step, runs inexpensive validators, and reports back with logs and a preview diff. Because the loop prefers objective signals — compilers, tests, type systems — the agent&apos;s suggestions converge toward correctness rather than style alone.</p>
@@ -75,7 +71,7 @@ export default function Home() {
       </div>
 
       {/* Architecture */}
-      <div id="architecture" className="mt-20">
+      <div id="architecture" className="scroll-mt-20">
         <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Architecture</h2>
         <p className="mt-2 text-neutral-600 dark:text-neutral-400">VS Code extension, terminal CLI, and OpenClaw plugin — all sharing a single TypeScript engine.</p>
         <div className="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
@@ -99,7 +95,7 @@ export default function Home() {
       </div>
 
       {/* Demo */}
-      <div className="mt-20 max-w-2xl mx-auto space-y-10">
+      <div id="demo" className="scroll-mt-20 space-y-10">
         <div>
           <h3 className="text-sm font-semibold text-neutral-900 dark:text-white mb-1">Basic workflow</h3>
           <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-3">Install AMI, start a session, and interact with your codebase using natural language.</p>
@@ -112,6 +108,6 @@ export default function Home() {
         </div>
       </div>
 
-    </main>
+    </PageLayout>
   );
 }

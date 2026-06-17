@@ -1,6 +1,7 @@
 "use client";
 
 import Section from "@/components/Section";
+import CodeBlock from "@/components/CodeBlock";
 import report from "@/data/challenges-report.json";
 
 /* ------------------------------------------------------------------ */
@@ -237,42 +238,36 @@ export default function Challenges() {
         <div className="mt-6 space-y-6">
           <div>
             <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Run a single challenge</h4>
-            <pre className="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 rounded-xl p-4 text-sm overflow-x-auto">
-{`docker run --rm \\
+            <CodeBlock lang="bash" code={`docker run --rm \\
   --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
   -e TMPDIR=/tmp \\
   -e AI_API_KEY="$AI_API_KEY" \\
   -v ./challenges:/sandbox/challenges \\
   ghcr.io/superinference/openshell-ami:latest \\
   bash -c 'bash /sandbox/challenges/framework/run-challenge.sh \\
-    /sandbox/challenges/software-development/array-operations/031-array-flatten'`}
-            </pre>
+    /sandbox/challenges/software-development/array-operations/031-array-flatten'`} />
           </div>
 
           <div>
             <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Run all challenges</h4>
-            <pre className="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 rounded-xl p-4 text-sm overflow-x-auto">
-{`docker run --rm \\
+            <CodeBlock lang="bash" code={`docker run --rm \\
   --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
   -e TMPDIR=/tmp \\
   -e AI_API_KEY="$AI_API_KEY" \\
   -v ./challenges:/sandbox/challenges \\
   ghcr.io/superinference/openshell-ami:latest \\
-  bash -c 'bash /sandbox/challenges/framework/run-all.sh'`}
-            </pre>
+  bash -c 'bash /sandbox/challenges/framework/run-all.sh'`} />
           </div>
 
           <div>
             <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Use FRITO (free-tier, no API key)</h4>
-            <pre className="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 rounded-xl p-4 text-sm overflow-x-auto">
-{`docker run --rm \\
+            <CodeBlock lang="bash" code={`docker run --rm \\
   --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
   -e TMPDIR=/tmp \\
   -e FRITO=1 \\
   -v ./challenges:/sandbox/challenges \\
   ghcr.io/superinference/openshell-ami:latest \\
-  bash -c 'bash /sandbox/challenges/framework/run-all.sh'`}
-            </pre>
+  bash -c 'bash /sandbox/challenges/framework/run-all.sh'`} />
           </div>
 
           <div>
@@ -314,9 +309,9 @@ export default function Challenges() {
           <div>
             <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Results</h4>
             <p className="text-sm text-neutral-600 dark:text-neutral-400">
-              Each challenge writes a JSON result file to <code className="bg-neutral-100 dark:bg-white/5 px-1.5 py-0.5 rounded text-xs">{'<challenge>/results/ami-<model>.json'}</code> containing
+              Each challenge writes a JSON result file to <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">{'<challenge>/results/ami-<model>.json'}</code> containing
               pass/fail status, test counts, turn count, token usage, estimated cost, and behavioral metrics
-              (file reads, edits, bash calls, web searches). Use <code className="bg-neutral-100 dark:bg-white/5 px-1.5 py-0.5 rounded text-xs">framework/generate-report.ts</code> to
+              (file reads, edits, bash calls, web searches). Use <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">framework/generate-report.ts</code> to
               aggregate results into the report displayed above.
             </p>
           </div>

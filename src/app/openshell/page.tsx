@@ -319,22 +319,22 @@ podman run --rm \\
               <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
                 <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">Python packages</div>
                 <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded block">uv pip install pytest ruff mypy</code>
-                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Installs to <code>/sandbox/.venv</code> (already in PATH)</div>
+                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Installs to <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded">/sandbox/.venv</code> (already in PATH)</div>
               </div>
               <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
                 <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">Node packages</div>
                 <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded block">npm install mocha eslint typescript</code>
-                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Installs to <code>/sandbox/node_modules</code></div>
+                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Installs to <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded">/sandbox/node_modules</code></div>
               </div>
               <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
                 <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">CLI tools</div>
                 <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded block">uv tool install ruff</code>
-                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Installs to <code>/sandbox/.local/bin</code> (already in PATH)</div>
+                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Installs to <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded">/sandbox/.local/bin</code> (already in PATH)</div>
               </div>
               <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
                 <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">System packages</div>
                 <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded block">sandbox-install htop tree vim</code>
-                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Wraps <code>sudo apt-get</code> — works with any UID (OpenShift, Podman, K8s, Docker)</div>
+                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Wraps <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded">sudo apt-get</code> — works with any UID (OpenShift, Podman, K8s, Docker)</div>
               </div>
               <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
                 <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">Standalone binaries</div>
@@ -381,7 +381,7 @@ permissions:
       - /var         # read-only rootfs`} />
             <div className="rounded-lg border border-blue-200 dark:border-blue-900/50 p-3 bg-blue-50 dark:bg-blue-900/20">
               <div className="font-semibold text-blue-800 dark:text-blue-300 text-sm">Air-gapped on-demand deps</div>
-              <div className="text-sm text-blue-700 dark:text-blue-400 mt-1">For disconnected environments, pre-populate a PVC with a Python wheel cache or npm registry mirror. Mount it at <code className="text-xs">/sandbox/.cache</code> and both uv and npm will resolve packages locally without network access.</div>
+              <div className="text-sm text-blue-700 dark:text-blue-400 mt-1">For disconnected environments, pre-populate a PVC with a Python wheel cache or npm registry mirror. Mount it at <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded">/sandbox/.cache</code> and both uv and npm will resolve packages locally without network access.</div>
             </div>
           </div>
         </div>
