@@ -14,8 +14,8 @@ export default function OpenShellPage() {
       <Section id="openshell" title="Overview">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-            <p><strong>OpenShell</strong> provides sandboxed container environments for AI coding agents. AMI integrates as a <strong>validated flavor image</strong> — a minimal, UBI-based container with the AMI binary baked in at build time. Because AMI is licensed under Apache 2.0, the binary can be redistributed directly in the image with zero licensing risk, unlike proprietary agents that require runtime installation from vendor CDNs on every boot.</p>
-            <p>The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> image runs exclusively in <strong>detached mode</strong> — no REPL, no TUI, no human in the loop. The operator or sandbox gateway passes a task prompt, AMI executes autonomously with structured JSONL output, and exits with a semantic status code. This makes it ideal for platform-managed deployments, CI/CD pipelines, and air-gapped enterprise environments.</p>
+            <p><strong>OpenShell</strong> provides sandboxed container environments for AI coding agents. The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> image is built on the <strong>OpenShell Community base</strong> — a comprehensive Ubuntu Noble image with Node.js 22, Python 3.14 (via uv), build-essential, git, and gh pre-installed. AMI extends it with a single binary, baked in at build time under Apache 2.0 with zero licensing risk.</p>
+            <p>The container rootfs runs <strong>read-only</strong>, but <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">/sandbox</code> is mounted as a <strong>writable volume</strong>. When the agent discovers it needs a dependency at runtime — a Python library, an npm package, a CLI tool — it installs it on demand using <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">uv</code> or <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">npm</code> into the writable volume. No rootfs mutation, no subscription, no pre-planning what the agent might need.</p>
             <p>AMI is the only agent in the OpenShell ecosystem that supports <strong>multi-provider LLM routing</strong> via FRITO (Free-tier Retrieval & Inference Token Ops). A single image works with any model backend — Anthropic, OpenAI, Google, DeepSeek, Ollama, vLLM, or any OpenAI-compatible endpoint — making it the universal agent flavor for heterogeneous infrastructure.</p>
           </div>
           <div>
@@ -61,9 +61,9 @@ openshell sandbox create --from ubi-ami -e ANTHROPIC_API_KEY=sk-ant-...`} />
           </div>
           <div className="space-y-2">
             <h3 className="text-lg font-semibold text-neutral-900 dark:text-white">With Podman / Docker</h3>
-            <CodeBlock lang="bash" code={`# Detached mode with a task prompt
+            <CodeBlock lang="bash" code={`# Detached mode — read-only rootfs, writable /sandbox
 podman run --rm \\
-  --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
+  --tmpfs /tmp:rw,nosuid,nodev,size=1g \\
   -e ANTHROPIC_API_KEY=sk-ant-... \\
   -e AGENT_PROMPT="Refactor the database layer to use connection pooling" \\
   -v ./myproject:/sandbox/project \\
@@ -71,7 +71,7 @@ podman run --rm \\
 
 # Direct CLI arguments
 podman run --rm \\
-  --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
+  --tmpfs /tmp:rw,nosuid,nodev,size=1g \\
   -e OPENAI_API_KEY=sk-... \\
   -v ./myproject:/sandbox/project \\
   ghcr.io/superinference/openshell-ami \\
@@ -86,6 +86,26 @@ metadata:
 spec:
   harness: ami
   image: ghcr.io/superinference/openshell-ami:latest
+  securityContext:
+    readOnlyRootFilesystem: true    # rootfs read-only
+  volumes:
+    - name: sandbox
+      emptyDir: {}                  # writable /sandbox for on-demand deps
+    - name: tmp
+      emptyDir:
+        medium: Memory
+        sizeLimit: 1Gi
+    - name: shm
+      emptyDir:
+        medium: Memory
+        sizeLimit: 2Gi
+  volumeMounts:
+    - name: sandbox
+      mountPath: /sandbox
+    - name: tmp
+      mountPath: /tmp
+    - name: shm
+      mountPath: /dev/shm
   env:
     - name: ANTHROPIC_API_KEY
       valueFrom:
@@ -103,67 +123,57 @@ spec:
       </Section>
 
       {/* Architecture */}
-      <Section id="architecture" title="Image Architecture" subtitle="Thin base + flavor pattern. Each agent image contains only what it needs.">
+      <Section id="architecture" title="Image Architecture" subtitle="Built on the OpenShell Community base with on-demand dependency resolution.">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div>
             <Mermaid chart={openshellArchChart} className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-4 overflow-x-auto" highlights={{
-              Base: "Thin Base",
+              Base: "Community Base",
               AMI: "AMI Flavor",
-              Claude: "Claude Flavor",
-              Codex: "Codex Flavor",
-              ADK: "ADK Flavor",
+              Writable: "Writable Volume",
             }} descriptions={{
-              Base: "UBI 10-minimal base image (150-200 MB). Contains only OS-level dependencies: ca-certs, curl, git, jq. No language runtimes, no agents. Every flavor inherits this shared layer.",
-              AMI: "AMI flavor (~200-250 MB). The smallest flavor image — AMI ships as a single binary, so no Node.js or Python runtime layer is needed in the image itself. Apache 2.0 licensed, baked in at build time. Instant cold-start, zero runtime downloads.",
-              Claude: "Claude Code flavor (~350-400 MB). Requires Node.js 22 runtime layer. Proprietary license ('All rights reserved') means the agent must be downloaded from Anthropic's CDN at every uncached boot — 10-20 second cold-start penalty.",
-              Codex: "Codex flavor (~350-400 MB). Requires Node.js 22 runtime layer. Apache 2.0 licensed, so the binary is baked in at build time. Instant cold-start.",
-              ADK: "Google ADK flavor (~300-350 MB). Requires Python 3.13 + uv runtime layer. Apache 2.0 licensed, baked in. Instant cold-start.",
+              Base: "NVIDIA OpenShell Community base image (Ubuntu Noble). Ships with Node.js 22, Python 3.14.3 (via uv), build-essential, git, gh, npm 11, and common agent CLIs. Provides a comprehensive dev environment out of the box.",
+              AMI: "AMI flavor — extends the community base with a single binary (~30 MB). Apache 2.0 licensed, baked in at build time. Instant cold-start, zero runtime downloads. The only agent in the ecosystem with multi-provider LLM routing.",
+              Writable: "The /sandbox volume is mounted writable even when the container rootfs is read-only. The agent uses uv and npm (already in the base) to install additional dependencies on demand — Python packages to /sandbox/.venv, Node packages to /sandbox/node_modules, CLI tools to /sandbox/.local/bin.",
             }} />
-            <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 11.</strong> OpenShell thin-base + flavor architecture. Each flavor extends a shared UBI base with only the runtimes its agent requires.</div>
+            <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 11.</strong> OpenShell Community base + AMI flavor with writable /sandbox for on-demand dependency resolution.</div>
           </div>
           <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-            <p>The upstream OpenShell Community base image is a <strong>2.81 GB monolith</strong> (1.4 GB compressed) that bundles every agent CLI, full build toolchains, and system utilities into a single image. The thin-base + flavor approach replaces this with a minimal shared base and per-agent images that contain only what each agent needs.</p>
-            <p>AMI has the <strong>smallest footprint</strong> of any flavor because it ships as a single compiled binary — no Node.js, no Python, no npm packages needed in the container. The result is an image roughly <strong>12x smaller</strong> than the upstream monolith.</p>
+            <p>The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> image builds on the <strong>OpenShell Community base</strong> — a comprehensive Ubuntu Noble image maintained by NVIDIA. The base provides the full dev environment (Node.js, Python, build tools, git), and AMI adds a single binary on top. This means the agent starts with everything most coding tasks need, and installs anything else on demand.</p>
+            <p>The container runs with a <strong>read-only rootfs</strong> for security, but <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">/sandbox</code> is mounted as a <strong>writable volume</strong>. The base image ships with <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">uv</code> and <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">npm</code> — both install packages into the writable volume, not the rootfs. The agent discovers what it needs during execution and installs it in the moment.</p>
             <div className="rounded-lg border border-neutral-200 dark:border-white/10 overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-neutral-200 dark:border-neutral-800">
-                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">Image</th>
-                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">Size</th>
-                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">Cold Start</th>
-                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">License</th>
+                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">Feature</th>
+                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">AMI</th>
+                    <th className="px-4 py-2 text-left font-semibold text-neutral-900 dark:text-white">Other Agents</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-neutral-100 dark:divide-neutral-800/50">
                   <tr>
-                    <td className="px-4 py-2 font-mono text-xs">upstream monolith</td>
-                    <td className="px-4 py-2">2.81 GB</td>
-                    <td className="px-4 py-2">Fast</td>
-                    <td className="px-4 py-2 text-amber-600 dark:text-amber-400">Mixed</td>
+                    <td className="px-4 py-2 text-sm">LLM Providers</td>
+                    <td className="px-4 py-2 text-green-600 dark:text-green-400 text-sm">13 (via FRITO)</td>
+                    <td className="px-4 py-2 text-amber-600 dark:text-amber-400 text-sm">1 each</td>
                   </tr>
                   <tr className="bg-neutral-50 dark:bg-neutral-900/30">
-                    <td className="px-4 py-2 font-mono text-xs font-semibold">openshell-ami</td>
-                    <td className="px-4 py-2 font-semibold">~200-250 MB</td>
-                    <td className="px-4 py-2 text-green-600 dark:text-green-400">Instant</td>
-                    <td className="px-4 py-2 text-green-600 dark:text-green-400">Apache 2.0</td>
+                    <td className="px-4 py-2 text-sm">License</td>
+                    <td className="px-4 py-2 text-green-600 dark:text-green-400 text-sm">Apache 2.0</td>
+                    <td className="px-4 py-2 text-amber-600 dark:text-amber-400 text-sm">Mixed</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2 font-mono text-xs">openshell-claude</td>
-                    <td className="px-4 py-2">~350-400 MB</td>
-                    <td className="px-4 py-2 text-amber-600 dark:text-amber-400">10-20s</td>
-                    <td className="px-4 py-2 text-red-600 dark:text-red-400">Proprietary</td>
+                    <td className="px-4 py-2 text-sm">Cold Start</td>
+                    <td className="px-4 py-2 text-green-600 dark:text-green-400 text-sm">Instant</td>
+                    <td className="px-4 py-2 text-amber-600 dark:text-amber-400 text-sm">0-20s</td>
                   </tr>
                   <tr className="bg-neutral-50 dark:bg-neutral-900/30">
-                    <td className="px-4 py-2 font-mono text-xs">openshell-codex</td>
-                    <td className="px-4 py-2">~350-400 MB</td>
-                    <td className="px-4 py-2 text-green-600 dark:text-green-400">Instant</td>
-                    <td className="px-4 py-2 text-green-600 dark:text-green-400">Apache 2.0</td>
+                    <td className="px-4 py-2 text-sm">On-Demand Deps</td>
+                    <td className="px-4 py-2 text-green-600 dark:text-green-400 text-sm">uv + npm</td>
+                    <td className="px-4 py-2 text-green-600 dark:text-green-400 text-sm">uv + npm</td>
                   </tr>
                   <tr>
-                    <td className="px-4 py-2 font-mono text-xs">openshell-adk</td>
-                    <td className="px-4 py-2">~300-350 MB</td>
-                    <td className="px-4 py-2 text-green-600 dark:text-green-400">Instant</td>
-                    <td className="px-4 py-2 text-green-600 dark:text-green-400">Apache 2.0</td>
+                    <td className="px-4 py-2 text-sm">Air-Gap Ready</td>
+                    <td className="px-4 py-2 text-green-600 dark:text-green-400 text-sm">Yes</td>
+                    <td className="px-4 py-2 text-amber-600 dark:text-amber-400 text-sm">Varies</td>
                   </tr>
                 </tbody>
               </table>
@@ -267,7 +277,7 @@ ami --prompt "Continue the migration" --resume latest`} />
             <div className="space-y-3">
               <div className="rounded-lg border border-green-200 dark:border-green-900/50 p-3 bg-green-50 dark:bg-green-900/20">
                 <div className="font-semibold text-green-800 dark:text-green-300 text-sm">AMI (openshell-ami)</div>
-                <div className="text-sm text-green-700 dark:text-green-400 mt-1">Binary baked in. Mirror the image, configure an Ollama or vLLM endpoint on the internal network, and run. Zero internet access needed.</div>
+                <div className="text-sm text-green-700 dark:text-green-400 mt-1">Binary baked in. Mirror the image, configure an Ollama or vLLM endpoint on the internal network, and run. For on-demand deps, pre-populate a PVC with Python wheels and npm tarballs — uv and npm resolve from the local cache.</div>
               </div>
               <div className="rounded-lg border border-red-200 dark:border-red-900/50 p-3 bg-red-50 dark:bg-red-900/20">
                 <div className="font-semibold text-red-800 dark:text-red-300 text-sm">Claude Code (openshell-claude)</div>
@@ -277,8 +287,10 @@ ami --prompt "Continue the migration" --resume latest`} />
           </div>
           <div className="space-y-4">
             <CodeBlock lang="bash" code={`# Air-gapped deployment with local vLLM backend
-podman run --rm --network=none \\
-  --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
+# Pre-populated cache PVC for on-demand deps without network
+podman run --rm --read-only --network=none \\
+  --tmpfs /tmp:rw,nosuid,nodev,size=1g \\
+  -v dep-cache:/sandbox/.cache \\
   -e DEFAULT_PROVIDER=vllm \\
   -e OPENAI_BASE_URL=http://vllm.internal:8000/v1 \\
   -e OPENAI_API_KEY=dummy \\
@@ -287,7 +299,7 @@ podman run --rm --network=none \\
   internal-registry.corp/openshell-ami:v0.1`} />
             <CodeBlock lang="bash" code={`# With Ollama on the local network
 podman run --rm \\
-  --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
+  --tmpfs /tmp:rw,nosuid,nodev,size=1g \\
   -e DEFAULT_PROVIDER=ollama \\
   -e OLLAMA_HOST=http://ollama.internal:11434 \\
   -e AGENT_PROMPT="Write integration tests for the API layer" \\
@@ -297,28 +309,96 @@ podman run --rm \\
         </div>
       </Section>
 
-      {/* Containerfile */}
-      <Section id="containerfile" title="Containerfile" subtitle="The complete AMI flavor image. Extends the OpenShell thin base with a single binary.">
+      {/* On-Demand Dependencies */}
+      <Section id="on-demand-deps" title="On-Demand Dependency Resolution" subtitle="The agent installs what it needs, when it needs it — into a writable volume, not the rootfs.">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
-          <CodeBlock lang="dockerfile" code={`# openshell-ami: SuperInference AMI agent (Apache 2.0, baked in)
-# Target size: 200-250 MB
-ARG BASE_IMAGE=registry.access.redhat.com/ubi10/ubi-minimal:latest
+          <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
+            <p>Coding agents can&apos;t know in advance what tools a task will require. A prompt like <em>&quot;run the Node tests&quot;</em> needs <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">mocha</code>; <em>&quot;lint the Python files&quot;</em> needs <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">ruff</code>. These dependencies are discovered <strong>during execution</strong>, not before it.</p>
+            <p>The OpenShell sandbox runs with a <strong>read-only container rootfs</strong> — the agent cannot <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">apt-get install</code> anything. But <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">/sandbox</code> is mounted as a <strong>writable volume</strong> (emptyDir, tmpfs, or PVC), and the base image ships with <strong>userspace package managers</strong> that install everything into that writable path:</p>
+            <div className="space-y-3 mt-4">
+              <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
+                <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">Python packages</div>
+                <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded block">uv pip install pytest ruff mypy</code>
+                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Installs to <code>/sandbox/.venv</code> (already in PATH)</div>
+              </div>
+              <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
+                <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">Node packages</div>
+                <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded block">npm install mocha eslint typescript</code>
+                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Installs to <code>/sandbox/node_modules</code></div>
+              </div>
+              <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
+                <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">CLI tools</div>
+                <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded block">uv tool install ruff</code>
+                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Installs to <code>/sandbox/.local/bin</code> (already in PATH)</div>
+              </div>
+              <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
+                <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">Standalone binaries</div>
+                <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded block">curl -fsSL https://example.com/tool | tar -xz -C /sandbox/.local/bin</code>
+                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Any binary the agent downloads lands in the writable volume</div>
+              </div>
+            </div>
+          </div>
+          <div className="space-y-4">
+            <CodeBlock lang="bash" code={`# Run the agent in a sandbox — it installs deps on demand
+$ docker run --rm \\
+    --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
+    -e AI_API_KEY=\${AI_API_KEY} \\
+    -e AGENT_PROMPT="Install cowsay and run: python -c \\
+       'import cowsay; cowsay.cow(hello)'" \\
+    openshell-ami`} />
+            <CodeBlock lang="json" code={`// Actual JSONL output from the sandbox run:
+
+// 1. Agent decides to install the package
+{"type":"tool_use_start","toolName":"bash",
+ "input":{"command":"uv pip install cowsay && \\
+   python -c 'import cowsay; cowsay.cow(\"hello\")'"}
+}
+
+// 2. uv resolves and installs into /sandbox/.venv (195ms)
+{"type":"tool_use_result","toolName":"bash",
+ "output":"Resolved 1 package in 174ms\\n\\
+   Installed 1 package in 7ms\\n + cowsay==6.1\\n\\
+    _____\\n| hello |\\n  =====\\n\\
+        ^__^\\n  (oo)\\\\_______\\n"
+}
+
+// No rootfs was mutated. The writable /sandbox volume
+// absorbed the install. Container stays read-only.`} />
+            <CodeBlock lang="yaml" code={`# Writable paths in the sandbox policy
+permissions:
+  filesystem:
+    write:
+      - /sandbox     # writable volume (deps go here)
+      - /tmp         # tmpfs
+    deny:
+      - /etc         # read-only rootfs
+      - /usr         # read-only rootfs
+      - /var         # read-only rootfs`} />
+            <div className="rounded-lg border border-blue-200 dark:border-blue-900/50 p-3 bg-blue-50 dark:bg-blue-900/20">
+              <div className="font-semibold text-blue-800 dark:text-blue-300 text-sm">Air-gapped on-demand deps</div>
+              <div className="text-sm text-blue-700 dark:text-blue-400 mt-1">For disconnected environments, pre-populate a PVC with a Python wheel cache or npm registry mirror. Mount it at <code className="text-xs">/sandbox/.cache</code> and both uv and npm will resolve packages locally without network access.</div>
+            </div>
+          </div>
+        </div>
+      </Section>
+
+      {/* Containerfile */}
+      <Section id="containerfile" title="Containerfile" subtitle="AMI extends the OpenShell Community base with a single binary.">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
+          <CodeBlock lang="dockerfile" code={`# openshell-ami: SuperInference AMI agent on OpenShell Community base
+# The base provides Node.js 22, Python 3.14 (uv), build-essential,
+# git, gh, npm — everything a coding agent typically needs.
+# Additional deps installed on demand into writable /sandbox.
+
+ARG BASE_IMAGE=ghcr.io/nvidia/openshell-community/sandboxes/base:latest
 FROM \${BASE_IMAGE}
 
-USER root
-RUN microdnf install -y --nodocs --setopt=install_weak_deps=0 \\
-        ca-certificates curl git jq tar gzip libatomic procps-ng shadow-utils \\
-    && microdnf clean all
-
-# Users: supervisor (non-login) and sandbox (interactive)
-RUN useradd -r -s /usr/sbin/nologin supervisor \\
-    && useradd -m -s /bin/bash -d /sandbox sandbox
-
-RUN mkdir -p /sandbox/.local/bin /sandbox/.config/superinference \\
-    && chown -R sandbox:sandbox /sandbox
+# AMI-specific directories
+USER sandbox
+RUN mkdir -p /sandbox/.config/superinference \\
+             /sandbox/.superinference
 
 # Install AMI binary (Apache 2.0 — safe to redistribute)
-USER sandbox
 RUN curl -fsSL https://www.superinference.org/install.sh | bash
 
 USER root
@@ -336,16 +416,16 @@ ENV PATH="/sandbox/.local/bin:\${PATH}" AGENT_NAME=ami
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["ami"]`} />
           <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-            <p>The Containerfile follows the <strong>Agent Runtime Contract (ARC)</strong> conventions defined by the OpenShell proposal:</p>
+            <p>The Containerfile follows the <strong>Agent Runtime Contract (ARC)</strong> conventions and builds on the OpenShell Community base:</p>
             <ul className="list-disc pl-5 space-y-2 text-sm">
-              <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">sandbox</code> user with home at <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox</code></li>
-              <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">supervisor</code> non-login user for the OpenShell supervisor process</li>
+              <li><strong>Community base</strong> provides <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">sandbox</code> user, <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">supervisor</code> user, Node.js, Python, uv, npm, git, build-essential</li>
+              <li>AMI adds only the binary (~30 MB) and config directories</li>
               <li>Policy at <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/etc/openshell/policy.yaml</code></li>
               <li>Startup probe marker at <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/tmp/agent-ready</code></li>
               <li>OCI labels for kagenti operator discovery</li>
-              <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">BASE_IMAGE</code> build arg for base swapping</li>
+              <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox/.venv</code> pre-created by base, writable, in PATH — uv/pip install packages here</li>
+              <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox/.local/bin</code> in PATH — CLI tools and standalone binaries go here</li>
             </ul>
-            <p>The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">BASE_IMAGE</code> arg allows swapping the base for different distributions — UBI for Red Hat validated builds, Ubuntu for upstream OpenShell Community contributions, or a custom base for specialized environments.</p>
           </div>
         </div>
       </Section>
@@ -357,8 +437,8 @@ CMD ["ami"]`} />
             <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-5 bg-neutral-50 dark:bg-neutral-900/60">
               <h4 className="font-semibold text-neutral-900 dark:text-white mb-3">Outer Layer: OpenShell Sandbox Policy</h4>
               <ul className="space-y-2 text-sm">
-                <li><strong>Container isolation</strong> — non-root user, restricted mounts, network policy</li>
-                <li><strong>Filesystem confinement</strong> — writes limited to <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox</code> and <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/tmp</code></li>
+                <li><strong>Container isolation</strong> — non-root user, read-only rootfs, restricted mounts, network policy</li>
+                <li><strong>Filesystem confinement</strong> — rootfs is read-only; writes limited to writable <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox</code> volume and <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/tmp</code> tmpfs</li>
                 <li><strong>Resource limits</strong> — CPU, memory, disk quotas enforced by cgroup</li>
                 <li><strong>Network controls</strong> — outbound filtered, inbound blocked by default</li>
                 <li><strong>SPIFFE/mTLS</strong> — sidecar-injected identity certificates</li>
@@ -383,12 +463,12 @@ CMD ["ami"]`} />
       <Section id="advantages" title="Why AMI for OpenShell" subtitle="The only agent in the ecosystem that combines all five properties.">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
-            { title: "Smallest Footprint", desc: "~200-250 MB. Single binary, no runtime layer. 12x smaller than the upstream monolith." },
+            { title: "On-Demand Deps", desc: "Read-only rootfs with writable /sandbox. Agent installs Python, Node, or CLI tools at runtime via uv and npm — no pre-planning needed." },
             { title: "Zero Cold-Start", desc: "Binary baked in at build time. Apache 2.0 means no licensing workaround — instant boot, every time." },
             { title: "Multi-Provider", desc: "FRITO routes across 13 LLM providers. Works with Anthropic, OpenAI, Google, Ollama, vLLM, or any OpenAI-compatible endpoint." },
             { title: "True Detached Mode", desc: "Built for autonomous execution. Structured JSONL output, semantic exit codes, audit logging, session resume." },
             { title: "37 Built-in Tools", desc: "File operations, shell execution, code search, web access, MCP integration, workflow orchestration, task management." },
-            { title: "Air-Gap Ready", desc: "Zero runtime downloads. Mirror the image, point at a local model endpoint, and run. No vendor CDN dependency." },
+            { title: "Air-Gap Ready", desc: "Mirror the image, pre-populate a wheel/registry cache on a PVC, point at a local model endpoint, and run. No vendor CDN dependency." },
           ].map((item) => (
             <div key={item.title} className="rounded-lg border border-neutral-200 dark:border-white/10 p-4 bg-neutral-50 dark:bg-neutral-900/60">
               <h4 className="font-semibold text-neutral-900 dark:text-white mb-1">{item.title}</h4>
@@ -408,7 +488,7 @@ CMD ["ami"]`} />
               <CodeBlock lang="bash" code={`# GitHub Actions step
 - run: |
     podman run --rm \\
-      --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
+      --tmpfs /tmp:rw,nosuid,nodev,size=1g \\
       -e ANTHROPIC_API_KEY=\${{ secrets.ANTHROPIC_KEY }} \\
       -e AGENT_PROMPT="Review changes and run tests" \\
       -v \${{ github.workspace }}:/sandbox/project \\

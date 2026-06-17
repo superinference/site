@@ -35,6 +35,7 @@ export const openshellToc: TocItem[] = [
   { href: "#openshell", label: "Overview" },
   { href: "#quickstart", label: "Quick Start" },
   { href: "#architecture", label: "Image Architecture" },
+  { href: "#on-demand-deps", label: "On-Demand Deps" },
   { href: "#detached", label: "Detached Execution" },
   { href: "#multi-provider", label: "Multi-Provider" },
   { href: "#enterprise", label: "Air-Gapped" },

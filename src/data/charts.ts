@@ -268,22 +268,16 @@ export const asdlcPipeline = `flowchart TD
 `;
 
 export const openshellArchChart = `flowchart TD
-  Base["openshell-base<br/>(UBI 10-minimal, 150-200 MB)<br/>ca-certs, curl, git, jq"]
-  AMI["openshell-ami<br/>(+AMI binary, ~200-250 MB)<br/>Apache 2.0, baked in"]
-  Claude["openshell-claude<br/>(+Node.js, ~350-400 MB)<br/>proprietary, runtime install"]
-  Codex["openshell-codex<br/>(+Node.js, ~350-400 MB)<br/>Apache 2.0, baked in"]
-  ADK["openshell-adk<br/>(+Python, ~300-350 MB)<br/>Apache 2.0, baked in"]
+  Base["OpenShell Community Base<br/>(Ubuntu Noble)<br/>Node.js 22, Python 3.14, uv, npm,<br/>build-essential, git, gh"]
+  AMI["openshell-ami<br/>(+AMI binary)<br/>Apache 2.0, baked in"]
+  Writable["/sandbox (writable volume)<br/>uv pip install · npm install<br/>on-demand dependencies"]
 
   Base --> AMI
-  Base --> Claude
-  Base --> Codex
-  Base --> ADK
+  AMI --> Writable
 
   style Base fill:#1e3a5f,color:#ffffff
   style AMI fill:#8b2d2d,color:#ffffff
-  style Claude fill:#5a3d7a,color:#ffffff
-  style Codex fill:#2d5a3d,color:#ffffff
-  style ADK fill:#8b5a2b,color:#ffffff
+  style Writable fill:#2d5a3d,color:#ffffff
 `;
 
 export const openshellFlowChart = `flowchart TD
