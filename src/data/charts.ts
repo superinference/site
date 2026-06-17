@@ -270,7 +270,7 @@ export const asdlcPipeline = `flowchart TD
 export const openshellArchChart = `flowchart TD
   Base["OpenShell Community Base<br/>(Ubuntu Noble)<br/>Node.js 26, Python 3.14, uv, npm,<br/>build-essential, git, gh"]
   AMI["openshell-ami<br/>(+AMI binary)<br/>Apache 2.0, baked in"]
-  Writable["/sandbox (writable volume)<br/>uv pip install · npm install<br/>on-demand dependencies"]
+  Writable["/sandbox (writable volume)<br/>uv pip install · npm install · sandbox-install<br/>on-demand deps · arbitrary UID (OCP/K8s/Docker/Podman)"]
 
   Base --> AMI
   AMI --> Writable

@@ -15,7 +15,7 @@ export default function OpenShellPage() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
             <p><strong>OpenShell</strong> provides sandboxed container environments for AI coding agents. The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> image is built on the <strong>OpenShell Community base</strong> — a comprehensive Ubuntu Noble image with Node.js 26, Python 3.14 (via uv), build-essential, git, and gh pre-installed. AMI extends it with a single binary, baked in at build time under Apache 2.0 with zero licensing risk.</p>
-            <p>The container rootfs runs <strong>read-only</strong>, but <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">/sandbox</code> is mounted as a <strong>writable volume</strong>. When the agent discovers it needs a dependency at runtime — a Python library, an npm package, a CLI tool — it installs it on demand using <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">uv</code> or <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">npm</code> into the writable volume. No rootfs mutation, no subscription, no pre-planning what the agent might need.</p>
+            <p>The container rootfs runs <strong>read-only</strong>, but <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">/sandbox</code> is mounted as a <strong>writable volume</strong>. When the agent discovers it needs a dependency at runtime — a Python library, an npm package, a system tool — it installs it on demand using <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">uv</code>, <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">npm</code>, or <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">sandbox-install</code> (for system packages via apt). Works across OpenShift, Kubernetes, Docker, and Podman — including arbitrary UIDs.</p>
             <p>AMI is the only agent in the OpenShell ecosystem that supports <strong>multi-provider LLM routing</strong> via FRITO (Free-tier Retrieval & Inference Token Ops). A single image works with any model backend — Anthropic, OpenAI, Google, DeepSeek, Ollama, vLLM, or any OpenAI-compatible endpoint — making it the universal agent flavor for heterogeneous infrastructure.</p>
           </div>
           <div>
@@ -133,13 +133,13 @@ spec:
             }} descriptions={{
               Base: "NVIDIA OpenShell Community base image (Ubuntu Noble). Ships with Node.js 26, Python 3.14.3 (via uv), build-essential, git, gh, npm 11, and common agent CLIs. Provides a comprehensive dev environment out of the box.",
               AMI: "AMI flavor — extends the community base with a single binary (~30 MB). Apache 2.0 licensed, baked in at build time. Instant cold-start, zero runtime downloads. The only agent in the ecosystem with multi-provider LLM routing.",
-              Writable: "The /sandbox volume is mounted writable even when the container rootfs is read-only. The agent uses uv and npm (already in the base) to install additional dependencies on demand — Python packages to /sandbox/.venv, Node packages to /sandbox/node_modules, CLI tools to /sandbox/.local/bin.",
+              Writable: "The /sandbox volume is mounted writable even when the container rootfs is read-only. The agent uses uv, npm, and sandbox-install to install dependencies on demand — Python packages to /sandbox/.venv, Node packages to /sandbox/node_modules, system packages via apt-get, CLI tools to /sandbox/.local/bin. Works with arbitrary UIDs (OpenShift, Podman) via GID 0 group-writable paths.",
             }} />
             <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 11.</strong> OpenShell Community base + AMI flavor with writable /sandbox for on-demand dependency resolution.</div>
           </div>
           <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
             <p>The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> image builds on the <strong>OpenShell Community base</strong> — a comprehensive Ubuntu Noble image maintained by NVIDIA. The base provides the full dev environment (Node.js, Python, build tools, git), and AMI adds a single binary on top. This means the agent starts with everything most coding tasks need, and installs anything else on demand.</p>
-            <p>The container runs with a <strong>read-only rootfs</strong> for security, but <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">/sandbox</code> is mounted as a <strong>writable volume</strong>. The base image ships with <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">uv</code> and <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">npm</code> — both install packages into the writable volume, not the rootfs. The agent discovers what it needs during execution and installs it in the moment.</p>
+            <p>The container runs with a <strong>read-only rootfs</strong> for security, but <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">/sandbox</code> is mounted as a <strong>writable volume</strong>. Three package managers cover every dependency type: <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">uv</code> for Python, <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">npm</code> for Node, and <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">sandbox-install</code> for system packages (apt). All work as non-root with arbitrary UIDs — compatible with OpenShift restricted SCCs, vanilla Kubernetes, Docker, and Podman.</p>
             <div className="rounded-lg border border-neutral-200 dark:border-white/10 overflow-hidden">
               <table className="w-full text-sm">
                 <thead>
@@ -314,7 +314,7 @@ podman run --rm \\
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
             <p>Coding agents can&apos;t know in advance what tools a task will require. A prompt like <em>&quot;run the Node tests&quot;</em> needs <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">mocha</code>; <em>&quot;lint the Python files&quot;</em> needs <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">ruff</code>. These dependencies are discovered <strong>during execution</strong>, not before it.</p>
-            <p>The OpenShell sandbox runs with a <strong>read-only container rootfs</strong> — the agent cannot <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">apt-get install</code> anything. But <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">/sandbox</code> is mounted as a <strong>writable volume</strong> (emptyDir, tmpfs, or PVC), and the base image ships with <strong>userspace package managers</strong> that install everything into that writable path:</p>
+            <p>The OpenShell sandbox runs with a <strong>read-only container rootfs</strong> and <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">/sandbox</code> is mounted as a <strong>writable volume</strong> (emptyDir, tmpfs, or PVC). The image ships with <strong>three tiers of package management</strong> — userspace, system, and standalone — all working as non-root with arbitrary UIDs (OpenShift, Podman):</p>
             <div className="space-y-3 mt-4">
               <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
                 <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">Python packages</div>
@@ -330,6 +330,11 @@ podman run --rm \\
                 <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">CLI tools</div>
                 <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded block">uv tool install ruff</code>
                 <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Installs to <code>/sandbox/.local/bin</code> (already in PATH)</div>
+              </div>
+              <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
+                <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">System packages</div>
+                <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-2 py-1 rounded block">sandbox-install htop tree vim</code>
+                <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Wraps <code>sudo apt-get</code> — works with any UID (OpenShift, Podman, K8s, Docker)</div>
               </div>
               <div className="rounded-lg border border-neutral-200 dark:border-white/10 p-3 bg-neutral-50 dark:bg-neutral-900/60">
                 <div className="font-semibold text-neutral-900 dark:text-white text-sm mb-1">Standalone binaries</div>
@@ -393,12 +398,29 @@ permissions:
 ARG BASE_IMAGE=ghcr.io/nvidia/openshell-community/sandboxes/base:latest
 FROM \${BASE_IMAGE}
 
+# Passwordless sudo for system package management
+USER root
+RUN echo "ALL ALL=(root) NOPASSWD: /usr/bin/apt-get, \\
+      /usr/bin/apt-get *, /usr/bin/dpkg, /usr/bin/dpkg *" \\
+      > /etc/sudoers.d/sandbox-apt && \\
+    chmod 0440 /etc/sudoers.d/sandbox-apt
+
+# OpenShift: allow entrypoint to add passwd entry for arbitrary UIDs
+RUN chmod g+w /etc/passwd
+
+# sandbox-install: agents can install system packages without sudo
+RUN printf '#!/bin/bash\\nset -euo pipefail\\n\\
+    sudo apt-get update -qq 2>/dev/null\\n\\
+    exec sudo apt-get install -y -qq "$@"\\n' \\
+      > /usr/local/bin/sandbox-install && \\
+    chmod +x /usr/local/bin/sandbox-install
+
 # AMI-specific directories
 USER sandbox
 RUN mkdir -p /sandbox/.config/superinference \\
              /sandbox/.superinference
 
-# Install AMI binary (Apache 2.0 — safe to redistribute)
+# Install AMI binary (Apache 2.0)
 RUN curl -fsSL https://www.superinference.org/install.sh | bash
 
 USER root
@@ -406,25 +428,30 @@ COPY entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh
 COPY policy.yaml /etc/openshell/policy.yaml
 
-# OCI labels for operator discovery
+# OpenShift: writable /sandbox for arbitrary UIDs (GID 0)
+RUN chgrp -R 0 /sandbox && chmod -R g=u /sandbox
+
 LABEL io.openshell.sandbox.harness="ami" \\
       io.openshell.sandbox.license="Apache-2.0"
 
 USER sandbox
 WORKDIR /sandbox
-ENV PATH="/sandbox/.local/bin:\${PATH}" AGENT_NAME=ami
+ENV PATH="/sandbox/.local/bin:\${PATH}" HOME=/sandbox \\
+    AGENT_NAME=ami UV_NO_SANDBOX=1 \\
+    PIP_NO_BUILD_ISOLATION=1
 ENTRYPOINT ["/usr/local/bin/entrypoint.sh"]
 CMD ["ami"]`} />
           <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
             <p>The Containerfile follows the <strong>Agent Runtime Contract (ARC)</strong> conventions and builds on the OpenShell Community base:</p>
             <ul className="list-disc pl-5 space-y-2 text-sm">
               <li><strong>Community base</strong> provides <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">sandbox</code> user, <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">supervisor</code> user, Node.js, Python, uv, npm, git, build-essential</li>
-              <li>AMI adds only the binary (~30 MB) and config directories</li>
-              <li>Policy at <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/etc/openshell/policy.yaml</code></li>
-              <li>Startup probe marker at <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/tmp/agent-ready</code></li>
-              <li>OCI labels for kagenti operator discovery</li>
+              <li>AMI adds the binary (~30 MB), config dirs, and <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">sandbox-install</code> for system packages</li>
+              <li><strong>OpenShift-ready</strong>: arbitrary UID support (GID 0 group-writable), passwd entry generation at startup</li>
+              <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">UV_NO_SANDBOX=1</code> and <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">PIP_NO_BUILD_ISOLATION=1</code> — package installs work without SYS_ADMIN</li>
+              <li>Passwordless <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">sudo</code> scoped to apt-get/dpkg only — agents install system packages via <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">sandbox-install</code></li>
               <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox/.venv</code> pre-created by base, writable, in PATH — uv/pip install packages here</li>
               <li><code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/sandbox/.local/bin</code> in PATH — CLI tools and standalone binaries go here</li>
+              <li>Policy at <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/etc/openshell/policy.yaml</code>, startup probe at <code className="bg-neutral-100 dark:bg-neutral-800 px-1 py-0.5 rounded text-xs">/tmp/agent-ready</code>, OCI labels for kagenti</li>
             </ul>
           </div>
         </div>
@@ -463,7 +490,7 @@ CMD ["ami"]`} />
       <Section id="advantages" title="Why AMI for OpenShell" subtitle="The only agent in the ecosystem that combines all five properties.">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {[
-            { title: "On-Demand Deps", desc: "Read-only rootfs with writable /sandbox. Agent installs Python, Node, or CLI tools at runtime via uv and npm — no pre-planning needed." },
+            { title: "On-Demand Deps", desc: "Read-only rootfs with writable /sandbox. Agent installs Python packages (uv), Node packages (npm), or system packages (sandbox-install) at runtime — works across OpenShift, K8s, Docker, and Podman." },
             { title: "Zero Cold-Start", desc: "Binary baked in at build time. Apache 2.0 means no licensing workaround — instant boot, every time." },
             { title: "Multi-Provider", desc: "FRITO routes across 13 LLM providers. Works with Anthropic, OpenAI, Google, Ollama, vLLM, or any OpenAI-compatible endpoint." },
             { title: "True Detached Mode", desc: "Built for autonomous execution. Structured JSONL output, semantic exit codes, audit logging, session resume." },
