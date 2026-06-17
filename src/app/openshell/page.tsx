@@ -14,7 +14,7 @@ export default function OpenShellPage() {
       <Section id="openshell" title="Overview">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-            <p><strong>OpenShell</strong> provides sandboxed container environments for AI coding agents. The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> image is built on the <strong>OpenShell Community base</strong> — a comprehensive Ubuntu Noble image with Node.js 22, Python 3.14 (via uv), build-essential, git, and gh pre-installed. AMI extends it with a single binary, baked in at build time under Apache 2.0 with zero licensing risk.</p>
+            <p><strong>OpenShell</strong> provides sandboxed container environments for AI coding agents. The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">openshell-ami</code> image is built on the <strong>OpenShell Community base</strong> — a comprehensive Ubuntu Noble image with Node.js 26, Python 3.14 (via uv), build-essential, git, and gh pre-installed. AMI extends it with a single binary, baked in at build time under Apache 2.0 with zero licensing risk.</p>
             <p>The container rootfs runs <strong>read-only</strong>, but <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">/sandbox</code> is mounted as a <strong>writable volume</strong>. When the agent discovers it needs a dependency at runtime — a Python library, an npm package, a CLI tool — it installs it on demand using <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">uv</code> or <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">npm</code> into the writable volume. No rootfs mutation, no subscription, no pre-planning what the agent might need.</p>
             <p>AMI is the only agent in the OpenShell ecosystem that supports <strong>multi-provider LLM routing</strong> via FRITO (Free-tier Retrieval & Inference Token Ops). A single image works with any model backend — Anthropic, OpenAI, Google, DeepSeek, Ollama, vLLM, or any OpenAI-compatible endpoint — making it the universal agent flavor for heterogeneous infrastructure.</p>
           </div>
@@ -131,7 +131,7 @@ spec:
               AMI: "AMI Flavor",
               Writable: "Writable Volume",
             }} descriptions={{
-              Base: "NVIDIA OpenShell Community base image (Ubuntu Noble). Ships with Node.js 22, Python 3.14.3 (via uv), build-essential, git, gh, npm 11, and common agent CLIs. Provides a comprehensive dev environment out of the box.",
+              Base: "NVIDIA OpenShell Community base image (Ubuntu Noble). Ships with Node.js 26, Python 3.14.3 (via uv), build-essential, git, gh, npm 11, and common agent CLIs. Provides a comprehensive dev environment out of the box.",
               AMI: "AMI flavor — extends the community base with a single binary (~30 MB). Apache 2.0 licensed, baked in at build time. Instant cold-start, zero runtime downloads. The only agent in the ecosystem with multi-provider LLM routing.",
               Writable: "The /sandbox volume is mounted writable even when the container rootfs is read-only. The agent uses uv and npm (already in the base) to install additional dependencies on demand — Python packages to /sandbox/.venv, Node packages to /sandbox/node_modules, CLI tools to /sandbox/.local/bin.",
             }} />
@@ -386,7 +386,7 @@ permissions:
       <Section id="containerfile" title="Containerfile" subtitle="AMI extends the OpenShell Community base with a single binary.">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 items-start">
           <CodeBlock lang="dockerfile" code={`# openshell-ami: SuperInference AMI agent on OpenShell Community base
-# The base provides Node.js 22, Python 3.14 (uv), build-essential,
+# The base provides Node.js 26, Python 3.14 (uv), build-essential,
 # git, gh, npm — everything a coding agent typically needs.
 # Additional deps installed on demand into writable /sandbox.
 
