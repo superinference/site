@@ -69,4 +69,5 @@ export const challengesToc: TocItem[] = [
   { href: "#overview", label: "Overview" },
   { href: "#models", label: "Model Summary" },
   { href: "#results", label: "Challenge Results" },
+  { href: "#container-evaluation", label: "Container Evaluation" },
 ];

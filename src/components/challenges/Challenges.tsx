@@ -223,6 +223,105 @@ export default function Challenges() {
           Report generated {new Date(report.generated).toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" })}
         </p>
       </Section>
+
+      {/* Container-based evaluation */}
+      <Section id="container-evaluation" title="Container Evaluation">
+        <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
+          <p>
+            Challenges can be run inside the OpenShell container image for reproducible, sandboxed evaluation
+            of AMI&apos;s agentic capabilities. This is the recommended way to run the full evaluation suite — the
+            container includes the AMI binary, Node.js {'>'}= 26, and all required tooling.
+          </p>
+        </div>
+
+        <div className="mt-6 space-y-6">
+          <div>
+            <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Run a single challenge</h4>
+            <pre className="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 rounded-xl p-4 text-sm overflow-x-auto">
+{`docker run --rm \\
+  --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
+  -e TMPDIR=/tmp \\
+  -e AI_API_KEY="$AI_API_KEY" \\
+  -v ./challenges:/sandbox/challenges \\
+  ghcr.io/superinference/openshell-ami:latest \\
+  bash -c 'bash /sandbox/challenges/framework/run-challenge.sh \\
+    /sandbox/challenges/software-development/array-operations/031-array-flatten'`}
+            </pre>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Run all challenges</h4>
+            <pre className="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 rounded-xl p-4 text-sm overflow-x-auto">
+{`docker run --rm \\
+  --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
+  -e TMPDIR=/tmp \\
+  -e AI_API_KEY="$AI_API_KEY" \\
+  -v ./challenges:/sandbox/challenges \\
+  ghcr.io/superinference/openshell-ami:latest \\
+  bash -c 'bash /sandbox/challenges/framework/run-all.sh'`}
+            </pre>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Use FRITO (free-tier, no API key)</h4>
+            <pre className="bg-neutral-900 dark:bg-neutral-950 text-neutral-100 rounded-xl p-4 text-sm overflow-x-auto">
+{`docker run --rm \\
+  --tmpfs /dev/shm:rw,nosuid,nodev,exec,size=2g \\
+  -e TMPDIR=/tmp \\
+  -e FRITO=1 \\
+  -v ./challenges:/sandbox/challenges \\
+  ghcr.io/superinference/openshell-ami:latest \\
+  bash -c 'bash /sandbox/challenges/framework/run-all.sh'`}
+            </pre>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Environment variables</h4>
+            <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/60 overflow-hidden">
+              <table className="w-full text-sm text-left">
+                <thead>
+                  <tr className="border-b border-neutral-200 dark:border-white/10 text-neutral-600 dark:text-neutral-300 text-[11px] uppercase tracking-wider">
+                    <th className="px-3 py-2.5 font-medium">Variable</th>
+                    <th className="px-3 py-2.5 font-medium">Description</th>
+                  </tr>
+                </thead>
+                <tbody className="text-neutral-700 dark:text-neutral-300">
+                  <tr className="border-b border-neutral-100 dark:border-white/5">
+                    <td className="px-3 py-2 font-mono text-xs">AI_API_KEY</td>
+                    <td className="px-3 py-2">API key for the model provider</td>
+                  </tr>
+                  <tr className="border-b border-neutral-100 dark:border-white/5">
+                    <td className="px-3 py-2 font-mono text-xs">AI_MODEL</td>
+                    <td className="px-3 py-2">Model to use (default: gemini-2.5-pro)</td>
+                  </tr>
+                  <tr className="border-b border-neutral-100 dark:border-white/5">
+                    <td className="px-3 py-2 font-mono text-xs">AI_PROVIDER</td>
+                    <td className="px-3 py-2">Provider name (default: google)</td>
+                  </tr>
+                  <tr className="border-b border-neutral-100 dark:border-white/5">
+                    <td className="px-3 py-2 font-mono text-xs">FRITO</td>
+                    <td className="px-3 py-2">Set to 1 for free-tier multi-provider routing (no API key needed)</td>
+                  </tr>
+                  <tr>
+                    <td className="px-3 py-2 font-mono text-xs">PLAN_MODE</td>
+                    <td className="px-3 py-2">Set to 1 to start AMI in plan mode</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <div>
+            <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Results</h4>
+            <p className="text-sm text-neutral-600 dark:text-neutral-400">
+              Each challenge writes a JSON result file to <code className="bg-neutral-100 dark:bg-white/5 px-1.5 py-0.5 rounded text-xs">{'<challenge>/results/ami-<model>.json'}</code> containing
+              pass/fail status, test counts, turn count, token usage, estimated cost, and behavioral metrics
+              (file reads, edits, bash calls, web searches). Use <code className="bg-neutral-100 dark:bg-white/5 px-1.5 py-0.5 rounded text-xs">framework/generate-report.ts</code> to
+              aggregate results into the report displayed above.
+            </p>
+          </div>
+        </div>
+      </Section>
     </section>
   );
 }
