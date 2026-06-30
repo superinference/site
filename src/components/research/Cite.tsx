@@ -6,7 +6,7 @@ export default function Cite() {
     <section id="cite" className="scroll-mt-20">
       <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Cite</h2>
       <div className="w-full space-y-6">
-        {papers.map((p) => (
+        {papers.filter((p) => p.id === 1).map((p) => (
           <div key={p.id} className="rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/60 p-4 shadow-sm dark:shadow-none">
             <div className="flex items-baseline justify-between gap-4">
               <div className="flex-1">

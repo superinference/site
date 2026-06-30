@@ -18,10 +18,18 @@ export default function PageLayout({ title, subtitle, toc, tocTitle = "On this p
   const pathname = usePathname();
   const [activeAnchor, setActiveAnchor] = useState("");
 
-  const anchorIds = useMemo(
-    () => toc.filter((t) => t.href.startsWith("#")).map((t) => t.href.slice(1)),
-    [toc],
-  );
+  const anchorIds = useMemo(() => {
+    const ids: string[] = [];
+    for (const t of toc) {
+      if (t.href.startsWith("#")) ids.push(t.href.slice(1));
+      if (t.children) {
+        for (const c of t.children) {
+          if (c.href.startsWith("#")) ids.push(c.href.slice(1));
+        }
+      }
+    }
+    return ids;
+  }, [toc]);
 
   useEffect(() => {
     if (anchorIds.length === 0) return;
@@ -53,23 +61,44 @@ export default function PageLayout({ title, subtitle, toc, tocTitle = "On this p
               const active = isPageLink
                 ? pathname === item.href || pathname === item.href.replace(/\/$/, "")
                 : item.href === "#" + activeAnchor;
+              const hasActiveChild = item.children?.some((c) => c.href === "#" + activeAnchor);
 
-              return isPageLink ? (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`block text-sm py-1 transition-colors ${active ? "text-neutral-900 dark:text-white font-medium" : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"}`}
-                >
-                  {item.label}
-                </Link>
-              ) : (
-                <a
-                  key={item.href}
-                  href={item.href}
-                  className={`block text-sm py-1 transition-colors ${active ? "text-neutral-900 dark:text-white font-medium" : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"}`}
-                >
-                  {item.label}
-                </a>
+              const expanded = active || hasActiveChild;
+
+              return (
+                <div key={item.href}>
+                  {isPageLink ? (
+                    <Link
+                      href={item.href}
+                      className={`block text-sm py-1 transition-colors ${expanded ? "text-neutral-900 dark:text-white font-medium" : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"}`}
+                    >
+                      {item.label}
+                    </Link>
+                  ) : (
+                    <a
+                      href={item.href}
+                      className={`block text-sm py-1 transition-colors ${expanded ? "text-neutral-900 dark:text-white font-medium" : "text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white"}`}
+                    >
+                      {item.label}
+                    </a>
+                  )}
+                  {item.children && expanded && (
+                    <div className="ml-3 border-l border-neutral-200 dark:border-neutral-700 pl-2">
+                      {item.children.map((child) => {
+                        const childActive = child.href === "#" + activeAnchor;
+                        return (
+                          <a
+                            key={child.href}
+                            href={child.href}
+                            className={`block text-xs py-0.5 transition-colors ${childActive ? "text-neutral-900 dark:text-white font-medium" : "text-neutral-500 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-white"}`}
+                          >
+                            {child.label}
+                          </a>
+                        );
+                      })}
+                    </div>
+                  )}
+                </div>
               );
             })}
           </nav>

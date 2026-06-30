@@ -21,4 +21,26 @@ export const papers = [
       return `@misc{${this.bibtexId},\n  title        = {${this.title}},\n  subtitle     = {${this.summary}},\n  author       = {${this.authors}},\n  year         = {${this.year}},\n  doi          = {${doiNumber}},\n  eprint       = {${this.eprint}},\n  archivePrefix= {${this.archivePrefix}},\n  primaryClass = {${this.primaryClass}}\n}`;
     },
   },
+  {
+    id: 2,
+    title: "AMI: Agentic Multi-Step Inference for Autonomous Software Engineering",
+    venue: "In preparation, 2026",
+    doi: "https://doi.org/10.xxxx/ami.0000",
+    summary:
+      "An agentic coding system combining multi-step inference, tool-augmented reasoning, and iterative self-correction to autonomously resolve real-world software engineering tasks, achieving state-of-the-art results on SWE-bench-Live.",
+    authors: "Carlos Camacho-González and Cristina Catalán-Torrecilla and Luis Llana and Alberto Núñez and Luis Tomás",
+    year: "2026",
+    eprint: "2507.XXXXX",
+    archivePrefix: "arXiv",
+    primaryClass: "cs.SE",
+    get bibtexId() {
+      const firstAuthor = this.authors.split(" and ")[0];
+      const lastName = firstAuthor.split(" ").pop()?.toLowerCase().replace(/[^a-z]/g, "") || "ami";
+      return `ami_${lastName}_${this.year}`;
+    },
+    get bibtex() {
+      const doiNumber = this.doi.replace("https://doi.org/", "");
+      return `@misc{${this.bibtexId},\n  title        = {${this.title}},\n  subtitle     = {${this.summary}},\n  author       = {${this.authors}},\n  year         = {${this.year}},\n  doi          = {${doiNumber}},\n  eprint       = {${this.eprint}},\n  archivePrefix= {${this.archivePrefix}},\n  primaryClass = {${this.primaryClass}}\n}`;
+    },
+  },
 ];

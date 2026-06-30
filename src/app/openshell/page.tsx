@@ -262,7 +262,6 @@ ami --prompt "Continue the migration" --resume latest`} />
                 <li>Ollama (local)</li>
                 <li>vLLM</li>
                 <li>Any OpenAI-compatible API</li>
-                <li>Red Hat AI (RHOAI)</li>
               </ul>
             </div>
           </div>

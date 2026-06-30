@@ -10,10 +10,10 @@ export const mainNavItems: NavLink[] = [
   { href: "/asdlc/", label: "ASDLC" },
   { href: "/challenges/", label: "Challenges" },
   { href: "/leaderboards/", label: "Leaderboards" },
-  { href: "/abstract/", label: "Research" },
+  { href: "/research/", label: "Research" },
 ];
 
-export type TocItem = { href: string; label: string };
+export type TocItem = { href: string; label: string; children?: TocItem[] };
 
 export const docsToc: TocItem[] = [
   { href: "#install", label: "Installation" },
@@ -48,16 +48,29 @@ export const openshellToc: TocItem[] = [
 ];
 
 export const researchToc: TocItem[] = [
-  { href: "#abstract", label: "Abstract" },
-  { href: "#background", label: "Background" },
-  { href: "#pre-loop", label: "PRE Loop" },
-  { href: "#architecture", label: "Architecture" },
-  { href: "#retrieval", label: "Retrieval" },
-  { href: "#results", label: "Formal Results" },
-  { href: "#benchmarks", label: "Benchmarks" },
-  { href: "#worked-example", label: "Worked Example" },
-  { href: "#cite", label: "Cite" },
-  { href: "#funding", label: "Funding" },
+  {
+    href: "#superinference", label: "SuperInference", children: [
+      { href: "#abstract", label: "Abstract" },
+      { href: "#background", label: "Background" },
+      { href: "#pre-loop", label: "PRE Loop" },
+      { href: "#architecture", label: "Architecture" },
+      { href: "#retrieval", label: "Retrieval" },
+      { href: "#results", label: "Formal Results" },
+      { href: "#benchmarks", label: "Benchmarks" },
+      { href: "#worked-example", label: "Worked Example" },
+      { href: "#cite", label: "Cite" },
+      { href: "#funding", label: "Acknowledgements" },
+    ],
+  },
+  {
+    href: "#ami", label: "AMI", children: [
+      { href: "#ami-abstract", label: "Abstract" },
+      { href: "#ami-approach", label: "Approach" },
+      { href: "#ami-results", label: "Results" },
+      { href: "#ami-cite", label: "Cite" },
+      { href: "#ami-funding", label: "Acknowledgements" },
+    ],
+  },
 ];
 
 export const asdlcToc: TocItem[] = [
@@ -77,6 +90,7 @@ export const challengesToc: TocItem[] = [
 export const leaderboardsToc: TocItem[] = [
   { href: "#overview", label: "Overview" },
   { href: "#swebench-live-lite", label: "SWE Bench Live Lite" },
+  { href: "#dabstep", label: "DABStep" },
 ];
 
 export const homeToc: TocItem[] = [
