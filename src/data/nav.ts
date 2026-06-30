@@ -9,6 +9,7 @@ export const mainNavItems: NavLink[] = [
   { href: "/openshell/", label: "OpenShell" },
   { href: "/asdlc/", label: "ASDLC" },
   { href: "/challenges/", label: "Challenges" },
+  { href: "/leaderboards/", label: "Leaderboards" },
   { href: "/abstract/", label: "Research" },
 ];
 
@@ -71,6 +72,11 @@ export const challengesToc: TocItem[] = [
   { href: "#models", label: "Model Summary" },
   { href: "#results", label: "Challenge Results" },
   { href: "#container-evaluation", label: "Container Evaluation" },
+];
+
+export const leaderboardsToc: TocItem[] = [
+  { href: "#overview", label: "Overview" },
+  { href: "#swebench-live-lite", label: "SWE Bench Live Lite" },
 ];
 
 export const homeToc: TocItem[] = [
