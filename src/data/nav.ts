@@ -6,9 +6,6 @@ export type NavLink = {
 export const mainNavItems: NavLink[] = [
   { href: "/", label: "Main" },
   { href: "/docs/", label: "Docs" },
-  { href: "/openshell/", label: "OpenShell" },
-  { href: "/asdlc/", label: "ASDLC" },
-  { href: "/challenges/", label: "Challenges" },
   { href: "/leaderboards/", label: "Leaderboards" },
   { href: "/research/", label: "Research" },
 ];
@@ -16,35 +13,55 @@ export const mainNavItems: NavLink[] = [
 export type TocItem = { href: string; label: string; children?: TocItem[] };
 
 export const docsToc: TocItem[] = [
-  { href: "#install", label: "Installation" },
-  { href: "#quickstart", label: "Quick Start" },
-  { href: "#cli", label: "CLI Reference" },
-  { href: "#providers", label: "Providers" },
-  { href: "#frito", label: "FRITO" },
-  { href: "#frito-config", label: "frito.json" },
-  { href: "#frito-commands", label: "Slash Commands" },
-  { href: "#frito-providers", label: "Free Providers" },
-  { href: "#env", label: "Environment Variables" },
-  { href: "#prompt-mode", label: "Non-Interactive Mode" },
-  { href: "#permissions", label: "Permissions" },
-  { href: "#sessions", label: "Sessions" },
-  { href: "#security", label: "Security" },
-  { href: "#vscode", label: "VS Code Extension" },
-  { href: "#troubleshooting", label: "Troubleshooting" },
-];
-
-export const openshellToc: TocItem[] = [
-  { href: "#openshell", label: "Overview" },
-  { href: "#quickstart", label: "Quick Start" },
-  { href: "#architecture", label: "Image Architecture" },
-  { href: "#on-demand-deps", label: "On-Demand Deps" },
-  { href: "#detached", label: "Detached Execution" },
-  { href: "#multi-provider", label: "Multi-Provider" },
-  { href: "#enterprise", label: "Air-Gapped" },
-  { href: "#containerfile", label: "Containerfile" },
-  { href: "#security", label: "Security Model" },
-  { href: "#advantages", label: "Why AMI" },
-  { href: "#use-cases", label: "Use Cases" },
+  {
+    href: "#documentation", label: "Documentation", children: [
+      { href: "#install", label: "Installation" },
+      { href: "#quickstart", label: "Quick Start" },
+      { href: "#cli", label: "CLI Reference" },
+      { href: "#providers", label: "Providers" },
+      { href: "#frito", label: "FRITO" },
+      { href: "#frito-config", label: "frito.json" },
+      { href: "#frito-commands", label: "Slash Commands" },
+      { href: "#frito-providers", label: "Free Providers" },
+      { href: "#env", label: "Environment" },
+      { href: "#prompt-mode", label: "Non-Interactive" },
+      { href: "#permissions", label: "Permissions" },
+      { href: "#sessions", label: "Sessions" },
+      { href: "#security", label: "Security" },
+      { href: "#vscode", label: "VS Code" },
+      { href: "#troubleshooting", label: "Troubleshooting" },
+    ],
+  },
+  {
+    href: "#openshell", label: "OpenShell", children: [
+      { href: "#os-quickstart", label: "Quick Start" },
+      { href: "#os-architecture", label: "Architecture" },
+      { href: "#os-on-demand-deps", label: "On-Demand Deps" },
+      { href: "#os-detached", label: "Detached Execution" },
+      { href: "#os-multi-provider", label: "Multi-Provider" },
+      { href: "#os-enterprise", label: "Air-Gapped" },
+      { href: "#os-containerfile", label: "Containerfile" },
+      { href: "#os-security", label: "Security Model" },
+      { href: "#os-advantages", label: "Why AMI" },
+      { href: "#os-use-cases", label: "Use Cases" },
+    ],
+  },
+  {
+    href: "#asdlc", label: "ASDLC", children: [
+      { href: "#asdlc-overview", label: "Overview" },
+      { href: "#asdlc-phases", label: "SDLC Phases" },
+      { href: "#asdlc-engine", label: "Decision Engine" },
+      { href: "#asdlc-integration", label: "Integration" },
+    ],
+  },
+  {
+    href: "#challenges", label: "Challenges", children: [
+      { href: "#ch-overview", label: "Overview" },
+      { href: "#ch-models", label: "Model Summary" },
+      { href: "#ch-results", label: "Results" },
+      { href: "#ch-container-evaluation", label: "Container Eval" },
+    ],
+  },
 ];
 
 export const researchToc: TocItem[] = [
@@ -73,19 +90,6 @@ export const researchToc: TocItem[] = [
   },
 ];
 
-export const asdlcToc: TocItem[] = [
-  { href: "#overview", label: "Overview" },
-  { href: "#phases", label: "SDLC Phases" },
-  { href: "#engine", label: "Decision Engine" },
-  { href: "#integration", label: "Integration" },
-];
-
-export const challengesToc: TocItem[] = [
-  { href: "#overview", label: "Overview" },
-  { href: "#models", label: "Model Summary" },
-  { href: "#results", label: "Challenge Results" },
-  { href: "#container-evaluation", label: "Container Evaluation" },
-];
 
 export const leaderboardsToc: TocItem[] = [
   { href: "#overview", label: "Overview" },

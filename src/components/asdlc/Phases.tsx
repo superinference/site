@@ -7,7 +7,7 @@ function ToolBadge({ name }: { name: string }) {
 
 export default function Phases() {
   return (
-    <section id="phases" className="scroll-mt-20 space-y-12">
+    <section id="asdlc-phases" className="scroll-mt-20 space-y-12">
       <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">SDLC Phases</h2>
 
       <DocSection id="planning" title="1. Plan">

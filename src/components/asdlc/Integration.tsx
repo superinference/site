@@ -6,7 +6,7 @@ import { asdlcPipeline } from "@/data/charts";
 
 export default function Integration() {
   return (
-    <section id="integration" className="scroll-mt-20 space-y-12">
+    <section id="asdlc-integration" className="scroll-mt-20 space-y-12">
       <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Integration</h2>
 
       <DocSection id="cicd" title="CI/CD Integration">

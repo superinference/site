@@ -25,7 +25,7 @@ export default function Header() {
           {mainNavItems.map((link) => {
             const norm = pathname.replace(/\/$/, "");
             const linkNorm = link.href.replace(/\/$/, "");
-            const active = norm === linkNorm;
+            const active = linkNorm === "" ? norm === "" : norm.startsWith(linkNorm);
             return (
               <Link key={link.href} href={link.href} className={`hover:text-neutral-900 dark:hover:text-white transition-colors ${active ? "text-neutral-900 dark:text-white underline underline-offset-4" : ""}`}>
                 {link.label}

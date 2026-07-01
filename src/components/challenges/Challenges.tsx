@@ -111,7 +111,7 @@ export default function Challenges() {
     : 0;
 
   return (
-    <section id="overview" className="scroll-mt-20 space-y-12">
+    <section id="ch-overview" className="scroll-mt-20 space-y-12">
       <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
         <p>AMI&apos;s agentic coding capabilities are evaluated across diverse programming challenges using the FRITO multi-provider routing feature. Each challenge is run against multiple free-tier models to measure pass rates, efficiency, and solution quality — without requiring API keys or incurring costs.</p>
       </div>
@@ -124,7 +124,7 @@ export default function Challenges() {
       </div>
 
       {/* Model summary cards */}
-      <Section id="models" title="Model Summary">
+      <Section id="ch-models" title="Model Summary">
         <div className="grid grid-cols-2 gap-3">
           {models.map((m) => {
             const s = summary[m.slug];
@@ -156,7 +156,7 @@ export default function Challenges() {
       </Section>
 
       {/* Challenge table */}
-      <Section id="results" title="Challenge Results">
+      <Section id="ch-results" title="Challenge Results">
         <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/60">
           <table className="w-full text-sm text-left table-fixed">
             <colgroup>
@@ -226,7 +226,7 @@ export default function Challenges() {
       </Section>
 
       {/* Container-based evaluation */}
-      <Section id="container-evaluation" title="Container Evaluation">
+      <Section id="ch-container-evaluation" title="Container Evaluation">
         <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
           <p>
             Challenges can be run inside the OpenShell container image for reproducible, sandboxed evaluation

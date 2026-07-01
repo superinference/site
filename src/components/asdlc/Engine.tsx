@@ -3,7 +3,7 @@ import { asdlcBeliefFlow } from "@/data/charts";
 
 export default function Engine() {
   return (
-    <section id="engine" className="scroll-mt-20 space-y-10">
+    <section id="asdlc-engine" className="scroll-mt-20 space-y-10">
       <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Decision Engine</h2>
 
       <div className="space-y-5 text-base/7 text-neutral-700 dark:text-neutral-300">

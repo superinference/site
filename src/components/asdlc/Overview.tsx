@@ -3,7 +3,7 @@ import { asdlcOverview } from "@/data/charts";
 
 export default function Overview() {
   return (
-    <section id="overview" className="scroll-mt-20 space-y-8">
+    <section id="asdlc-overview" className="scroll-mt-20 space-y-8">
       <div>
         <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Overview</h2>
       </div>
