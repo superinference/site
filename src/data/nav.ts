@@ -68,13 +68,9 @@ export const researchToc: TocItem[] = [
   {
     href: "#superinference", label: "SuperInference", children: [
       { href: "#abstract", label: "Abstract" },
-      { href: "#background", label: "Background" },
-      { href: "#pre-loop", label: "PRE Loop" },
-      { href: "#architecture", label: "Architecture" },
-      { href: "#retrieval", label: "Retrieval" },
-      { href: "#results", label: "Formal Results" },
-      { href: "#benchmarks", label: "Benchmarks" },
-      { href: "#worked-example", label: "Worked Example" },
+      { href: "#background", label: "The Challenge" },
+      { href: "#pre-loop", label: "How It Works" },
+      { href: "#results", label: "Results" },
       { href: "#cite", label: "Cite" },
       { href: "#funding", label: "Acknowledgements" },
     ],
@@ -82,7 +78,8 @@ export const researchToc: TocItem[] = [
   {
     href: "#ami", label: "AMI", children: [
       { href: "#ami-abstract", label: "Abstract" },
-      { href: "#ami-approach", label: "Approach" },
+      { href: "#ami-challenge", label: "The Challenge" },
+      { href: "#ami-approach", label: "How It Works" },
       { href: "#ami-results", label: "Results" },
       { href: "#ami-cite", label: "Cite" },
       { href: "#ami-funding", label: "Acknowledgements" },
@@ -92,15 +89,35 @@ export const researchToc: TocItem[] = [
 
 
 export const leaderboardsToc: TocItem[] = [
-  { href: "#overview", label: "Overview" },
-  { href: "#swebench-live-lite", label: "SWE Bench Live Lite" },
-  { href: "#dabstep", label: "DABStep" },
+  {
+    href: "#superinference", label: "SuperInference", children: [
+      { href: "#dabstep", label: "DABStep" },
+    ],
+  },
+  {
+    href: "#ami", label: "AMI", children: [
+      { href: "#swebench-live-lite", label: "SWE Bench Live Lite" },
+    ],
+  },
 ];
 
 export const homeToc: TocItem[] = [
-  { href: "#install", label: "Install" },
-  { href: "#features", label: "Features" },
-  { href: "#how-it-works", label: "How It Works" },
-  { href: "#architecture", label: "Architecture" },
-  { href: "#demo", label: "Demo" },
+  {
+    href: "#getting-started", label: "Getting Started", children: [
+      { href: "#install", label: "Install" },
+      { href: "#features", label: "Features" },
+    ],
+  },
+  {
+    href: "#sovereignty", label: "Sovereign AI", children: [
+      { href: "#sovereign-cloud", label: "Sovereign Cloud" },
+      { href: "#sovereign-agents", label: "Sovereign Agents" },
+    ],
+  },
+  {
+    href: "#how-it-works", label: "How It Works", children: [
+      { href: "#architecture", label: "Architecture" },
+      { href: "#demo", label: "Demo" },
+    ],
+  },
 ];

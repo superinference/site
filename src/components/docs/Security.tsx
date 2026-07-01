@@ -14,11 +14,10 @@ export default function Security() {
         </ul>
       </DocSubSection>
 
-      <DocSubSection id="security-binary" title="Binary Security">
+      <DocSubSection id="security-binary" title="Distribution">
         <ul className="list-disc list-inside space-y-1 text-sm">
-          <li>AMI is distributed as a Node.js Single Executable Application (SEA) — a self-contained ELF binary.</li>
-          <li>No <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">.ts</code> source files are included in the binary or npm tarball.</li>
-          <li>The binary is signed and distributed via GitHub Releases.</li>
+          <li>AMI is distributed as a self-contained binary via GitHub Releases.</li>
+          <li>Install and update through the official install script.</li>
         </ul>
       </DocSubSection>
 

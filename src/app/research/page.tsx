@@ -8,11 +8,7 @@ import { papers } from "@/data/papers";
 import Abstract from "@/components/research/Abstract";
 import Background from "@/components/research/Background";
 import PreLoop from "@/components/research/PreLoop";
-import Architecture from "@/components/research/Architecture";
-import Retrieval from "@/components/research/Retrieval";
 import Results from "@/components/research/Results";
-import Benchmarks from "@/components/research/Benchmarks";
-import WorkedExample from "@/components/research/WorkedExample";
 import Cite from "@/components/research/Cite";
 import Acknowledgements from "@/components/research/Acknowledgements";
 
@@ -57,11 +53,7 @@ export default function ResearchPage() {
           <Abstract />
           <Background />
           <PreLoop />
-          <Architecture />
-          <Retrieval />
           <Results />
-          <Benchmarks />
-          <WorkedExample />
           <Cite />
           <Acknowledgements />
         </div>
@@ -85,40 +77,33 @@ export default function ResearchPage() {
           <section id="ami-abstract" className="scroll-mt-20">
             <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Abstract</h2>
             <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7 space-y-3">
-              <p>We present AMI (Agentic Multi-step Inference), an autonomous software engineering agent that combines multi-step inference with tool-augmented reasoning to resolve real-world programming tasks. Built on the SuperInference framework, AMI implements a closed-loop architecture where planning, code retrieval, editing, and verification are orchestrated through iterative self-correction rather than single-shot generation.</p>
-              <p>AMI operates as both a VS Code extension and a terminal CLI, interfacing with multiple LLM providers while maintaining a model-agnostic design. The agent decomposes complex software engineering tasks into manageable sub-goals, retrieves relevant code context through embedding-based search, applies targeted edits, and validates changes against test suites and static analysis — looping until convergence or budget exhaustion.</p>
-              <p>On SWE-bench-Live Lite, AMI paired with Claude-4.6-Opus achieves a 63.0% resolution rate across 300 validated instances, ranking first on the leaderboard and nearly doubling the second-place result (36.0%). This performance demonstrates that iterative, feedback-driven inference with principled stopping criteria can substantially outperform single-pass approaches on realistic software engineering benchmarks.</p>
+              <p>AMI (Agentic Multi-step Inference) is an autonomous software engineering agent built on SuperInference. It takes a task — typically a GitHub issue — and autonomously plans edits, retrieves code context, applies changes, and validates them against tests, looping until the fix converges or the budget runs out. No single-shot guessing: every edit is verified before the agent moves on.</p>
+              <p>Available as a VS Code extension and terminal CLI, AMI is model-agnostic and works with any LLM provider. On <a href="https://swe-bench-live.github.io" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">SWE-bench Live Lite</a> — a continuously updated benchmark of 300 real-world GitHub issues — AMI currently holds first place, resolving 63.0% of tasks and nearly doubling the second-place system.</p>
             </div>
           </section>
 
-          {/* Approach */}
-          <section id="ami-approach" className="scroll-mt-20">
-            <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Approach</h2>
+          {/* The Challenge */}
+          <section id="ami-challenge" className="scroll-mt-20">
+            <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">The Challenge</h2>
             <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7 space-y-3">
-              <p>AMI extends the Plan-Retrieve-Execute (PRE) loop introduced in SuperInference with agent-specific capabilities for autonomous software engineering. The system receives a task description (typically a GitHub issue), explores the repository structure, formulates an edit plan, and iteratively refines its solution through execution feedback.</p>
-              <p>The architecture is organized around three core phases that repeat until the task is resolved or the iteration budget is exhausted:</p>
+              <p>Autonomous coding agents face a harder version of the reasoning problem: they must navigate large, unfamiliar codebases, make precise edits across multiple files, and verify that their changes actually work — all without human guidance. A single wrong edit can cascade through tests and break unrelated functionality.</p>
+              <p>Existing agents either generate a patch in one shot and hope it passes, or retry with simple heuristics. Neither approach scales to real-world issues where the fix requires understanding repository structure, tracing dependencies, and iterating on test failures. AMI addresses this by applying SuperInference&apos;s formal reasoning loop to the software engineering domain.</p>
             </div>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              {[
-                { title: "Plan", desc: "Decompose the task into sub-goals, identify relevant files and symbols, and draft a sequence of edits." },
-                { title: "Act", desc: "Apply code modifications using structured tool calls, run tests, and capture execution results." },
-                { title: "Reflect", desc: "Evaluate outcomes against expectations, update beliefs, and decide whether to iterate, backtrack, or commit." },
-              ].map((phase) => (
-                <div key={phase.title} className="rounded-xl border border-neutral-200 dark:border-white/10 p-5">
-                  <div className="text-sm font-semibold text-neutral-900 dark:text-white mb-1">{phase.title}</div>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">{phase.desc}</p>
-                </div>
-              ))}
+          </section>
+
+          {/* How It Works */}
+          <section id="ami-approach" className="scroll-mt-20">
+            <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">How It Works</h2>
+            <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7 space-y-3">
+              <p>AMI extends SuperInference&apos;s PRE loop with software-engineering-specific capabilities. Given a GitHub issue, the agent explores the repository, identifies relevant files, formulates an edit plan, applies changes through structured tool calls, and runs the test suite. If tests fail, the critic rejects the attempt and the agent refines its approach — with each iteration informed by what it learned from the failure.</p>
+              <p>The same information-theoretic stopping criteria govern when AMI should keep iterating and when it should commit. This prevents both premature stops on hard bugs and wasteful retries when the fix is already correct.</p>
             </div>
           </section>
 
           {/* Results */}
           <section id="ami-results" className="scroll-mt-20">
             <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Results</h2>
-            <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7 space-y-3">
-              <p>AMI was evaluated on SWE-bench-Live Lite, a continuously updated benchmark of 300 real-world GitHub issues spanning multiple programming languages and frameworks. The benchmark uses recent issues to prevent data contamination and ensure genuine reasoning over unfamiliar codebases.</p>
-            </div>
-            <div className="mt-4 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-5">
+            <div className="mt-4 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-5 overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-neutral-200 dark:border-neutral-700">
@@ -174,10 +159,10 @@ export default function ResearchPage() {
                 <div className="flex items-baseline justify-between gap-4">
                   <div className="flex-1">
                     <div className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-                      {amiPaper.title} <a href={amiPaper.doi} target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">(doi)</a>
+                      {amiPaper.title} {amiPaper.doi && <a href={amiPaper.doi} target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">(doi)</a>}
                     </div>
                     <div className="text-xs text-neutral-500 dark:text-neutral-400">
-                      {amiPaper.venue} &middot; <a href={amiPaper.doi} target="_blank" rel="noreferrer" className="underline hover:no-underline">{amiPaper.doi}</a>
+                      {amiPaper.venue}
                     </div>
                   </div>
                 </div>

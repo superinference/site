@@ -53,17 +53,20 @@ export default function Header() {
             {mainNavItems.map((link) => {
               const norm = pathname.replace(/\/$/, "");
               const linkNorm = link.href.replace(/\/$/, "");
-              const active = norm === linkNorm;
+              const active = linkNorm === "" ? norm === "" : norm.startsWith(linkNorm);
               return (
                 <Link key={link.href} href={link.href} className={`block text-sm hover:text-neutral-900 dark:hover:text-white py-2 transition-colors ${active ? "text-neutral-900 dark:text-white font-medium underline underline-offset-4" : "text-neutral-600 dark:text-neutral-400"}`} onClick={() => setMobileMenuOpen(false)}>
                   {link.label}
                 </Link>
               );
             })}
-            <a href="https://github.com/superinference" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white py-2 transition-colors" onClick={() => setMobileMenuOpen(false)}>
-              <GitHubIcon />
-              <span>GitHub</span>
-            </a>
+            <div className="flex items-center gap-4 pt-2 border-t border-neutral-200 dark:border-neutral-800 mt-2">
+              <a href="https://github.com/superinference" target="_blank" rel="noreferrer" className="flex items-center gap-2 text-sm text-neutral-600 dark:text-neutral-300 hover:text-neutral-900 dark:hover:text-white transition-colors" onClick={() => setMobileMenuOpen(false)}>
+                <GitHubIcon />
+                <span>GitHub</span>
+              </a>
+              <ThemeToggle />
+            </div>
           </div>
         </nav>
       )}

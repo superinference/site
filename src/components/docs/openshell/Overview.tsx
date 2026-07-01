@@ -32,7 +32,7 @@ export default function Overview() {
               Probe: "Writes /tmp/agent-ready after the agent is initialized. Consumed by kubelet liveness probes and the kagenti operator to confirm the agent is ready to accept work.",
               AMI: "AMI running in detached mode: --prompt for the task, --yolo for full autonomy, --output-format jsonl for structured streaming output, --max-turns for iteration control.",
               FRITO: "Free-tier Retrieval & Inference Token Ops. Routes LLM calls across 13 providers with automatic fallback, quota tracking, and cost optimization. Works with any backend the operator configures.",
-              Tools: "37 built-in tools covering file operations, shell execution, code search, web access, MCP integration, workflow orchestration, and task management. All subject to the sandbox security policy.",
+              Tools: "45+ built-in tools covering file operations, shell execution, code search, web access, MCP integration, workflow orchestration, and task management. All subject to the sandbox security policy.",
               Output: "Structured JSONL output streamed to stdout. Includes complete execution traces, tool call logs, file changes, and audit events. Exit codes: 0=success, 1=error, 2=permission-denied, 3=max-turns, 4=aborted.",
             }} />
             <div className="mt-2 text-xs text-neutral-600 dark:text-neutral-400"><strong>Figure 10.</strong> AMI execution flow inside an OpenShell sandbox: from task prompt to structured output.</div>

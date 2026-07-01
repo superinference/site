@@ -11,10 +11,10 @@ export default function Cite() {
             <div className="flex items-baseline justify-between gap-4">
               <div className="flex-1">
                 <div className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-                  {p.title} <a href={p.doi} target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">(doi)</a>
+                  {p.title} {p.doi && <a href={p.doi} target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">(doi)</a>}
                 </div>
                 <div className="text-xs text-neutral-500 dark:text-neutral-400">
-                  {p.venue} · <a href={p.doi} target="_blank" rel="noreferrer" className="underline hover:no-underline">{p.doi}</a>
+                  {p.venue}{p.doi && <> · <a href={p.doi} target="_blank" rel="noreferrer" className="underline hover:no-underline">{p.doi}</a></>}
                 </div>
               </div>
             </div>
