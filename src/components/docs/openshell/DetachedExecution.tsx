@@ -22,7 +22,7 @@ export default function DetachedExecution() {
               </div>
               <div className="flex gap-3">
                 <div className="shrink-0 w-8 h-8 rounded-lg bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center text-sm font-semibold text-neutral-700 dark:text-neutral-300">4</div>
-                <div><strong className="text-neutral-900 dark:text-white">Semantic exit codes</strong> — 0 (success), 1 (error), 2 (permission denied), 3 (max turns), 4 (aborted)</div>
+                <div><strong className="text-neutral-900 dark:text-white">Semantic exit codes</strong> — 0 (success), 1 (partial completion), 2 (task failed), 3 (internal error), 4 (timeout)</div>
               </div>
               <div className="flex gap-3">
                 <div className="shrink-0 w-8 h-8 rounded-lg bg-neutral-200 dark:bg-neutral-800 flex items-center justify-center text-sm font-semibold text-neutral-700 dark:text-neutral-300">5</div>

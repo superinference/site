@@ -27,18 +27,18 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "SuperInference",
-  description: "AMI — an open-source AI coding agent. Terminal and editor. Model-agnostic. Free.",
+  description: "AMI — an AI coding agent built on the SuperInference framework. Model-agnostic. Sovereign. Free.",
   metadataBase: new URL("https://www.superinference.org"),
   openGraph: {
     title: "SuperInference",
-    description: "AMI — an open-source AI coding agent. Terminal and editor. Model-agnostic. Free.",
+    description: "AMI — an AI coding agent built on the SuperInference framework. Model-agnostic. Sovereign. Free.",
     url: "https://www.superinference.org",
     images: [{ url: "/og.png", width: 1200, height: 630 }],
   },
   twitter: {
     card: "summary_large_image",
     title: "SuperInference",
-    description: "AMI — an open-source AI coding agent. Terminal and editor. Model-agnostic. Free.",
+    description: "AMI — an AI coding agent built on the SuperInference framework. Model-agnostic. Sovereign. Free.",
     images: ["/og.png"],
   },
   icons: {

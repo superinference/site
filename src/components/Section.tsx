@@ -13,7 +13,7 @@ export type SectionProps = PropsWithChildren<{
 
 export default function Section({ id, className, delay = 0, title, subtitle, children }: SectionProps) {
   return (
-    <section id={id} className={className}>
+    <section id={id} className={`scroll-mt-20${className ? ` ${className}` : ""}`}>
       <motion.div
         initial={{ opacity: 0, y: 24 }}
         whileInView={{ opacity: 1, y: 0 }}

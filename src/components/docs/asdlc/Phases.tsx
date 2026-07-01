@@ -36,7 +36,7 @@ export default function Phases() {
           <p>For parallel development work, AMI creates isolated git worktrees. Multiple agents can work on different branches simultaneously without conflicting. Each worktree is automatically cleaned up when the work is complete, maintaining a clean repository state.</p>
         </DocSubSection>
         <DocSubSection id="context-aware-generation" title="Context-Aware Generation">
-          <p>Code generation is informed by retrieved context — not just the current file, but related files, test patterns, coding conventions, and project-specific instructions (via CLAUDE.md). The PRE loop&apos;s retriever ensures generated code is consistent with the existing codebase.</p>
+          <p>Code generation is informed by retrieved context — not just the current file, but related files, test patterns, coding conventions, and project-specific instructions. The PRE loop&apos;s retriever ensures generated code is consistent with the existing codebase.</p>
         </DocSubSection>
         <div className="mt-4">
           <div className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-2">Tools used in this phase</div>
@@ -81,7 +81,7 @@ export default function Phases() {
       <DocSection id="deployment" title="5. Deploy">
         <p>Agentic deployment means agents run in CI/CD pipelines without human interaction, producing structured output that downstream systems can consume. AMI&apos;s detached mode and OpenShell containers make this production-ready.</p>
         <DocSubSection id="detached-mode" title="Detached Execution">
-          <p>AMI&apos;s detached mode (<code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">--prompt</code>) runs headlessly with structured JSONL output. Semantic exit codes (0 = success, 1 = partial, 2 = failure, 3 = error, 4 = timeout) integrate directly with CI/CD pipeline logic. Permission defaults to deny-all in headless mode for safety.</p>
+          <p>AMI&apos;s detached mode (<code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">--prompt</code>) runs headlessly with structured JSONL output. Semantic exit codes (0 = success, 1 = partial completion, 2 = task failed, 3 = internal error, 4 = timeout) integrate directly with CI/CD pipeline logic. Permission defaults to deny-all in headless mode for safety.</p>
         </DocSubSection>
         <DocSubSection id="openshell-containers" title="OpenShell Containers">
           <p>OpenShell provides pre-built container images with AMI baked in. Each agent runs in an isolated sandbox with controlled tool access, audit logging, and startup probes for Kubernetes readiness. Air-gapped deployment is supported via self-hosted models (Ollama, vLLM).</p>

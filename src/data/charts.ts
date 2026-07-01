@@ -153,7 +153,7 @@ export const vscodeChart = `flowchart TD
   CLI["CLI<br/>(Terminal REPL)"]
   OpenClaw["OpenClaw<br/>Plugin"]
   Engine["Core Engine<br/>(TypeScript, PRE loop,<br/>belief updates, memory)"]
-  Tools["15 Built-in Tools<br/>(file ops, search,<br/>execution, web)"]
+  Tools["45+ Built-in Tools<br/>(file ops, search,<br/>execution, web)"]
   Codebase["Codebase<br/>(Files)"]
   DABStep["DABStep<br/>(Benchmark)"]
 
@@ -289,7 +289,7 @@ export const openshellFlowChart = `flowchart TD
   Probe["Startup Probe<br/>(/tmp/agent-ready)"]
   AMI["AMI Detached Mode<br/>(--prompt, --yolo,<br/>--output-format jsonl)"]
   FRITO["FRITO<br/>(13 LLM providers)"]
-  Tools["37 Built-in Tools<br/>(file, shell, search,<br/>web, MCP, workflow)"]
+  Tools["45+ Built-in Tools<br/>(file, shell, search,<br/>web, MCP, workflow)"]
   Output["Structured Output<br/>(JSONL stream,<br/>exit codes, audit log)"]
 
   User -->|"task prompt"| OpenShell

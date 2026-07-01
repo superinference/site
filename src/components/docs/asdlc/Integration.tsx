@@ -11,7 +11,7 @@ export default function Integration() {
 
       <DocSection id="cicd" title="CI/CD Integration">
         <p>AMI&apos;s detached mode transforms the agent from an interactive tool into a pipeline component. The agent runs headlessly, produces structured output, and returns semantic exit codes that CI/CD systems can act on.</p>
-        <DocSubSection id="detached-mode" title="Detached Execution">
+        <DocSubSection id="cicd-detached" title="Detached Execution">
           <p>Pass a prompt directly to AMI with the <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">--prompt</code> flag for non-interactive execution. Combined with <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">--output-format jsonl</code>, every tool call, result, and decision is emitted as structured JSON for downstream consumption.</p>
           <CodeBlock lang="bash" code={`ami --prompt "Fix the failing tests in src/auth/" \\
     --output-format jsonl \\
@@ -63,8 +63,8 @@ jobs:
           <p>OpenShell containers provide isolated, reproducible execution environments for agentic SDLC. Each agent runs in its own sandbox with controlled tool access and audit logging.</p>
           <DocSubSection id="parallel-agents" title="Parallel Agent Execution">
             <p>Run multiple agents in parallel, each working on independent components. OpenShell handles container lifecycle, resource limits, and output collection. Kubernetes CRDs enable declarative agent orchestration:</p>
-            <CodeBlock lang="yaml" code={`apiVersion: superinference.dev/v1
-kind: AgentRun
+            <CodeBlock lang="yaml" code={`apiVersion: kagenti.dev/v1alpha1
+kind: AgentTask
 metadata:
   name: fix-auth-module
 spec:

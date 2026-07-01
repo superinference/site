@@ -4,7 +4,7 @@ import DocSection from "@/components/DocSection";
 export default function Permissions() {
   return (
     <DocSection id="permissions" title="Permissions">
-      <p>AMI has 15 built-in tools (file ops, search, execution, web, etc.). The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">--permission-mode</code> flag controls how tool invocations are authorized.</p>
+      <p>AMI has 45+ built-in tools (file ops, search, execution, web, etc.). The <code className="text-sm bg-neutral-100 dark:bg-neutral-800 px-1.5 py-0.5 rounded">--permission-mode</code> flag controls how tool invocations are authorized.</p>
 
       <div className="overflow-x-auto">
         <table className="w-full text-sm">

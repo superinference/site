@@ -16,6 +16,10 @@ Options:
   --permission-mode <mode>  Permission mode: ask, auto-allow, deny-all (default: ask)
   --prompt <text>           Non-interactive: send prompt, print JSON, exit
   --resume [session-id]     Resume a previous session (latest if no ID)
+  --output-format <fmt>     Output format: text, json, jsonl (default: text)
+  --max-turns <n>           Maximum reasoning turns before stopping
+  --thinking                Enable extended thinking / chain-of-thought
+  --yolo                    Auto-approve all tool calls (alias for --permission-mode auto-allow)
   --help                    Show help message
   --version                 Show version`} />
 
@@ -36,6 +40,10 @@ Options:
               <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">--permission-mode</td><td className="py-2 pr-4 font-mono text-xs"></td><td className="py-2">Tool permission level: <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">ask</code> (default), <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">auto-allow</code>, or <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">deny-all</code>.</td></tr>
               <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">--prompt</td><td className="py-2 pr-4 font-mono text-xs"></td><td className="py-2">Non-interactive mode. Sends prompt, prints structured JSON, exits.</td></tr>
               <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">--resume</td><td className="py-2 pr-4 font-mono text-xs"></td><td className="py-2">Resume a previous conversation session. Optionally takes a session ID.</td></tr>
+              <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">--output-format</td><td className="py-2 pr-4 font-mono text-xs"></td><td className="py-2">Output format: <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">text</code> (default), <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">json</code>, or <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">jsonl</code> for structured streaming.</td></tr>
+              <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">--max-turns</td><td className="py-2 pr-4 font-mono text-xs"></td><td className="py-2">Maximum reasoning turns before the agent stops. Useful for budget control in CI.</td></tr>
+              <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">--thinking</td><td className="py-2 pr-4 font-mono text-xs"></td><td className="py-2">Enable extended thinking / chain-of-thought for supported models.</td></tr>
+              <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">--yolo</td><td className="py-2 pr-4 font-mono text-xs"></td><td className="py-2">Auto-approve all tool calls. Alias for <code className="text-xs bg-neutral-100 dark:bg-neutral-800 px-1 rounded">--permission-mode auto-allow</code>.</td></tr>
               <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">--version</td><td className="py-2 pr-4 font-mono text-xs"></td><td className="py-2">Print version and exit.</td></tr>
               <tr><td className="py-2 pr-4 font-mono text-xs text-blue-500">--help</td><td className="py-2 pr-4 font-mono text-xs"></td><td className="py-2">Print help and exit.</td></tr>
             </tbody>

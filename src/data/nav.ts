@@ -73,7 +73,6 @@ export const researchToc: TocItem[] = [
       { href: "#architecture", label: "Architecture" },
       { href: "#retrieval", label: "Retrieval" },
       { href: "#results", label: "Formal Results" },
-      { href: "#benchmarks", label: "Benchmarks" },
       { href: "#worked-example", label: "Worked Example" },
       { href: "#cite", label: "Cite" },
       { href: "#funding", label: "Acknowledgements" },
@@ -92,15 +91,35 @@ export const researchToc: TocItem[] = [
 
 
 export const leaderboardsToc: TocItem[] = [
-  { href: "#overview", label: "Overview" },
-  { href: "#swebench-live-lite", label: "SWE Bench Live Lite" },
-  { href: "#dabstep", label: "DABStep" },
+  {
+    href: "#ami-benchmarks", label: "AMI", children: [
+      { href: "#swebench-live-lite", label: "SWE Bench Live Lite" },
+    ],
+  },
+  {
+    href: "#superinference-benchmarks", label: "SuperInference", children: [
+      { href: "#dabstep", label: "DABStep" },
+    ],
+  },
 ];
 
 export const homeToc: TocItem[] = [
-  { href: "#install", label: "Install" },
-  { href: "#features", label: "Features" },
-  { href: "#how-it-works", label: "How It Works" },
-  { href: "#architecture", label: "Architecture" },
-  { href: "#demo", label: "Demo" },
+  {
+    href: "#getting-started", label: "Getting Started", children: [
+      { href: "#install", label: "Install" },
+      { href: "#features", label: "Features" },
+    ],
+  },
+  {
+    href: "#sovereignty", label: "Sovereign AI", children: [
+      { href: "#sovereign-cloud", label: "Sovereign Cloud" },
+      { href: "#sovereign-agents", label: "Sovereign Agents" },
+    ],
+  },
+  {
+    href: "#how-it-works", label: "How It Works", children: [
+      { href: "#architecture", label: "Architecture" },
+      { href: "#demo", label: "Demo" },
+    ],
+  },
 ];

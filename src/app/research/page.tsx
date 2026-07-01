@@ -11,7 +11,6 @@ import PreLoop from "@/components/research/PreLoop";
 import Architecture from "@/components/research/Architecture";
 import Retrieval from "@/components/research/Retrieval";
 import Results from "@/components/research/Results";
-import Benchmarks from "@/components/research/Benchmarks";
 import WorkedExample from "@/components/research/WorkedExample";
 import Cite from "@/components/research/Cite";
 import Acknowledgements from "@/components/research/Acknowledgements";
@@ -60,7 +59,6 @@ export default function ResearchPage() {
           <Architecture />
           <Retrieval />
           <Results />
-          <Benchmarks />
           <WorkedExample />
           <Cite />
           <Acknowledgements />
@@ -101,8 +99,8 @@ export default function ResearchPage() {
             <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
               {[
                 { title: "Plan", desc: "Decompose the task into sub-goals, identify relevant files and symbols, and draft a sequence of edits." },
-                { title: "Act", desc: "Apply code modifications using structured tool calls, run tests, and capture execution results." },
-                { title: "Reflect", desc: "Evaluate outcomes against expectations, update beliefs, and decide whether to iterate, backtrack, or commit." },
+                { title: "Retrieve", desc: "Search the codebase, gather relevant context, and retrieve documentation to inform the next action." },
+                { title: "Execute", desc: "Apply code modifications using structured tool calls, run tests, capture results, and decide whether to iterate or commit." },
               ].map((phase) => (
                 <div key={phase.title} className="rounded-xl border border-neutral-200 dark:border-white/10 p-5">
                   <div className="text-sm font-semibold text-neutral-900 dark:text-white mb-1">{phase.title}</div>
@@ -118,7 +116,7 @@ export default function ResearchPage() {
             <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7 space-y-3">
               <p>AMI was evaluated on SWE-bench-Live Lite, a continuously updated benchmark of 300 real-world GitHub issues spanning multiple programming languages and frameworks. The benchmark uses recent issues to prevent data contamination and ensure genuine reasoning over unfamiliar codebases.</p>
             </div>
-            <div className="mt-4 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-5">
+            <div className="mt-4 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-5 overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-neutral-200 dark:border-neutral-700">
@@ -174,10 +172,10 @@ export default function ResearchPage() {
                 <div className="flex items-baseline justify-between gap-4">
                   <div className="flex-1">
                     <div className="text-lg font-semibold text-neutral-900 dark:text-neutral-100">
-                      {amiPaper.title} <a href={amiPaper.doi} target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">(doi)</a>
+                      {amiPaper.title} {amiPaper.doi && <a href={amiPaper.doi} target="_blank" rel="noreferrer" className="text-neutral-500 hover:text-neutral-900 dark:text-neutral-400 dark:hover:text-white">(doi)</a>}
                     </div>
                     <div className="text-xs text-neutral-500 dark:text-neutral-400">
-                      {amiPaper.venue} &middot; <a href={amiPaper.doi} target="_blank" rel="noreferrer" className="underline hover:no-underline">{amiPaper.doi}</a>
+                      {amiPaper.venue}
                     </div>
                   </div>
                 </div>

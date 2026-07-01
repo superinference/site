@@ -20,5 +20,5 @@ export default function Asciinema({ id }: { id: string }) {
     };
   }, [id]);
 
-  return <div ref={containerRef} />;
+  return <div ref={containerRef} className="max-w-full overflow-hidden" />;
 }

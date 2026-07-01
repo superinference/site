@@ -125,7 +125,7 @@ export default function Challenges() {
 
       {/* Model summary cards */}
       <Section id="ch-models" title="Model Summary">
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
           {models.map((m) => {
             const s = summary[m.slug];
             if (!s) return null;
@@ -157,8 +157,8 @@ export default function Challenges() {
 
       {/* Challenge table */}
       <Section id="ch-results" title="Challenge Results">
-        <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/60">
-          <table className="w-full text-sm text-left table-fixed">
+        <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/60 overflow-x-auto">
+          <table className="w-full text-sm text-left table-fixed min-w-[600px]">
             <colgroup>
               <col className="w-[24%]" />
               {models.map((m) => (
@@ -272,7 +272,7 @@ export default function Challenges() {
 
           <div>
             <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-2">Environment variables</h4>
-            <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/60 overflow-hidden">
+            <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-white dark:bg-neutral-900/60 overflow-x-auto">
               <table className="w-full text-sm text-left">
                 <thead>
                   <tr className="border-b border-neutral-200 dark:border-white/10 text-neutral-600 dark:text-neutral-300 text-[11px] uppercase tracking-wider">
