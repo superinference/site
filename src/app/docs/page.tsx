@@ -18,24 +18,24 @@ import Security from "@/components/docs/Security";
 import VsCode from "@/components/docs/VsCode";
 import Troubleshooting from "@/components/docs/Troubleshooting";
 
-import OSOverview from "@/components/openshell/Overview";
-import OSQuickStart from "@/components/openshell/QuickStart";
-import OSImageArchitecture from "@/components/openshell/ImageArchitecture";
-import OSOnDemandDeps from "@/components/openshell/OnDemandDeps";
-import OSDetachedExecution from "@/components/openshell/DetachedExecution";
-import OSMultiProvider from "@/components/openshell/MultiProvider";
-import OSAirGapped from "@/components/openshell/AirGapped";
-import OSContainerfile from "@/components/openshell/Containerfile";
-import OSSecurityModel from "@/components/openshell/SecurityModel";
-import OSAdvantages from "@/components/openshell/Advantages";
-import OSUseCases from "@/components/openshell/UseCases";
+import OSOverview from "@/components/docs/openshell/Overview";
+import OSQuickStart from "@/components/docs/openshell/QuickStart";
+import OSImageArchitecture from "@/components/docs/openshell/ImageArchitecture";
+import OSOnDemandDeps from "@/components/docs/openshell/OnDemandDeps";
+import OSDetachedExecution from "@/components/docs/openshell/DetachedExecution";
+import OSMultiProvider from "@/components/docs/openshell/MultiProvider";
+import OSAirGapped from "@/components/docs/openshell/AirGapped";
+import OSContainerfile from "@/components/docs/openshell/Containerfile";
+import OSSecurityModel from "@/components/docs/openshell/SecurityModel";
+import OSAdvantages from "@/components/docs/openshell/Advantages";
+import OSUseCases from "@/components/docs/openshell/UseCases";
 
-import AsdlcOverview from "@/components/asdlc/Overview";
-import AsdlcPhases from "@/components/asdlc/Phases";
-import AsdlcEngine from "@/components/asdlc/Engine";
-import AsdlcIntegration from "@/components/asdlc/Integration";
+import AsdlcOverview from "@/components/docs/asdlc/Overview";
+import AsdlcPhases from "@/components/docs/asdlc/Phases";
+import AsdlcEngine from "@/components/docs/asdlc/Engine";
+import AsdlcIntegration from "@/components/docs/asdlc/Integration";
 
-import Challenges from "@/components/challenges/Challenges";
+import Challenges from "@/components/docs/challenges/Challenges";
 
 export default function DocsPage() {
   return (
