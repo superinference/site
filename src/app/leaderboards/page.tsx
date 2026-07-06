@@ -106,7 +106,7 @@ export default function LeaderboardsPage() {
 
             <div className="mt-6 space-y-4">
               <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-6">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
                   <div className="text-center">
                     <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">#1</div>
                     <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Ranking</div>
@@ -116,15 +116,21 @@ export default function LeaderboardsPage() {
                     <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Resolved</div>
                   </div>
                   <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">189</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Problems Solved</div>
+                  </div>
+                  <div className="text-center">
                     <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">1.75&times;</div>
-                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">vs 2nd Place</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">More Solved vs 2nd</div>
                   </div>
                 </div>
 
                 <div className="border-t border-neutral-200 dark:border-neutral-700 pt-4 space-y-3">
                   <p className="text-sm text-neutral-700 dark:text-neutral-300">
-                    <span className="font-semibold">AMI Agent + Claude-4.6-Opus</span> achieved a 63.0% resolution rate on SWE-bench Live Lite,
-                    securing first place — <span className="font-semibold text-blue-600 dark:text-blue-400">1.75&times; the second-place result</span> (36.0%).
+                    <span className="font-semibold">AMI Agent + Claude-4.6-Opus</span> solved <span className="font-semibold text-blue-600 dark:text-blue-400">189 out of 300</span> issues
+                    (63.0%), securing first place. The runner-up solved 108 out of 300 (36.0%) — AMI
+                    solved <span className="font-semibold text-blue-600 dark:text-blue-400">1.75&times; more problems</span> in
+                    absolute terms.
                   </p>
                 </div>
               </div>
@@ -133,6 +139,68 @@ export default function LeaderboardsPage() {
                 <Image
                   src="/leaderboards/swebench_live_lite.png"
                   alt="SWE Bench Live Lite Leaderboard showing AMI Agent + Claude-4.6-Opus at #1 with 63.0%"
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto"
+                  priority
+                />
+              </div>
+
+              <div className="text-xs text-neutral-500 dark:text-neutral-400 text-center">
+                Source: <a href="https://swe-bench-live.github.io" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. June 2026.
+              </div>
+            </div>
+          </div>
+
+          {/* SWE Bench Live Rust */}
+          <div id="swebench-live-rust" className="scroll-mt-20">
+            <h3 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">SWE Bench Live Rust</h3>
+            <p className="mt-1 text-xs text-neutral-400 dark:text-neutral-500">June 2026</p>
+
+            <div className="mt-4 space-y-4 text-neutral-700 dark:text-neutral-300">
+              <p>
+                The Rust subset of SWE-bench Live evaluates agents on real-world Rust issues —
+                a particularly demanding language for automated software engineering due to its strict
+                type system, ownership model, and compiler constraints.
+              </p>
+            </div>
+
+            <div className="mt-6 space-y-4">
+              <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">#1</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Ranking</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">48.9%</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Resolved</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">46</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Problems Solved</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">2.7&times;</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">More Solved vs 2nd</div>
+                  </div>
+                </div>
+
+                <div className="border-t border-neutral-200 dark:border-neutral-700 pt-4 space-y-3">
+                  <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                    <span className="font-semibold">AMI Agent + Claude-4.6-Opus</span> solved <span className="font-semibold text-blue-600 dark:text-blue-400">46 out of 94</span> Rust
+                    issues (48.9%), securing first place. The runner-up (SWE-agent + Gemini3-Flash) solved 17 out of 45 (37.8%) — AMI
+                    solved <span className="font-semibold text-blue-600 dark:text-blue-400">2.7&times; more problems</span> in
+                    absolute terms, while also maintaining a higher resolution rate across a test set that
+                    was more than twice as large.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-neutral-200 dark:border-white/10 overflow-hidden">
+                <Image
+                  src="/leaderboards/swebench_live_rust.png"
+                  alt="SWE Bench Live Rust Leaderboard showing AMI Agent + Claude-4.6-Opus at #1 with 48.9%"
                   width={1200}
                   height={800}
                   className="w-full h-auto"

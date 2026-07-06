@@ -103,52 +103,144 @@ export default function ResearchPage() {
           {/* Results */}
           <section id="ami-results" className="scroll-mt-20">
             <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Results</h2>
-            <div className="mt-4 rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-5 overflow-x-auto">
-              <table className="w-full text-sm">
-                <thead>
-                  <tr className="border-b border-neutral-200 dark:border-neutral-700">
-                    <th className="text-left py-2 font-semibold text-neutral-900 dark:text-white">Rank</th>
-                    <th className="text-left py-2 font-semibold text-neutral-900 dark:text-white">Method</th>
-                    <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Resolved</th>
-                    <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Instances</th>
-                    <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Date</th>
-                  </tr>
-                </thead>
-                <tbody className="text-neutral-700 dark:text-neutral-300">
-                  <tr className="border-b border-neutral-100 dark:border-neutral-800 bg-blue-50/50 dark:bg-blue-900/10">
-                    <td className="py-2 font-semibold text-blue-600 dark:text-blue-400">1</td>
-                    <td className="py-2 font-semibold">AMI Agent + Claude-4.6-Opus</td>
-                    <td className="py-2 text-right font-semibold text-blue-600 dark:text-blue-400">63.0%</td>
-                    <td className="py-2 text-right">300</td>
-                    <td className="py-2 text-right">06/23/2026</td>
-                  </tr>
-                  <tr className="border-b border-neutral-100 dark:border-neutral-800">
-                    <td className="py-2">2</td>
-                    <td className="py-2">SWE-agent + Claude-4.5-Sonnet</td>
-                    <td className="py-2 text-right">36.0%</td>
-                    <td className="py-2 text-right">300</td>
-                    <td className="py-2 text-right">12/01/2025</td>
-                  </tr>
-                  <tr className="border-b border-neutral-100 dark:border-neutral-800">
-                    <td className="py-2">3</td>
-                    <td className="py-2">OpenHands + Qwen3-Coder-480B-A35B</td>
-                    <td className="py-2 text-right">24.7%</td>
-                    <td className="py-2 text-right">300</td>
-                    <td className="py-2 text-right">07/25/2025</td>
-                  </tr>
-                  <tr>
-                    <td className="py-2">4</td>
-                    <td className="py-2">SWE-agent + GPT5-Thinking (Medium)</td>
-                    <td className="py-2 text-right">24.3%</td>
-                    <td className="py-2 text-right">300</td>
-                    <td className="py-2 text-right">11/01/2025</td>
-                  </tr>
-                </tbody>
-              </table>
+
+            {/* SWE-bench Live Lite */}
+            <div id="ami-results-lite" className="scroll-mt-20">
+              <h3 className="text-lg font-semibold tracking-tight text-neutral-900 dark:text-white mt-6 mb-3">SWE-bench Live Lite</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">#1</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Ranking</div>
+                </div>
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">63.0%</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Resolved</div>
+                </div>
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">189</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Problems Solved</div>
+                </div>
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">1.75&times;</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">More Solved vs 2nd</div>
+                </div>
+              </div>
+              <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-5 overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-neutral-200 dark:border-neutral-700">
+                      <th className="text-left py-2 font-semibold text-neutral-900 dark:text-white">Rank</th>
+                      <th className="text-left py-2 font-semibold text-neutral-900 dark:text-white">Method</th>
+                      <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Resolved</th>
+                      <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Instances</th>
+                      <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-neutral-700 dark:text-neutral-300">
+                    <tr className="border-b border-neutral-100 dark:border-neutral-800 bg-blue-50/50 dark:bg-blue-900/10">
+                      <td className="py-2 font-semibold text-blue-600 dark:text-blue-400">1</td>
+                      <td className="py-2 font-semibold">AMI Agent + Claude-4.6-Opus</td>
+                      <td className="py-2 text-right font-semibold text-blue-600 dark:text-blue-400">63.0%</td>
+                      <td className="py-2 text-right">300</td>
+                      <td className="py-2 text-right">06/25/2026</td>
+                    </tr>
+                    <tr className="border-b border-neutral-100 dark:border-neutral-800">
+                      <td className="py-2">2</td>
+                      <td className="py-2">SWE-agent + Claude-4.5-Sonnet</td>
+                      <td className="py-2 text-right">36.0%</td>
+                      <td className="py-2 text-right">300</td>
+                      <td className="py-2 text-right">12/01/2025</td>
+                    </tr>
+                    <tr className="border-b border-neutral-100 dark:border-neutral-800">
+                      <td className="py-2">3</td>
+                      <td className="py-2">OpenHands + Qwen3-Coder-480B-A35B</td>
+                      <td className="py-2 text-right">24.7%</td>
+                      <td className="py-2 text-right">300</td>
+                      <td className="py-2 text-right">07/25/2025</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2">4</td>
+                      <td className="py-2">SWE-agent + GPT5-Thinking (Medium)</td>
+                      <td className="py-2 text-right">24.3%</td>
+                      <td className="py-2 text-right">300</td>
+                      <td className="py-2 text-right">11/01/2025</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 text-center">
+                Source: <a href="https://swe-bench-live.github.io" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
+              </p>
             </div>
-            <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 text-center">
-              Source: <a href="https://swe-bench-live.github.io" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
-            </p>
+
+            {/* SWE-bench Live Rust */}
+            <div id="ami-results-rust" className="scroll-mt-20">
+              <h3 className="text-lg font-semibold tracking-tight text-neutral-900 dark:text-white mt-8 mb-3">SWE-bench Live Rust</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">#1</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Ranking</div>
+                </div>
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">48.9%</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Resolved</div>
+                </div>
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">46</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Problems Solved</div>
+                </div>
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">2.7&times;</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">More Solved vs 2nd</div>
+                </div>
+              </div>
+              <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-5 overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-neutral-200 dark:border-neutral-700">
+                      <th className="text-left py-2 font-semibold text-neutral-900 dark:text-white">Rank</th>
+                      <th className="text-left py-2 font-semibold text-neutral-900 dark:text-white">Method</th>
+                      <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Resolved</th>
+                      <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Instances</th>
+                      <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-neutral-700 dark:text-neutral-300">
+                    <tr className="border-b border-neutral-100 dark:border-neutral-800 bg-blue-50/50 dark:bg-blue-900/10">
+                      <td className="py-2 font-semibold text-blue-600 dark:text-blue-400">1</td>
+                      <td className="py-2 font-semibold">AMI Agent + Claude-4.6-Opus</td>
+                      <td className="py-2 text-right font-semibold text-blue-600 dark:text-blue-400">48.9%</td>
+                      <td className="py-2 text-right">94</td>
+                      <td className="py-2 text-right">06/25/2026</td>
+                    </tr>
+                    <tr className="border-b border-neutral-100 dark:border-neutral-800">
+                      <td className="py-2">2</td>
+                      <td className="py-2">SWE-agent + Gemini3-Flash</td>
+                      <td className="py-2 text-right">37.8%</td>
+                      <td className="py-2 text-right">45</td>
+                      <td className="py-2 text-right">01/08/2026</td>
+                    </tr>
+                    <tr className="border-b border-neutral-100 dark:border-neutral-800">
+                      <td className="py-2">3</td>
+                      <td className="py-2">OpenHands + Gemini3-Flash</td>
+                      <td className="py-2 text-right">35.6%</td>
+                      <td className="py-2 text-right">45</td>
+                      <td className="py-2 text-right">01/08/2026</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2">4</td>
+                      <td className="py-2">SWE-agent + Deepseek-v4-Pro</td>
+                      <td className="py-2 text-right">34.4%</td>
+                      <td className="py-2 text-right">64</td>
+                      <td className="py-2 text-right">06/05/2026</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 text-center">
+                Source: <a href="https://swe-bench-live.github.io" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
+              </p>
+            </div>
           </section>
 
           {/* Cite */}
