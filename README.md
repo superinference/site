@@ -1,21 +1,11 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+<p align="center">
+  <a href="https://superinference.org"><img src="https://raw.githubusercontent.com/superinference/site/refs/heads/main/public/logo_round.png" alt="SuperInference" width="60" /></a>
+</p>
 
-## Getting Started
+<p align="center">
+  Home of the SuperInference framework and AMI, the agentic coding engine built on top of it.
+</p>
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
-
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
-
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+<p align="center">
+  Licensed under <a href="LICENSE.md">Apache 2.0</a>.
+</p>

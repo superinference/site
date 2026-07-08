@@ -78,7 +78,7 @@ export default function ResearchPage() {
             <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Abstract</h2>
             <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7 space-y-3">
               <p>AMI (Agentic Multi-step Inference) is an autonomous software engineering agent built on SuperInference. It takes a task — typically a GitHub issue — and autonomously plans edits, retrieves code context, applies changes, and validates them against tests, looping until the fix converges or the budget runs out. No single-shot guessing: every edit is verified before the agent moves on.</p>
-              <p>Available as a VS Code extension and terminal CLI, AMI is model-agnostic and works with any LLM provider. On <a href="https://swe-bench-live.github.io" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">SWE-bench Live Lite</a> — a continuously updated benchmark of 300 real-world GitHub issues — AMI currently holds first place, resolving 63.0% of tasks and nearly doubling the second-place system.</p>
+              <p>Available as a VS Code extension and terminal CLI, AMI is model-agnostic and works with any LLM provider. On <a href="https://swe-bench-live.github.io/#leaderboard" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">SWE-bench Live Lite</a> — a continuously updated benchmark of 300 real-world GitHub issues — AMI currently holds first place, resolving 63.0% of tasks and nearly doubling the second-place system.</p>
             </div>
           </section>
 
@@ -169,7 +169,7 @@ export default function ResearchPage() {
                 </table>
               </div>
               <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 text-center">
-                Source: <a href="https://swe-bench-live.github.io" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
               </p>
             </div>
 
@@ -238,7 +238,7 @@ export default function ResearchPage() {
                 </table>
               </div>
               <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 text-center">
-                Source: <a href="https://swe-bench-live.github.io" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
               </p>
             </div>
           </section>

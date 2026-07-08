@@ -147,7 +147,7 @@ export default function LeaderboardsPage() {
               </div>
 
               <div className="text-xs text-neutral-500 dark:text-neutral-400 text-center">
-                Source: <a href="https://swe-bench-live.github.io" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. June 2026.
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. June 2026.
               </div>
             </div>
           </div>
@@ -209,7 +209,7 @@ export default function LeaderboardsPage() {
               </div>
 
               <div className="text-xs text-neutral-500 dark:text-neutral-400 text-center">
-                Source: <a href="https://swe-bench-live.github.io" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. June 2026.
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. June 2026.
               </div>
             </div>
           </div>
