@@ -147,7 +147,7 @@ export default function LeaderboardsPage() {
               </div>
 
               <div className="text-xs text-neutral-500 dark:text-neutral-400 text-center">
-                Source: <a href="https://swe-bench-live.github.io/#leaderboard" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. June 2026.
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard-lite" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. June 2026.
               </div>
             </div>
           </div>
@@ -209,7 +209,68 @@ export default function LeaderboardsPage() {
               </div>
 
               <div className="text-xs text-neutral-500 dark:text-neutral-400 text-center">
-                Source: <a href="https://swe-bench-live.github.io/#leaderboard" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. June 2026.
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard-rust" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. June 2026.
+              </div>
+            </div>
+          </div>
+
+          {/* SWE Bench Live TS/JS */}
+          <div id="swebench-live-tsjs" className="scroll-mt-20">
+            <h3 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">SWE Bench Live TS/JS</h3>
+            <p className="mt-1 text-xs text-neutral-400 dark:text-neutral-500">July 2026</p>
+
+            <div className="mt-4 space-y-4 text-neutral-700 dark:text-neutral-300">
+              <p>
+                The TypeScript/JavaScript subset of SWE-bench Live evaluates agents on 204 real-world
+                issues across popular TS and JS repositories - testing dependency resolution, build
+                system navigation, and idiomatic fixes in the JavaScript ecosystem.
+              </p>
+            </div>
+
+            <div className="mt-6 space-y-4">
+              <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">#1</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Ranking</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">54.9%</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Resolved</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">112</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Problems Solved</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">1.15&times;</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">More Solved vs 2nd</div>
+                  </div>
+                </div>
+
+                <div className="border-t border-neutral-200 dark:border-neutral-700 pt-4 space-y-3">
+                  <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                    <span className="font-semibold">AMI Agent + Claude-4.6-Opus</span> solved <span className="font-semibold text-blue-600 dark:text-blue-400">112 out of 204</span> TS/JS
+                    issues (54.9%), securing first place. The runner-up (SWE-agent + GPT-5.5) solved 97 out of 204 (47.5%) - AMI
+                    solved <span className="font-semibold text-blue-600 dark:text-blue-400">1.15&times; more problems</span> while
+                    leading every other agent-model combination by an even wider margin.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-neutral-200 dark:border-white/10 overflow-hidden">
+                <Image
+                  src="/leaderboards/swebench_live_tsjs.png"
+                  alt="SWE Bench Live TS/JS Leaderboard showing AMI Agent + Claude-4.6-Opus at #1 with 54.9%"
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto"
+                  priority
+                />
+              </div>
+
+              <div className="text-xs text-neutral-500 dark:text-neutral-400 text-center">
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard-tsjs" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. July 2026.
               </div>
             </div>
           </div>

@@ -78,7 +78,7 @@ export default function ResearchPage() {
             <h2 className="text-2xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Abstract</h2>
             <div className="w-full text-neutral-700 dark:text-neutral-300 text-base/7 space-y-3">
               <p>AMI (Agentic Multi-step Inference) is an autonomous software engineering agent built on SuperInference. It takes a task — typically a GitHub issue — and autonomously plans edits, retrieves code context, applies changes, and validates them against tests, looping until the fix converges or the budget runs out. No single-shot guessing: every edit is verified before the agent moves on.</p>
-              <p>Available as a VS Code extension and terminal CLI, AMI is model-agnostic and works with any LLM provider. On <a href="https://swe-bench-live.github.io/#leaderboard" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">SWE-bench Live Lite</a> — a continuously updated benchmark of 300 real-world GitHub issues — AMI currently holds first place, resolving 63.0% of tasks and nearly doubling the second-place system.</p>
+              <p>Available as a VS Code extension and terminal CLI, AMI is model-agnostic and works with any LLM provider. On <a href="https://swe-bench-live.github.io/#leaderboard-lite" target="_blank" rel="noopener noreferrer" className="underline hover:no-underline">SWE-bench Live Lite</a> — a continuously updated benchmark of 300 real-world GitHub issues — AMI currently holds first place, resolving 63.0% of tasks and nearly doubling the second-place system.</p>
             </div>
           </section>
 
@@ -169,7 +169,7 @@ export default function ResearchPage() {
                 </table>
               </div>
               <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 text-center">
-                Source: <a href="https://swe-bench-live.github.io/#leaderboard" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard-lite" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
               </p>
             </div>
 
@@ -238,7 +238,76 @@ export default function ResearchPage() {
                 </table>
               </div>
               <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 text-center">
-                Source: <a href="https://swe-bench-live.github.io/#leaderboard" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard-rust" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; June 2026
+              </p>
+            </div>
+
+            {/* SWE-bench Live TS/JS */}
+            <div id="ami-results-tsjs" className="scroll-mt-20">
+              <h3 className="text-lg font-semibold tracking-tight text-neutral-900 dark:text-white mt-8 mb-3">SWE-bench Live TS/JS</h3>
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-4">
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">#1</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Ranking</div>
+                </div>
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">54.9%</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Resolved</div>
+                </div>
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">112</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">Problems Solved</div>
+                </div>
+                <div className="text-center rounded-lg border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 py-3 px-2">
+                  <div className="text-xl sm:text-2xl font-bold text-blue-600 dark:text-blue-400">1.15&times;</div>
+                  <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-1">More Solved vs 2nd</div>
+                </div>
+              </div>
+              <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-5 overflow-x-auto">
+                <table className="w-full text-sm">
+                  <thead>
+                    <tr className="border-b border-neutral-200 dark:border-neutral-700">
+                      <th className="text-left py-2 font-semibold text-neutral-900 dark:text-white">Rank</th>
+                      <th className="text-left py-2 font-semibold text-neutral-900 dark:text-white">Method</th>
+                      <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Resolved</th>
+                      <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Instances</th>
+                      <th className="text-right py-2 font-semibold text-neutral-900 dark:text-white">Date</th>
+                    </tr>
+                  </thead>
+                  <tbody className="text-neutral-700 dark:text-neutral-300">
+                    <tr className="border-b border-neutral-100 dark:border-neutral-800 bg-blue-50/50 dark:bg-blue-900/10">
+                      <td className="py-2 font-semibold text-blue-600 dark:text-blue-400">1</td>
+                      <td className="py-2 font-semibold">AMI Agent + Claude-4.6-Opus</td>
+                      <td className="py-2 text-right font-semibold text-blue-600 dark:text-blue-400">54.9%</td>
+                      <td className="py-2 text-right">204</td>
+                      <td className="py-2 text-right">07/10/2026</td>
+                    </tr>
+                    <tr className="border-b border-neutral-100 dark:border-neutral-800">
+                      <td className="py-2">2</td>
+                      <td className="py-2">SWE-agent + GPT-5.5 (Medium)</td>
+                      <td className="py-2 text-right">47.5%</td>
+                      <td className="py-2 text-right">204</td>
+                      <td className="py-2 text-right">06/05/2026</td>
+                    </tr>
+                    <tr className="border-b border-neutral-100 dark:border-neutral-800">
+                      <td className="py-2">3</td>
+                      <td className="py-2">OpenHands + GPT-5.5 (Medium)</td>
+                      <td className="py-2 text-right">45.1%</td>
+                      <td className="py-2 text-right">204</td>
+                      <td className="py-2 text-right">06/05/2026</td>
+                    </tr>
+                    <tr>
+                      <td className="py-2">4</td>
+                      <td className="py-2">Claude Code + GPT-5.5 (Medium)</td>
+                      <td className="py-2 text-right">42.6%</td>
+                      <td className="py-2 text-right">204</td>
+                      <td className="py-2 text-right">06/05/2026</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <p className="mt-3 text-sm text-neutral-500 dark:text-neutral-400 text-center">
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard-tsjs" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a> &middot; July 2026
               </p>
             </div>
           </section>
