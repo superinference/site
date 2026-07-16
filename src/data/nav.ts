@@ -84,6 +84,7 @@ export const researchToc: TocItem[] = [
         { href: "#ami-results-lite", label: "SWE-bench Live Lite" },
         { href: "#ami-results-rust", label: "SWE-bench Live Rust" },
         { href: "#ami-results-tsjs", label: "SWE-bench Live TS/JS" },
+        { href: "#ami-results-go", label: "SWE-bench Live Go" },
       ] },
       { href: "#ami-cite", label: "Cite" },
       { href: "#ami-funding", label: "Acknowledgements" },
@@ -103,6 +104,7 @@ export const leaderboardsToc: TocItem[] = [
       { href: "#swebench-live-lite", label: "SWE Bench Live Lite" },
       { href: "#swebench-live-rust", label: "SWE Bench Live Rust" },
       { href: "#swebench-live-tsjs", label: "SWE Bench Live TS/JS" },
+      { href: "#swebench-live-go", label: "SWE Bench Live Go" },
     ],
   },
 ];

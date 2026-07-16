@@ -274,6 +274,68 @@ export default function LeaderboardsPage() {
               </div>
             </div>
           </div>
+
+          {/* SWE Bench Live Go */}
+          <div id="swebench-live-go" className="scroll-mt-20">
+            <h3 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">SWE Bench Live Go</h3>
+            <p className="mt-1 text-xs text-neutral-400 dark:text-neutral-500">July 2026</p>
+
+            <div className="mt-4 space-y-4 text-neutral-700 dark:text-neutral-300">
+              <p>
+                The Go subset of SWE-bench Live evaluates agents on real-world Go issues —
+                testing idiomatic error handling, concurrency patterns, module resolution, and
+                the disciplined simplicity that Go codebases demand.
+              </p>
+            </div>
+
+            <div className="mt-6 space-y-4">
+              <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-6">
+                <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-6">
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">#1</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Ranking</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">74.6%</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Resolved</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">103</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">Problems Solved</div>
+                  </div>
+                  <div className="text-center">
+                    <div className="text-2xl sm:text-4xl font-bold text-blue-600 dark:text-blue-400">3.4&times;</div>
+                    <div className="text-sm text-neutral-600 dark:text-neutral-400 mt-1">More Solved vs 2nd</div>
+                  </div>
+                </div>
+
+                <div className="border-t border-neutral-200 dark:border-neutral-700 pt-4 space-y-3">
+                  <p className="text-sm text-neutral-700 dark:text-neutral-300">
+                    <span className="font-semibold">AMI Agent + Claude-4.6-Opus</span> solved <span className="font-semibold text-blue-600 dark:text-blue-400">103 out of 138</span> Go
+                    issues (74.6%), securing first place. The runner-up (Claude Code + Claude 4.5 Sonnet) solved 30 out of 68 (44.1%) — AMI
+                    solved <span className="font-semibold text-blue-600 dark:text-blue-400">3.4&times; more problems</span> in
+                    absolute terms, while also maintaining a +30.5 point lead in resolution rate across a test set that
+                    was more than twice as large.
+                  </p>
+                </div>
+              </div>
+
+              <div className="rounded-xl border border-neutral-200 dark:border-white/10 overflow-hidden">
+                <Image
+                  src="/leaderboards/swebench_live_go.png"
+                  alt="SWE Bench Live Go Leaderboard showing AMI Agent + Claude-4.6-Opus at #1 with 74.6%"
+                  width={1200}
+                  height={800}
+                  className="w-full h-auto"
+                  priority
+                />
+              </div>
+
+              <div className="text-xs text-neutral-500 dark:text-neutral-400 text-center">
+                Source: <a href="https://swe-bench-live.github.io/#leaderboard-go" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. July 2026.
+              </div>
+            </div>
+          </div>
         </div>
       </div>
 
