@@ -7,6 +7,16 @@ import BlogGrid from "@/components/blog/BlogGrid";
 export const metadata: Metadata = {
   title: "Blog - SuperInference",
   description: "Latest posts from the SuperInference project.",
+  openGraph: {
+    title: "Blog - SuperInference",
+    description: "Latest posts from the SuperInference project.",
+    url: "https://www.superinference.org/blog/",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Blog - SuperInference",
+    description: "Latest posts from the SuperInference project.",
+  },
 };
 
 export default function BlogIndexPage() {

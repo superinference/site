@@ -15,9 +15,30 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
   const post = getPostBySlug(slug);
   if (!post) return {};
+  const title = post.frontmatter.title;
+  const description = post.frontmatter.abstract;
+  const url = `https://www.superinference.org/blog/${slug}/`;
+  const images = post.frontmatter.heroImage
+    ? [{ url: post.frontmatter.heroImage, width: 1200, height: 600 }]
+    : undefined;
   return {
-    title: `${post.frontmatter.title} - SuperInference Blog`,
-    description: post.frontmatter.abstract,
+    title: `${title} - SuperInference Blog`,
+    description,
+    openGraph: {
+      title,
+      description,
+      url,
+      type: "article",
+      images,
+      publishedTime: post.frontmatter.date,
+      authors: [post.frontmatter.author],
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+      images: post.frontmatter.heroImage ? [post.frontmatter.heroImage] : undefined,
+    },
   };
 }
 

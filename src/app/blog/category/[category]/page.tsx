@@ -18,9 +18,21 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const categories = getAllCategories(posts);
   const cat = categories.find((c) => slugifyCategory(c) === slug);
   if (!cat) return {};
+  const title = `${cat} - SuperInference Blog`;
+  const description = `All ${cat} posts from the SuperInference blog.`;
   return {
-    title: `${cat} - SuperInference Blog`,
-    description: `All ${cat} posts from the SuperInference blog.`,
+    title,
+    description,
+    openGraph: {
+      title,
+      description,
+      url: `https://www.superinference.org/blog/category/${slug}/`,
+    },
+    twitter: {
+      card: "summary_large_image",
+      title,
+      description,
+    },
   };
 }
 
