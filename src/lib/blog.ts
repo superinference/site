@@ -169,7 +169,7 @@ export function buildCategoryToc(posts: BlogPost[]): { toc: TocItem[]; grouped: 
 
   const categories = Object.keys(grouped).sort();
   const toc: TocItem[] = categories.map((cat) => ({
-    href: `/blog/category/${slugifyHeading(cat)}/`,
+    href: `#${slugifyHeading(cat)}`,
     label: cat,
   }));
 
