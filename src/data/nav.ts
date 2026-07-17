@@ -8,6 +8,7 @@ export const mainNavItems: NavLink[] = [
   { href: "/docs/", label: "Docs" },
   { href: "/leaderboards/", label: "Leaderboards" },
   { href: "/research/", label: "Research" },
+  { href: "/blog/", label: "Blog" },
 ];
 
 export type TocItem = { href: string; label: string; children?: TocItem[] };
@@ -128,4 +129,8 @@ export const homeToc: TocItem[] = [
       { href: "#demo", label: "Demo" },
     ],
   },
+];
+
+export const blogIndexToc: TocItem[] = [
+  { href: "#posts", label: "All Posts" },
 ];

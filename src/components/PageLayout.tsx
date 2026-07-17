@@ -114,10 +114,12 @@ export default function PageLayout({ title, subtitle, toc, tocTitle = "On this p
           </nav>
         </aside>
         <main className="space-y-12 min-w-0">
-          <div>
-            <h1 className={titleClassName ?? "text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white"}>{title}</h1>
-            {subtitle && <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-400">{subtitle}</p>}
-          </div>
+          {title && (
+            <div>
+              <h1 className={titleClassName ?? "text-3xl sm:text-4xl font-bold tracking-tight text-neutral-900 dark:text-white"}>{title}</h1>
+              {subtitle && <p className="mt-3 text-lg text-neutral-600 dark:text-neutral-400">{subtitle}</p>}
+            </div>
+          )}
           {/* Mobile TOC */}
           <div className="lg:hidden">
             <button
