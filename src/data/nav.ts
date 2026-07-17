@@ -111,10 +111,10 @@ export const leaderboardsToc: TocItem[] = [
 ];
 
 export const homeToc: TocItem[] = [
+  { href: "#install", label: "Install" },
   { href: "#framework", label: "Framework" },
   {
     href: "#ami", label: "AMI", children: [
-      { href: "#install", label: "Install" },
       { href: "#features", label: "Features" },
     ],
   },

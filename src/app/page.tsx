@@ -11,7 +11,29 @@ import { homeToc } from "@/data/nav";
 
 export default function Home() {
   return (
-    <PageLayout title="SuperInference" subtitle="An iterative reasoning framework for large language models. Open source. Information-theoretic. Feedback-augmented." toc={homeToc} titleClassName="text-5xl sm:text-6xl font-bold tracking-tight text-neutral-900 dark:text-white">
+    <PageLayout title="SuperInference" subtitle="An iterative reasoning framework for large language models — and AMI, its autonomous coding agent. Open source. Model-agnostic. Free." toc={homeToc} titleClassName="text-5xl sm:text-6xl font-bold tracking-tight text-neutral-900 dark:text-white">
+
+      {/* Install — first thing visitors see */}
+      <div id="install" className="scroll-mt-20">
+        <div className="relative rounded-xl bg-neutral-100 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 p-5 shadow-lg">
+          <div className="absolute top-3 right-3">
+            <CopyButton text="curl -fsSL https://www.superinference.org/install.sh | bash" label="Copy" />
+          </div>
+          <code className="text-sm sm:text-base text-neutral-800 dark:text-green-400 font-mono">curl -fsSL https://www.superinference.org/install.sh | bash</code>
+        </div>
+        <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-center">
+          <a href="https://marketplace.visualstudio.com/items?itemName=superinference.ami-vscode" target="_blank" rel="noreferrer" className="group rounded-lg border border-neutral-200 dark:border-neutral-800 px-4 py-3 hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
+            <div className="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">VS Code Extension</div>
+            <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">Marketplace</div>
+            <VSCodeDownloadCount />
+          </a>
+          <a href="https://github.com/superinference/releases/releases/latest" target="_blank" rel="noreferrer" className="group rounded-lg border border-neutral-200 dark:border-neutral-800 px-4 py-3 hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
+            <div className="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">CLI Binary</div>
+            <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">All platforms</div>
+            <CLIDownloadCount />
+          </a>
+        </div>
+      </div>
 
       {/* Framework */}
       <div id="framework" className="scroll-mt-20">
@@ -46,30 +68,6 @@ export default function Home() {
         </div>
 
         <div className="mt-8 space-y-10">
-          {/* Install */}
-          <div id="install" className="scroll-mt-20">
-            <div className="relative rounded-xl bg-neutral-100 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 p-5 shadow-lg">
-              <div className="absolute top-3 right-3">
-                <CopyButton text="curl -fsSL https://www.superinference.org/install.sh | bash" label="Copy" />
-              </div>
-              <code className="text-sm sm:text-base text-neutral-800 dark:text-green-400 font-mono">curl -fsSL https://www.superinference.org/install.sh | bash</code>
-            </div>
-          </div>
-
-          {/* Download links */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 text-center">
-            <a href="https://marketplace.visualstudio.com/items?itemName=superinference.ami-vscode" target="_blank" rel="noreferrer" className="group rounded-lg border border-neutral-200 dark:border-neutral-800 px-4 py-3 hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
-              <div className="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">VS Code Extension</div>
-              <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">Marketplace</div>
-              <VSCodeDownloadCount />
-            </a>
-            <a href="https://github.com/superinference/releases/releases/latest" target="_blank" rel="noreferrer" className="group rounded-lg border border-neutral-200 dark:border-neutral-800 px-4 py-3 hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
-              <div className="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">CLI Binary</div>
-              <div className="text-xs text-neutral-500 dark:text-neutral-400 mt-0.5">All platforms</div>
-              <CLIDownloadCount />
-            </a>
-          </div>
-
           {/* Features */}
           <div id="features" className="scroll-mt-20 grid grid-cols-1 sm:grid-cols-2 gap-4">
             {[
