@@ -102,7 +102,7 @@ export default function PageLayout({ title, subtitle, toc, tocTitle = "On this p
   })?.label;
 
   return (
-    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
+    <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16 flex-1">
       {/* Desktop sidebar — fixed so it never moves on scroll */}
       <aside className="hidden lg:block fixed top-24 w-44 max-h-[calc(100vh-8rem)] overflow-y-auto">
         <nav className="space-y-1">

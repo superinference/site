@@ -68,7 +68,7 @@ gtag('config', 'G-P6HFTRRZ5K');`}
         className={`${geistSans.variable} ${geistMono.variable} antialiased flex flex-col min-h-screen bg-white dark:bg-neutral-950 bg-[radial-gradient(1200px_600px_at_50%_-20%,rgba(59,130,246,0.15),transparent),radial-gradient(800px_400px_at_90%_10%,rgba(236,72,153,0.12),transparent),radial-gradient(1000px_500px_at_10%_10%,rgba(34,197,94,0.12),transparent)] dark:bg-[radial-gradient(1200px_600px_at_50%_-20%,rgba(59,130,246,0.15),transparent),radial-gradient(800px_400px_at_90%_10%,rgba(236,72,153,0.12),transparent),radial-gradient(1000px_500px_at_10%_10%,rgba(34,197,94,0.12),transparent)]`}
       >
         <Header />
-        <div className="flex-1">
+        <div className="flex-1 flex flex-col">
           {children}
         </div>
         <Footer />

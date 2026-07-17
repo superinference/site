@@ -2,6 +2,10 @@
 
 @variant dark (&:where(.dark, .dark *));
 
+html {
+  scrollbar-gutter: stable;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
