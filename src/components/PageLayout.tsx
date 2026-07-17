@@ -103,16 +103,16 @@ export default function PageLayout({ title, subtitle, toc, tocTitle = "On this p
 
   return (
     <div className="max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
-      <div className="lg:grid lg:grid-cols-[176px_1fr] lg:gap-8">
-        {/* Desktop sidebar */}
-        <aside className="hidden lg:block self-start sticky top-24">
-          <nav className="space-y-1 max-h-[calc(100vh-8rem)] overflow-y-auto">
-            <div className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">{tocTitle}</div>
-            {toc.map((item) => (
-              <TocLink key={item.href} item={item} activeAnchor={activeAnchor} pathname={pathname} />
-            ))}
-          </nav>
-        </aside>
+      {/* Desktop sidebar — fixed so it never moves on scroll */}
+      <aside className="hidden lg:block fixed top-24 w-44 max-h-[calc(100vh-8rem)] overflow-y-auto">
+        <nav className="space-y-1">
+          <div className="text-xs font-semibold text-neutral-500 dark:text-neutral-400 uppercase tracking-wider mb-3">{tocTitle}</div>
+          {toc.map((item) => (
+            <TocLink key={item.href} item={item} activeAnchor={activeAnchor} pathname={pathname} />
+          ))}
+        </nav>
+      </aside>
+      <div className="lg:pl-52">
         <main className="space-y-12 min-w-0">
           {title && (
             <div>
