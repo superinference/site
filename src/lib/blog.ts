@@ -31,13 +31,29 @@ export type BlogPost = {
 
 export type BlogPostLite = Omit<BlogPost, "content">;
 
-function slugifyHeading(text: string): string {
+export function slugifyCategory(text: string): string {
   return text
     .toLowerCase()
     .replace(/[^\w\s-]/g, "")
     .replace(/\s+/g, "-")
     .replace(/-+/g, "-")
     .trim();
+}
+
+const slugifyHeading = slugifyCategory;
+
+export function getAllCategories(posts: BlogPost[]): string[] {
+  const cats = new Set<string>();
+  for (const post of posts) {
+    for (const cat of post.frontmatter.categories) {
+      cats.add(cat);
+    }
+  }
+  return Array.from(cats).sort();
+}
+
+export function getPostsByCategory(posts: BlogPost[], category: string): BlogPost[] {
+  return posts.filter((p) => p.frontmatter.categories.includes(category));
 }
 
 function extractSlug(filename: string): string {
@@ -137,7 +153,7 @@ export function buildCategoryNavToc(posts: BlogPost[]): TocItem[] {
   return Array.from(cats.keys())
     .sort()
     .map((cat) => ({
-      href: `/blog/#${slugifyHeading(cat)}`,
+      href: `/blog/category/${slugifyHeading(cat)}/`,
       label: cat,
     }));
 }
@@ -153,7 +169,7 @@ export function buildCategoryToc(posts: BlogPost[]): { toc: TocItem[]; grouped: 
 
   const categories = Object.keys(grouped).sort();
   const toc: TocItem[] = categories.map((cat) => ({
-    href: `#${slugifyHeading(cat)}`,
+    href: `/blog/category/${slugifyHeading(cat)}/`,
     label: cat,
   }));
 
