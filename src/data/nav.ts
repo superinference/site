@@ -111,22 +111,23 @@ export const leaderboardsToc: TocItem[] = [
 ];
 
 export const homeToc: TocItem[] = [
+  { href: "#framework", label: "Framework" },
   {
-    href: "#getting-started", label: "Getting Started", children: [
+    href: "#ami", label: "AMI", children: [
       { href: "#install", label: "Install" },
       { href: "#features", label: "Features" },
-    ],
-  },
-  {
-    href: "#sovereignty", label: "Sovereign AI", children: [
-      { href: "#sovereign-cloud", label: "Sovereign Cloud" },
-      { href: "#sovereign-agents", label: "Sovereign Agents" },
     ],
   },
   {
     href: "#how-it-works", label: "How It Works", children: [
       { href: "#architecture", label: "Architecture" },
       { href: "#demo", label: "Demo" },
+    ],
+  },
+  {
+    href: "#sovereignty", label: "Sovereign AI", children: [
+      { href: "#sovereign-cloud", label: "Sovereign Cloud" },
+      { href: "#sovereign-agents", label: "Sovereign Agents" },
     ],
   },
 ];

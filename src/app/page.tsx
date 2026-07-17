@@ -11,13 +11,38 @@ import { homeToc } from "@/data/nav";
 
 export default function Home() {
   return (
-    <PageLayout title="AMI" subtitle="The AI coding agent built on the SuperInference framework. Model-agnostic. Sovereign. Free." toc={homeToc} titleClassName="text-5xl sm:text-6xl font-bold tracking-tight text-neutral-900 dark:text-white">
+    <PageLayout title="SuperInference" subtitle="An iterative reasoning framework for large language models. Open source. Information-theoretic. Feedback-augmented." toc={homeToc} titleClassName="text-5xl sm:text-6xl font-bold tracking-tight text-neutral-900 dark:text-white">
 
-      {/* Getting Started */}
-      <div id="getting-started" className="scroll-mt-20">
+      {/* Framework */}
+      <div id="framework" className="scroll-mt-20">
         <div className="border-t-2 border-neutral-300 dark:border-neutral-700 pt-6">
-          <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Getting Started</h2>
-          <p className="mt-1 text-neutral-500 dark:text-neutral-400">Install AMI and start coding with AI in seconds.</p>
+          <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Framework</h2>
+          <p className="mt-1 text-neutral-500 dark:text-neutral-400">Plan, retrieve, execute, and loop with feedback.</p>
+        </div>
+
+        <div className="mt-8 space-y-10">
+          <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
+            <p>SuperInference replaces heuristic retry limits with information-theoretic stopping criteria. Instead of guessing once or retrying blindly, the framework plans actions, retrieves context, executes steps, and loops with critic-gated feedback — stopping exactly when additional reasoning stops helping.</p>
+          </div>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+            {[
+              { title: "Plan", copy: "Assemble context and create a task list." },
+              { title: "Retrieve", copy: "Search, read, and gather relevant code and documentation." },
+              { title: "Execute", copy: "Apply edits, run tools, and capture feedback for the next loop." },
+            ].map((card, i) => (
+              <MotionCard key={card.title} title={card.title} delay={0.1 * i}>
+                <p className="text-neutral-600 dark:text-neutral-300 text-sm/6">{card.copy}</p>
+              </MotionCard>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      {/* AMI */}
+      <div id="ami" className="scroll-mt-20">
+        <div className="border-t-2 border-neutral-300 dark:border-neutral-700 pt-6">
+          <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">AMI</h2>
+          <p className="mt-1 text-neutral-500 dark:text-neutral-400">The autonomous coding agent built on SuperInference. Model-agnostic. Sovereign. Free.</p>
         </div>
 
         <div className="mt-8 space-y-10">
@@ -62,65 +87,16 @@ export default function Home() {
         </div>
       </div>
 
-      {/* Sovereignty */}
-      <div id="sovereignty" className="scroll-mt-20">
-        <div className="border-t-2 border-neutral-300 dark:border-neutral-700 pt-6">
-          <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Sovereign AI</h2>
-          <p className="mt-1 text-neutral-500 dark:text-neutral-400">Full control over your AI agents, models, and data — on your infrastructure.</p>
-        </div>
-
-        <div className="mt-8 space-y-10">
-          <div id="sovereign-cloud" className="scroll-mt-20">
-            <h3 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Sovereign Cloud</h3>
-            <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-              <p>The European Union&apos;s sovereign cloud strategy requires that critical infrastructure — including AI systems — operates under European jurisdiction with full data residency, transparency, and independence from non-EU providers. AMI is designed from the ground up to meet these requirements.</p>
-            </div>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {[
-                { title: "Data stays on-premise", desc: "AMI runs entirely on your infrastructure. Code, prompts, and outputs never leave your environment. No telemetry, no cloud dependencies." },
-                { title: "Any model, any provider", desc: "Connect to self-hosted models via Ollama, vLLM, or any OpenAI-compatible endpoint. No mandatory dependency on US hyperscalers." },
-                { title: "Air-gapped deployment", desc: "OpenShell containers run fully disconnected. Mirror the image, point to a local LLM endpoint, and operate without internet access." },
-                { title: "Open source core", desc: "The core SuperInference framework is distributed under the Apache 2.0 license." },
-              ].map((f) => (
-                <div key={f.title} className="rounded-xl border border-neutral-200 dark:border-white/10 p-5">
-                  <div className="text-sm font-semibold text-neutral-900 dark:text-white mb-1">{f.title}</div>
-                  <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">{f.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div id="sovereign-agents" className="scroll-mt-20">
-            <h3 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Sovereign Agents</h3>
-            <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
-              <p>Agentic sovereignty means owning the full stack — the agent, the models it reasons with, and the infrastructure it runs on. Most AI coding agents are locked to a single commercial provider, making your development workflow dependent on external APIs, pricing decisions, and data policies you don&apos;t control.</p>
-              <p>AMI breaks this dependency chain. The agent is built on the open-source SuperInference framework. The model is your choice — from frontier APIs to fully local inference. The deployment is your infrastructure — a laptop, a private cloud, or an air-gapped data center. FRITO eliminates cost as a barrier by routing through free-tier providers. The result is the AI coding agent that is genuinely yours: sovereign in code, sovereign in compute, sovereign in data.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
       {/* How It Works */}
       <div id="how-it-works" className="scroll-mt-20">
         <div className="border-t-2 border-neutral-300 dark:border-neutral-700 pt-6">
           <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">How It Works</h2>
-          <p className="mt-1 text-neutral-500 dark:text-neutral-400">Plan, retrieve, execute, and loop with feedback.</p>
+          <p className="mt-1 text-neutral-500 dark:text-neutral-400">From exploration to verified fix in a single session.</p>
         </div>
 
         <div className="mt-8 space-y-10">
-          <div>
-            <p className="text-neutral-700 dark:text-neutral-300 text-base/7">A typical session starts with exploration: ask for an explanation of a file, jump to a symbol, or request a map of call sites. Once the task is clear, the agent drafts a plan that names the files it intends to change and the checks it will run. When approved, the agent performs the smallest safe step, runs inexpensive validators, and reports back with logs and a preview diff. Because the loop prefers objective signals — compilers, tests, type systems — the agent&apos;s suggestions converge toward correctness rather than style alone.</p>
-            <div className="mt-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-              {[
-                { title: "Plan", copy: "Assemble context and create a task list." },
-                { title: "Retrieve", copy: "Search, read, and gather relevant code and documentation." },
-                { title: "Execute", copy: "Apply edits, run tools, and capture feedback for the next loop." },
-              ].map((card, i) => (
-                <MotionCard key={card.title} title={card.title} delay={0.1 * i}>
-                  <p className="text-neutral-600 dark:text-neutral-300 text-sm/6">{card.copy}</p>
-                </MotionCard>
-              ))}
-            </div>
+          <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
+            <p>A typical session starts with exploration: ask for an explanation of a file, jump to a symbol, or request a map of call sites. Once the task is clear, the agent drafts a plan that names the files it intends to change and the checks it will run. When approved, the agent performs the smallest safe step, runs inexpensive validators, and reports back with logs and a preview diff. Because the loop prefers objective signals — compilers, tests, type systems — the agent&apos;s suggestions converge toward correctness rather than style alone.</p>
           </div>
 
           {/* Architecture */}
@@ -159,6 +135,44 @@ export default function Home() {
               <h4 className="text-sm font-semibold text-neutral-900 dark:text-white mb-1">FRITO — Free-tier Retrieval & Inference Token Ops</h4>
               <p className="text-sm text-neutral-600 dark:text-neutral-400 mb-3">Route requests through free-tier providers automatically — no API keys or costs required.</p>
               <Asciinema id="jZDshuH2K2jjIuLv" />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Sovereignty */}
+      <div id="sovereignty" className="scroll-mt-20">
+        <div className="border-t-2 border-neutral-300 dark:border-neutral-700 pt-6">
+          <h2 className="text-2xl font-bold tracking-tight text-neutral-900 dark:text-white">Sovereign AI</h2>
+          <p className="mt-1 text-neutral-500 dark:text-neutral-400">Full control over your AI agents, models, and data — on your infrastructure.</p>
+        </div>
+
+        <div className="mt-8 space-y-10">
+          <div id="sovereign-cloud" className="scroll-mt-20">
+            <h3 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Sovereign Cloud</h3>
+            <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
+              <p>The European Union&apos;s sovereign cloud strategy requires that critical infrastructure — including AI systems — operates under European jurisdiction with full data residency, transparency, and independence from non-EU providers. AMI is designed from the ground up to meet these requirements.</p>
+            </div>
+            <div className="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+              {[
+                { title: "Data stays on-premise", desc: "AMI runs entirely on your infrastructure. Code, prompts, and outputs never leave your environment. No telemetry, no cloud dependencies." },
+                { title: "Any model, any provider", desc: "Connect to self-hosted models via Ollama, vLLM, or any OpenAI-compatible endpoint. No mandatory dependency on US hyperscalers." },
+                { title: "Air-gapped deployment", desc: "OpenShell containers run fully disconnected. Mirror the image, point to a local LLM endpoint, and operate without internet access." },
+                { title: "Open source core", desc: "The core SuperInference framework is distributed under the Apache 2.0 license." },
+              ].map((f) => (
+                <div key={f.title} className="rounded-xl border border-neutral-200 dark:border-white/10 p-5">
+                  <div className="text-sm font-semibold text-neutral-900 dark:text-white mb-1">{f.title}</div>
+                  <p className="text-sm text-neutral-600 dark:text-neutral-400 leading-relaxed">{f.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div id="sovereign-agents" className="scroll-mt-20">
+            <h3 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Sovereign Agents</h3>
+            <div className="space-y-4 text-neutral-700 dark:text-neutral-300 text-base/7">
+              <p>Agentic sovereignty means owning the full stack — the agent, the models it reasons with, and the infrastructure it runs on. Most AI coding agents are locked to a single commercial provider, making your development workflow dependent on external APIs, pricing decisions, and data policies you don&apos;t control.</p>
+              <p>AMI breaks this dependency chain. The agent is built on the open-source SuperInference framework. The model is your choice — from frontier APIs to fully local inference. The deployment is your infrastructure — a laptop, a private cloud, or an air-gapped data center. FRITO eliminates cost as a barrier by routing through free-tier providers. The result is the AI coding agent that is genuinely yours: sovereign in code, sovereign in compute, sovereign in data.</p>
             </div>
           </div>
         </div>
