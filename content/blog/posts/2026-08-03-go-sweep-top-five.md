@@ -38,7 +38,7 @@ The five configurations span models from two providers:
 
 All five runs used the identical setup: **AMI v0.6.2** with the **OpenShell** container, evaluated against the full **138-instance** test set. No per-model tuning, no per-language configuration, no prompt adjustments between runs.
 
-This is a direct consequence of the model-agnostic design we described in the [AMI v0.6 architecture post](/blog/posts/2026-05-25-ami-v06-release). The framework speaks a normalized completion interface. Swapping the underlying model is a single configuration change.
+This is a direct consequence of the model-agnostic design we described in the [AMI v0.6 architecture post](/blog/2026-05-25-ami-v06-release). The framework speaks a normalized completion interface. Swapping the underlying model is a single configuration change.
 
 ### Model tiers are visible but not decisive
 
@@ -46,7 +46,7 @@ The ranking within AMI's five entries follows a predictable pattern: larger, mor
 
 ## What the numbers mean for Go specifically
 
-Go remains our strongest language benchmark by a wide margin. The compiler's strict type checking and explicit error handling produce the kind of precise, actionable feedback that the PRE loop converts into belief updates and targeted retries. We covered the structural reasons in our [Go engineering deep dive](/blog/posts/2026-07-12-swebench-go-engineering).
+Go remains our strongest language benchmark by a wide margin. The compiler's strict type checking and explicit error handling produce the kind of precise, actionable feedback that the PRE loop converts into belief updates and targeted retries. We covered the structural reasons in our [Go engineering deep dive](/blog/2026-07-12-swebench-go-engineering).
 
 The sweep adds a new data point to that analysis: the advantage is not model-contingent. Five different models, spanning two provider families and a wide capability range, all benefit from the same Go-specific feedback dynamics when run through the PRE loop.
 

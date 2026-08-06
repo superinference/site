@@ -20,12 +20,7 @@ export default function Footer() {
           <span>SuperInference</span>
         </div>
         <p className="text-xs font-semibold text-neutral-500 dark:text-neutral-500">
-          Correspondence: Lead engineer &amp; researcher, Dr. Carlos Camacho-González (
-          <a href="https://github.com/ccamacho" target="_blank" rel="noopener noreferrer" className="underline hover:text-neutral-700 dark:hover:text-neutral-300">GitHub</a>
-          {" · "}
-          <a href="https://www.linkedin.com/in/carlosdcg" target="_blank" rel="noopener noreferrer" className="underline hover:text-neutral-700 dark:hover:text-neutral-300">LinkedIn</a>
-          )
-          {" · "}
+          Correspondence: 
           <a
             href={`mailto:${addr}`}
             className="underline hover:text-neutral-700 dark:hover:text-neutral-300"
