@@ -3,6 +3,16 @@
 import PageLayout from "@/components/PageLayout";
 import { leaderboardsToc } from "@/data/nav";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const BenchmarkCharts = dynamic(() => import("@/components/BenchmarkCharts"), {
+  ssr: false,
+  loading: () => (
+    <div className="rounded-xl border border-neutral-200 dark:border-white/10 bg-neutral-50 dark:bg-neutral-900/60 p-6 text-center text-neutral-500 dark:text-neutral-400">
+      Loading charts…
+    </div>
+  ),
+});
 
 export default function LeaderboardsPage() {
   return (
@@ -336,6 +346,22 @@ export default function LeaderboardsPage() {
                 Source: <a href="https://swe-bench-live.github.io/#leaderboard-go" target="_blank" rel="noopener noreferrer" className="text-blue-600 dark:text-blue-400 hover:underline">swe-bench-live.github.io</a>. August 2026.
               </div>
             </div>
+          </div>
+        </div>
+
+        {/* Interactive Dashboard */}
+        <div id="interactive-dashboard" className="scroll-mt-20">
+          <h3 className="text-xl font-semibold tracking-tight text-neutral-900 dark:text-white mb-4 pb-2 border-b border-neutral-200 dark:border-neutral-800">Interactive Dashboard</h3>
+          <p className="mt-1 text-xs text-neutral-400 dark:text-neutral-500">August 2026</p>
+
+          <div className="mt-4 text-neutral-700 dark:text-neutral-300">
+            <p>
+              Explore AMI&apos;s benchmark dominance across languages and model backends. Every AMI configuration outperforms the best non-AMI agent on the Go track.
+            </p>
+          </div>
+
+          <div className="mt-6">
+            <BenchmarkCharts />
           </div>
         </div>
       </div>

@@ -106,6 +106,7 @@ export const leaderboardsToc: TocItem[] = [
       { href: "#swebench-live-rust", label: "SWE Bench Live Rust" },
       { href: "#swebench-live-tsjs", label: "SWE Bench Live TS/JS" },
       { href: "#swebench-live-go", label: "SWE Bench Live Go" },
+      { href: "#interactive-dashboard", label: "Interactive Dashboard" },
     ],
   },
 ];
