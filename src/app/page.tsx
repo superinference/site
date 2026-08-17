@@ -1,6 +1,6 @@
 "use client";
 
-import CopyButton from "@/components/CopyButton";
+import InstallTabs from "@/components/InstallTabs";
 import Asciinema from "@/components/Asciinema";
 import MotionCard from "@/components/MotionCard";
 import Mermaid from "@/components/Mermaid";
@@ -15,12 +15,7 @@ export default function Home() {
 
       {/* Install — first thing visitors see */}
       <div id="install" className="scroll-mt-20">
-        <div className="relative rounded-xl bg-neutral-100 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 p-5 shadow-lg">
-          <div className="absolute top-3 right-3">
-            <CopyButton text="curl -fsSL https://www.superinference.org/install.sh | bash" label="Copy" />
-          </div>
-          <code className="text-sm sm:text-base text-neutral-800 dark:text-green-400 font-mono">curl -fsSL https://www.superinference.org/install.sh | bash</code>
-        </div>
+        <InstallTabs />
         <div className="mt-3 grid grid-cols-1 sm:grid-cols-2 gap-3 text-center">
           <a href="https://marketplace.visualstudio.com/items?itemName=superinference.ami-vscode" target="_blank" rel="noreferrer" className="group rounded-lg border border-neutral-200 dark:border-neutral-800 px-4 py-3 hover:border-blue-500 dark:hover:border-blue-500 transition-colors">
             <div className="text-sm font-semibold text-neutral-900 dark:text-white group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">VS Code Extension</div>

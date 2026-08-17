@@ -2,7 +2,14 @@
 set -euo pipefail
 
 REPO="superinference/releases"
-BASE_URL="https://github.com/$REPO/releases/latest/download"
+
+# Optional version target (default: latest). Pass via: curl ... | bash -s -- v0.7.2
+TAG="${1:-latest}"
+if [ "$TAG" = "latest" ]; then
+  BASE_URL="https://github.com/$REPO/releases/latest/download"
+else
+  BASE_URL="https://github.com/$REPO/releases/download/$TAG"
+fi
 
 bold()  { printf "\033[1m%s\033[0m" "$*"; }
 green() { printf "\033[32m%s\033[0m" "$*"; }
@@ -12,6 +19,7 @@ yellow(){ printf "\033[33m%s\033[0m" "$*"; }
 echo ""
 echo "  $(bold 'Si:AMI') installer"
 echo "  $(dim 'https://www.superinference.org')"
+[ "$TAG" != "latest" ] && echo "  $(dim "Version: $TAG")"
 echo ""
 
 INSTALL_DIR="${INSTALL_DIR:-$HOME/.local/bin}"
