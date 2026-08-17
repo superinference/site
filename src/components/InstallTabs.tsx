@@ -63,36 +63,39 @@ export default function InstallTabs() {
 
   return (
     <div>
-      <div className="flex gap-1 mb-2" role="tablist" aria-label="Operating system">
-        {PLATFORMS.map((p) => {
-          const selected = p.id === os;
-          return (
-            <button
-              key={p.id}
-              type="button"
-              role="tab"
-              aria-selected={selected}
-              onClick={() => setOs(p.id)}
-              className={
-                "inline-flex items-center gap-1.5 rounded-md px-3 py-1.5 text-sm font-medium transition-colors border " +
-                (selected
-                  ? "border-blue-500 bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300"
-                  : "border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-neutral-900 dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-700")
-              }
-            >
-              {p.icon}
-              {p.label}
-            </button>
-          );
-        })}
-      </div>
-      <div className="relative rounded-xl bg-neutral-100 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 p-5 shadow-lg">
-        <div className="absolute top-3 right-3">
-          <CopyButton text={active.command} label="Copy" />
+      <div className="flex gap-2">
+        <div className="relative flex-1 min-w-0 rounded-xl bg-neutral-100 dark:bg-neutral-950 border border-neutral-200 dark:border-neutral-800 px-5 py-4 shadow-lg flex items-center">
+          <div className="absolute top-2.5 right-2.5">
+            <CopyButton text={active.command} label="Copy" />
+          </div>
+          <code className="text-sm sm:text-base text-neutral-800 dark:text-green-400 font-mono break-all pr-10 block">
+            {active.command}
+          </code>
         </div>
-        <code className="text-sm sm:text-base text-neutral-800 dark:text-green-400 font-mono break-all pr-16 block">
-          {active.command}
-        </code>
+        <div className="flex gap-1 shrink-0" role="tablist" aria-label="Operating system">
+          {PLATFORMS.map((p) => {
+            const selected = p.id === os;
+            return (
+              <button
+                key={p.id}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                aria-label={p.label}
+                title={p.label}
+                onClick={() => setOs(p.id)}
+                className={
+                  "inline-flex items-center justify-center rounded-xl w-11 sm:w-12 transition-colors border " +
+                  (selected
+                    ? "border-blue-500 bg-blue-50 dark:bg-blue-500/10 text-blue-700 dark:text-blue-300"
+                    : "border-neutral-200 dark:border-neutral-800 text-neutral-400 dark:text-neutral-500 hover:text-neutral-900 dark:hover:text-white hover:border-neutral-300 dark:hover:border-neutral-700")
+                }
+              >
+                {p.icon}
+              </button>
+            );
+          })}
+        </div>
       </div>
       {os === "windows" && (
         <p className="mt-2 text-xs text-neutral-500 dark:text-neutral-400">
