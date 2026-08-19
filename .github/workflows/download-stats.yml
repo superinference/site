@@ -1,0 +1,67 @@
+name: Update Download Stats
+
+# Snapshots GitHub release download counts into public/download-stats.json so the
+# cumulative total survives deletion of old releases. Committing the file to main
+# triggers the Build Static Site workflow, which redeploys with the new total.
+
+on:
+  schedule:
+    - cron: '17 6 * * *'   # daily at 06:17 UTC
+  workflow_dispatch:
+
+# Prevent overlapping runs from racing on the committed file.
+concurrency:
+  group: download-stats
+  cancel-in-progress: false
+
+permissions:
+  contents: write
+  actions: write   # to dispatch the build/deploy workflow after committing
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Update ledger
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/update-download-stats.mjs
+
+      - name: Commit and redeploy if changed
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if git diff --quiet -- public/download-stats.json; then
+            echo "No change to download-stats.json"
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add public/download-stats.json
+          git commit -m "chore: update download stats"
+
+          # Retry in case main advanced during the run (rebasing is safe: the
+          # ledger merge is a strict superset, so there are no real conflicts).
+          pushed=false
+          for i in 1 2 3; do
+            git pull --rebase --autostash origin main || true
+            if git push; then pushed=true; break; fi
+            echo "push attempt $i failed, retrying..."
+            sleep 5
+          done
+          if [ "$pushed" != true ]; then
+            echo "failed to push after retries"; exit 1
+          fi
+
+          # A push authenticated with the built-in GITHUB_TOKEN does NOT trigger
+          # other workflows, so explicitly dispatch the build/deploy to publish
+          # the updated total.
+          gh workflow run static-export.yml

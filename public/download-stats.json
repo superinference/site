@@ -1,0 +1,142 @@
+{
+  "total": 194,
+  "generated_at": "2026-08-19T08:26:20.728Z",
+  "repo": "superinference/releases",
+  "releases": {
+    "v0.7.0-27625130774": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 35,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27637224597": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 0,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27637464171": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 0,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27638096864": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 0,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27640103153": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 19,
+      "ami-cli-windows-x64.exe": 1
+    },
+    "v0.7.0-27683192853": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 1,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27684719013": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 2,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27685916823": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 0,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27686305972": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 0,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27687076078": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 5,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27691307833": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 1,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27691799694": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 3,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27692365375": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 7,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.0-27899760668": {
+      "ami-cli-darwin-arm64": 2,
+      "ami-cli-linux-x64": 63,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.1-31207372320": {
+      "ami-cli-darwin-arm64": 1,
+      "ami-cli-linux-x64": 2,
+      "ami-cli-windows-x64.exe": 1
+    },
+    "v0.7.2-31211636651": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 5,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.2-31329118117": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 3,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.2-31369275497": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 3,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.2-31396769597": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 2,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.2-31403123538": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 1,
+      "ami-cli-windows-x64.exe": 0
+    },
+    "v0.7.2-31405012479": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 9,
+      "ami-cli-windows-x64.exe": 7
+    },
+    "v0.7.2-31881019575": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 2,
+      "ami-cli-windows-x64.exe": 3
+    },
+    "v0.7.2-31881967817": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 1,
+      "ami-cli-windows-x64.exe": 1
+    },
+    "v0.7.2-31883080836": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 1,
+      "ami-cli-windows-x64.exe": 1
+    },
+    "v0.7.2-31886076132": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 1,
+      "ami-cli-windows-x64.exe": 1
+    },
+    "v0.7.2-31893503768": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 4,
+      "ami-cli-windows-x64.exe": 1
+    },
+    "v0.7.2-31935145044": {
+      "ami-cli-darwin-arm64": 0,
+      "ami-cli-linux-x64": 4,
+      "ami-cli-windows-x64.exe": 1
+    }
+  }
+}

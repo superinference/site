@@ -2,24 +2,17 @@
 
 import { useState, useEffect } from "react";
 
-type Asset = { name: string; download_count: number };
-type Release = { assets: Asset[]; tag_name: string };
-
 export function CLIDownloadCount() {
   const [total, setTotal] = useState<number | null>(null);
 
   useEffect(() => {
-    fetch("https://api.github.com/repos/superinference/releases/releases", {
-      headers: { Accept: "application/vnd.github.v3+json" },
-    })
+    // Read the persisted ledger instead of the live GitHub API: the ledger
+    // accumulates counts from removed releases (see scripts/update-download-stats.mjs),
+    // so the total never drops when old releases are pruned.
+    fetch("/download-stats.json", { cache: "no-cache" })
       .then((r) => (r.ok ? r.json() : Promise.reject()))
-      .then((releases: Release[]) => {
-        const sum = releases.reduce(
-          (acc, rel) =>
-            acc + rel.assets.reduce((a, asset) => a + asset.download_count, 0),
-          0,
-        );
-        setTotal(sum);
+      .then((data: { total: number }) => {
+        if (typeof data.total === "number") setTotal(data.total);
       })
       .catch(() => {});
   }, []);
