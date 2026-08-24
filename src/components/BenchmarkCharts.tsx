@@ -18,7 +18,7 @@ import {
 const crossLangData = [
   { language: "Go", AMI: 74.6, "Best Non-AMI": 44.1 },
   { language: "Java", AMI: 67.0, "Best Non-AMI": 50.0 },
-  { language: "Lite (Python)", AMI: 63.0, "Best Non-AMI": 36.0 },
+  { language: "Lite", AMI: 63.0, "Best Non-AMI": 36.0 },
   { language: "TS/JS", AMI: 54.9, "Best Non-AMI": 48.0 },
   { language: "Rust", AMI: 48.9, "Best Non-AMI": 37.8 },
 ];
@@ -72,12 +72,12 @@ export default function BenchmarkCharts() {
         <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-4">
           AMI&apos;s best result vs the strongest non-AMI agent on each SWE-bench Live track.
         </p>
-        <div className="w-full" style={{ height: chart1Height }}>
+        <div className="-mx-4" style={{ height: chart1Height }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               layout="vertical"
               data={crossLangData}
-              margin={{ top: 5, right: 40, left: 0, bottom: 5 }}
+              margin={{ top: 5, right: 36, left: 4, bottom: 5 }}
               barCategoryGap="18%"
             >
               <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
@@ -95,7 +95,7 @@ export default function BenchmarkCharts() {
                 tick={{ fill: axisColor, fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
-                width={100}
+                width={60}
               />
               <Tooltip
                 formatter={(value) => [`${value}%`, undefined]}
@@ -150,12 +150,12 @@ export default function BenchmarkCharts() {
         <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-4">
           All five AMI configurations that swept the Go leaderboard. Every bar clears the non-AMI ceiling.
         </p>
-        <div className="w-full" style={{ height: chart2Height }}>
+        <div className="-mx-4" style={{ height: chart2Height }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
               layout="vertical"
               data={goModelData}
-              margin={{ top: 5, right: 40, left: 0, bottom: 5 }}
+              margin={{ top: 5, right: 36, left: 4, bottom: 5 }}
               barCategoryGap="20%"
             >
               <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
@@ -173,7 +173,7 @@ export default function BenchmarkCharts() {
                 tick={{ fill: axisColor, fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
-                width={100}
+                width={80}
               />
               <Tooltip
                 formatter={(value) => [`${value}%`, "Resolution Rate"]}
