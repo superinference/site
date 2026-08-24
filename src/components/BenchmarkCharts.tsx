@@ -33,9 +33,9 @@ const goModelData = [
 
 const GO_BAR_COLORS = ["#2563eb", "#3b82f6", "#60a5fa", "#0d9488", "#14b8a6"];
 
-const GROUPED_BAR_HEIGHT = 65;
-const SINGLE_BAR_HEIGHT = 55;
-const CHART_PADDING = 40;
+const GROUPED_BAR_HEIGHT = 50;
+const SINGLE_BAR_HEIGHT = 44;
+const CHART_PADDING = 30;
 
 function useDarkMode() {
   const [dark, setDark] = useState(false);
@@ -69,7 +69,7 @@ export default function BenchmarkCharts() {
         <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">
           Cross-Language Performance
         </h4>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-6">
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-4">
           AMI&apos;s best result vs the strongest non-AMI agent on each SWE-bench Live track.
         </p>
         <div className="w-full" style={{ height: chart1Height }}>
@@ -77,8 +77,8 @@ export default function BenchmarkCharts() {
             <BarChart
               layout="vertical"
               data={crossLangData}
-              margin={{ top: 10, right: 50, left: 10, bottom: 5 }}
-              barCategoryGap="20%"
+              margin={{ top: 5, right: 40, left: 0, bottom: 5 }}
+              barCategoryGap="18%"
             >
               <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
               <XAxis
@@ -95,7 +95,7 @@ export default function BenchmarkCharts() {
                 tick={{ fill: axisColor, fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
-                width={120}
+                width={100}
               />
               <Tooltip
                 formatter={(value) => [`${value}%`, undefined]}
@@ -104,12 +104,14 @@ export default function BenchmarkCharts() {
                   border: `1px solid ${borderTooltip}`,
                   borderRadius: 8,
                   fontSize: 13,
-                  color: dark ? "#f5f5f5" : "#171717",
+                  color: labelColor,
                 }}
+                itemStyle={{ color: labelColor }}
+                labelStyle={{ color: labelColor }}
                 cursor={{ fill: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)" }}
               />
               <Legend
-                wrapperStyle={{ fontSize: 12, paddingTop: 8 }}
+                wrapperStyle={{ fontSize: 12, paddingTop: 8, color: axisColor }}
                 iconType="square"
                 iconSize={10}
               />
@@ -145,7 +147,7 @@ export default function BenchmarkCharts() {
         <h4 className="text-lg font-semibold text-neutral-900 dark:text-white">
           Go Top 5 — Model Breakdown
         </h4>
-        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-6">
+        <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-4">
           All five AMI configurations that swept the Go leaderboard. Every bar clears the non-AMI ceiling.
         </p>
         <div className="w-full" style={{ height: chart2Height }}>
@@ -153,8 +155,8 @@ export default function BenchmarkCharts() {
             <BarChart
               layout="vertical"
               data={goModelData}
-              margin={{ top: 10, right: 50, left: 10, bottom: 5 }}
-              barCategoryGap="25%"
+              margin={{ top: 5, right: 40, left: 0, bottom: 5 }}
+              barCategoryGap="20%"
             >
               <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
               <XAxis
@@ -171,7 +173,7 @@ export default function BenchmarkCharts() {
                 tick={{ fill: axisColor, fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
-                width={120}
+                width={100}
               />
               <Tooltip
                 formatter={(value) => [`${value}%`, "Resolution Rate"]}
@@ -184,8 +186,10 @@ export default function BenchmarkCharts() {
                   border: `1px solid ${borderTooltip}`,
                   borderRadius: 8,
                   fontSize: 13,
-                  color: dark ? "#f5f5f5" : "#171717",
+                  color: labelColor,
                 }}
+                itemStyle={{ color: labelColor }}
+                labelStyle={{ color: labelColor }}
                 cursor={{ fill: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)" }}
               />
               <ReferenceLine
