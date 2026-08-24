@@ -17,6 +17,7 @@ import {
 
 const crossLangData = [
   { language: "Go", AMI: 74.6, "Best Non-AMI": 44.1 },
+  { language: "Java", AMI: 67.0, "Best Non-AMI": 50.0 },
   { language: "Lite (Python)", AMI: 63.0, "Best Non-AMI": 36.0 },
   { language: "TS/JS", AMI: 54.9, "Best Non-AMI": 48.0 },
   { language: "Rust", AMI: 48.9, "Best Non-AMI": 37.8 },
@@ -31,6 +32,10 @@ const goModelData = [
 ];
 
 const GO_BAR_COLORS = ["#2563eb", "#3b82f6", "#60a5fa", "#0d9488", "#14b8a6"];
+
+const GROUPED_BAR_HEIGHT = 65;
+const SINGLE_BAR_HEIGHT = 55;
+const CHART_PADDING = 40;
 
 function useDarkMode() {
   const [dark, setDark] = useState(false);
@@ -54,6 +59,9 @@ export default function BenchmarkCharts() {
   const borderTooltip = dark ? "#404040" : "#d4d4d4";
   const labelColor = dark ? "#e5e5e5" : "#171717";
 
+  const chart1Height = crossLangData.length * GROUPED_BAR_HEIGHT + CHART_PADDING;
+  const chart2Height = goModelData.length * SINGLE_BAR_HEIGHT + CHART_PADDING;
+
   return (
     <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
       {/* Chart 1: Cross-Language Performance */}
@@ -64,27 +72,30 @@ export default function BenchmarkCharts() {
         <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-6">
           AMI&apos;s best result vs the strongest non-AMI agent on each SWE-bench Live track.
         </p>
-        <div className="w-full" style={{ height: 340 }}>
+        <div className="w-full" style={{ height: chart1Height }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
+              layout="vertical"
               data={crossLangData}
-              margin={{ top: 20, right: 20, left: 0, bottom: 5 }}
-              barCategoryGap="30%"
+              margin={{ top: 10, right: 50, left: 10, bottom: 5 }}
+              barCategoryGap="20%"
             >
-              <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
               <XAxis
-                dataKey="language"
+                type="number"
+                domain={[0, 100]}
+                tickFormatter={(v: number) => `${v}%`}
                 tick={{ fill: axisColor, fontSize: 12 }}
                 axisLine={{ stroke: gridColor }}
                 tickLine={false}
               />
               <YAxis
-                domain={[0, 100]}
-                tickFormatter={(v: number) => `${v}%`}
+                type="category"
+                dataKey="language"
                 tick={{ fill: axisColor, fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
-                width={45}
+                width={120}
               />
               <Tooltip
                 formatter={(value) => [`${value}%`, undefined]}
@@ -102,11 +113,27 @@ export default function BenchmarkCharts() {
                 iconType="square"
                 iconSize={10}
               />
-              <Bar dataKey="AMI" fill="#3b82f6" radius={[4, 4, 0, 0]} animationDuration={800}>
-                <LabelList dataKey="AMI" position="top" formatter={(v) => `${v}%`} style={{ fill: labelColor, fontSize: 11, fontWeight: 600 }} />
+              <Bar dataKey="AMI" fill="#3b82f6" radius={[0, 4, 4, 0]} animationDuration={800}>
+                <LabelList
+                  dataKey="AMI"
+                  position="right"
+                  formatter={(v) => `${v}%`}
+                  style={{ fill: labelColor, fontSize: 11, fontWeight: 600 }}
+                />
               </Bar>
-              <Bar dataKey="Best Non-AMI" fill="#6b7280" radius={[4, 4, 0, 0]} animationDuration={800} animationBegin={200}>
-                <LabelList dataKey="Best Non-AMI" position="top" formatter={(v) => `${v}%`} style={{ fill: axisColor, fontSize: 11 }} />
+              <Bar
+                dataKey="Best Non-AMI"
+                fill="#6b7280"
+                radius={[0, 4, 4, 0]}
+                animationDuration={800}
+                animationBegin={200}
+              >
+                <LabelList
+                  dataKey="Best Non-AMI"
+                  position="right"
+                  formatter={(v) => `${v}%`}
+                  style={{ fill: axisColor, fontSize: 11 }}
+                />
               </Bar>
             </BarChart>
           </ResponsiveContainer>
@@ -121,28 +148,30 @@ export default function BenchmarkCharts() {
         <p className="text-sm text-neutral-500 dark:text-neutral-400 mt-1 mb-6">
           All five AMI configurations that swept the Go leaderboard. Every bar clears the non-AMI ceiling.
         </p>
-        <div className="w-full" style={{ height: 340 }}>
+        <div className="w-full" style={{ height: chart2Height }}>
           <ResponsiveContainer width="100%" height="100%">
             <BarChart
+              layout="vertical"
               data={goModelData}
-              margin={{ top: 20, right: 20, left: 0, bottom: 5 }}
+              margin={{ top: 10, right: 50, left: 10, bottom: 5 }}
               barCategoryGap="25%"
             >
-              <CartesianGrid strokeDasharray="3 3" stroke={gridColor} vertical={false} />
+              <CartesianGrid strokeDasharray="3 3" stroke={gridColor} horizontal={false} />
               <XAxis
-                dataKey="model"
-                tick={{ fill: axisColor, fontSize: 12 }}
-                axisLine={{ stroke: gridColor }}
-                tickLine={false}
-                interval={0}
-              />
-              <YAxis
+                type="number"
                 domain={[0, 100]}
                 tickFormatter={(v: number) => `${v}%`}
                 tick={{ fill: axisColor, fontSize: 12 }}
+                axisLine={{ stroke: gridColor }}
+                tickLine={false}
+              />
+              <YAxis
+                type="category"
+                dataKey="model"
+                tick={{ fill: axisColor, fontSize: 12 }}
                 axisLine={false}
                 tickLine={false}
-                width={45}
+                width={120}
               />
               <Tooltip
                 formatter={(value) => [`${value}%`, "Resolution Rate"]}
@@ -160,24 +189,29 @@ export default function BenchmarkCharts() {
                 cursor={{ fill: dark ? "rgba(255,255,255,0.04)" : "rgba(0,0,0,0.04)" }}
               />
               <ReferenceLine
-                y={44.1}
+                x={44.1}
                 stroke="#ef4444"
                 strokeDasharray="6 4"
                 strokeWidth={2}
                 label={{
                   value: "Best Non-AMI  44.1%",
-                  position: "insideTopRight",
+                  position: "insideBottomRight",
                   fill: "#ef4444",
                   fontSize: 11,
                   fontWeight: 600,
                   offset: 6,
                 }}
               />
-              <Bar dataKey="score" name="AMI" radius={[4, 4, 0, 0]} animationDuration={800}>
+              <Bar dataKey="score" name="AMI" radius={[0, 4, 4, 0]} animationDuration={800}>
                 {goModelData.map((_, i) => (
                   <Cell key={i} fill={GO_BAR_COLORS[i]} />
                 ))}
-                <LabelList dataKey="score" position="top" formatter={(v) => `${v}%`} style={{ fill: labelColor, fontSize: 11, fontWeight: 600 }} />
+                <LabelList
+                  dataKey="score"
+                  position="right"
+                  formatter={(v) => `${v}%`}
+                  style={{ fill: labelColor, fontSize: 11, fontWeight: 600 }}
+                />
               </Bar>
             </BarChart>
           </ResponsiveContainer>
