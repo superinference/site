@@ -98,7 +98,7 @@ export default function BenchmarkCharts() {
                 width={60}
               />
               <Tooltip
-                formatter={(value) => [`${value}%`, undefined]}
+                formatter={(value, name) => [`${value}%`, name]}
                 contentStyle={{
                   backgroundColor: bgTooltip,
                   border: `1px solid ${borderTooltip}`,
