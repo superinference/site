@@ -1,6 +1,6 @@
 {
-  "total": 205,
-  "generated_at": "2026-08-25T07:09:07.050Z",
+  "total": 206,
+  "generated_at": "2026-08-26T07:09:30.720Z",
   "repo": "superinference/releases",
   "releases": {
     "v0.7.0-27625130774": {
@@ -140,7 +140,7 @@
     },
     "v0.7.2-32233051545": {
       "ami-cli-darwin-arm64": 0,
-      "ami-cli-linux-x64": 11,
+      "ami-cli-linux-x64": 12,
       "ami-cli-windows-x64.exe": 0
     }
   }
